@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import LoginScreen from "../screens/LoginScreen";
+import CustomerRegistrationData from "../screens/CustomerRegistrationData";
 
 const Stack = createNativeStackNavigator();
 export function AppNavigation() {
@@ -12,6 +13,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Customer Registration Data"
+          component={CustomerRegistrationData}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
