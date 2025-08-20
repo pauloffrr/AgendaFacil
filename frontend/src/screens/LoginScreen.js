@@ -7,8 +7,9 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // precisa do pacote expo/vector-icons
+import CustomerRegistrationData from "./CustomerRegistrationData";
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -56,7 +57,7 @@ export default function LoginScreen() {
       </View>
 
       <View style={styles.row}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Customer Registration Data", {CustomerRegistrationData})}>
           <Text style={styles.link}>Criar Conta</Text>
         </TouchableOpacity>
 
