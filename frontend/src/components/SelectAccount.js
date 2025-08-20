@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation, useRoute } from "@react-navigation/native";
+import CustomerRegistrationData from "../screens/CustomerRegistrationData";
+import CompanyRegistrationData from "../screens/CompanyRegistrationData";
 
 export default function SelectAccount() {
-    const [selected, setSelected] = useState("Cliente");
+    const route = useRoute();
+    const navigation = useNavigation();
+    const selected = route.name === "Customer Registration Data" ? "Cliente" : "Empresa"
 
     return (
         <View style={styles.container}>
             <TouchableOpacity 
                 style={[selected === "Cliente" ? styles.activeButton : styles.inactiveButton, styles.leftButton]}
-                onPress={() => setSelected("Cliente")}
+                onPress={() => navigation.navigate("Customer Registration Data", {CustomerRegistrationData})}
             >
                 <Text style={selected === "Cliente" ? styles.activeText : styles.inactiveText}>
                     Cliente
@@ -17,7 +22,7 @@ export default function SelectAccount() {
 
             <TouchableOpacity 
                 style={[selected === "Empresa" ? styles.activeButton : styles.inactiveButton, styles.rightButton]}
-                onPress={() => setSelected("Empresa")}
+                onPress={() => navigation.navigate("Company Registration Data", {CompanyRegistrationData})}
             >
                 <Text style={selected === "Empresa" ? styles.activeText : styles.inactiveText}>
                     Empresa
@@ -31,7 +36,7 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "row",
-        marginBottom: 30
+        marginBottom: 20
     }, 
 
     activeButton: {
