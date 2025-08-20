@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: 700,
         fontSize: 18,
-        marginBottom: 30
+        marginBottom: 30,
+        marginTop: 30
     },
     progressBar: {
         marginTop: 30
