@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import SelectAccount from "../components/SelectAccount"
 import Logo from "../components/Logo"
 import Input from "../components/Input"
@@ -10,6 +8,7 @@ import Button from "../components/Button"
 import * as Progress from "react-native-progress";
 import LoginScreen from "./LoginScreen";
 import MaskInput from "../components/MaskInput"
+import BackButton from "../components/BackButton";
 
 export default function CustomerRegistrationData({navigation}) {
     const [nome, setNome] = useState("");
@@ -27,9 +26,7 @@ export default function CustomerRegistrationData({navigation}) {
             enableOnAndroid
             extraScrollHeight={64}
         >
-            <TouchableOpacity onPress={() => navigation.navigate("Login", {LoginScreen})}>
-                <FontAwesomeIcon icon={faChevronLeft} style={styles.icon} size={18}/>
-            </TouchableOpacity>
+            <BackButton onPress={() => navigation.navigate("Login", {LoginScreen})}/>
 
             <Logo />
             <Text style={styles.title}>Informações pessoais</Text>
@@ -72,10 +69,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
         padding: 20
-    },
-    icon: {
-        marginTop: 30,
-        color: "#007BFF"
     },
     title: {
         fontWeight: 700,
