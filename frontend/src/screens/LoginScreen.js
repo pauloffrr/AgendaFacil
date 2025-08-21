@@ -2,21 +2,19 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons"; // precisa do pacote expo/vector-icons
 import CustomerRegistrationData from "./Customer/DataRegistration";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Input from "../components/Input";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
+import PasswordInput from "../components/PasswordInput";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
     console.log("Login:", { email, senha });
@@ -35,30 +33,16 @@ export default function LoginScreen({ navigation }) {
         label="Email"
         value={email}
         onChangeText={setEmail}
-        placeholder="Insira seu email"
+        placeholder="Insira o seu email"
         keyboardType="email-address"
       />
 
-      <Text style={styles.label}>Senha</Text>
-      <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.passwordInput}
-          placeholder="Insira sua senha"
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry={!showPassword}
-        />
-        <TouchableOpacity
-          onPress={() => setShowPassword(!showPassword)}
-          style={styles.eyeIcon}
-        >
-          <Ionicons
-            name={showPassword ? "eye-off" : "eye"}
-            size={22}
-            color="#666"
-          />
-        </TouchableOpacity>
-      </View>
+      <PasswordInput 
+        label="Senha"
+        placeholder={"Insira a sua senha"}
+        value={senha}
+        onChangeText={setSenha}
+      />
 
       <View style={styles.row}>
         <TouchableOpacity
@@ -90,29 +74,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     fontWeight: "600",
   },
-  label: {
-    alignSelf: "flex-start",
-    marginBottom: 5,
-    fontWeight: "bold",
-  },
-  passwordContainer: {
-    width: "100%",
-    height: 45,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    marginBottom: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-  },
-  passwordInput: {
-    flex: 1,
-    paddingHorizontal: 10,
-  },
-  eyeIcon: {
-    paddingHorizontal: 10,
-  },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -122,5 +83,5 @@ const styles = StyleSheet.create({
   link: {
     color: "#007BFF",
     fontWeight: "bold",
-  },
+  }
 });
