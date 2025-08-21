@@ -8,6 +8,7 @@ import * as Progress from "react-native-progress";
 import CompanyRegistrationData from "./DataRegistration";
 import BackButton from "../../components/BackButton";
 import AddressInput from "../../components/AddressInput";
+import CompanyRegistrationProfession from "./ProfessionRegistration"
 
 export default function CompanyRegistrationAddress({ navigation }) {
   const [selectedState, setSelectedState] = useState("");
@@ -19,6 +20,7 @@ export default function CompanyRegistrationAddress({ navigation }) {
   const next = () => {
     console.log("Criar Conta:", { rua });
     // API ou navegação
+    navigation.navigate("Company Registration Profession", {CompanyRegistrationProfession})
   };
 
   return (
