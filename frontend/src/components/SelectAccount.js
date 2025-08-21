@@ -1,15 +1,15 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import CustomerRegistrationData from "../screens/CustomerRegistrationData";
-import CompanyRegistrationData from "../screens/CompanyRegistrationData";
+import CustomerRegistrationData from "../screens/Customer/DataRegistration";
+import CompanyRegistrationData from "../screens/Company/DataRegistration";
 
 export default function SelectAccount() {
     const route = useRoute();
     const navigation = useNavigation();
     const selected = route.name === "Customer Registration Data" ? "Cliente" : "Empresa"
 
-    return (
+    return ( 
         <View style={styles.container}>
             <TouchableOpacity 
                 style={[selected === "Cliente" ? styles.activeButton : styles.inactiveButton, styles.leftButton]}

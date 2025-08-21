@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // precisa do pacote expo/vector-icons
-import CustomerRegistrationData from "./CustomerRegistrationData";
+import CustomerRegistrationData from "./Customer/DataRegistration";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Input from "../components/Input";
 import Logo from "../components/Logo";
@@ -122,5 +122,5 @@ const styles = StyleSheet.create({
   link: {
     color: "#007BFF",
     fontWeight: "bold",
-  }
+  },
 });
