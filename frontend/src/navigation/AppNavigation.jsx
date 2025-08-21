@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/LoginScreen";
 import CustomerRegistrationData from "../screens/Customer/DataRegistration";
 import CustomerRegistrationAddress from "../screens/Customer/AddressRegistration";
+import CustomerRegistrationPassword from "../screens/Customer/PasswordRegistration";
 import CompanyRegistrationData from "../screens/Company/DataRegistration";
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Customer Registration Address"
           component={CustomerRegistrationAddress}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Customer Registration Password"
+          component={CustomerRegistrationPassword}
           options={{ headerShown: false }}
         />
 

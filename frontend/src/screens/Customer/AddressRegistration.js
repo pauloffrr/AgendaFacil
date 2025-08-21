@@ -1,82 +1,77 @@
 import React, { useState } from "react";
-import { Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Logo from "../../components/Logo";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
 import CustomerRegistrationData from "./DataRegistration";
+import CustomerRegistrationPassword from "./PasswordRegistration";
 import BackButton from "../../components/BackButton";
 import AddressInput from "../../components/AddressInput";
 
 export default function CustomerRegistrationAddress({ navigation }) {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const [endereco, setEndereco] = useState("");
   const [rua, setRua] = useState("");
   const [numero, setNumero] = useState("");
   const [complemento, setComplemento] = useState("");
 
   const next = () => {
-    console.log("Criar Conta:", { endereco, rua });
+    console.log("Criar Conta:", { rua });
     // API ou navegação
+    navigation.navigate("Customer Registration Password", {CustomerRegistrationPassword})
   };
 
   return (
     <KeyboardAwareScrollView
       style={styles.container}
       enableOnAndroid
-      extraScrollHeight={124}
+      extraScrollHeight={84}
     >
-      <BackButton
-        onPress={() => navigation.navigate("Customer Registration Data", { CustomerRegistrationData })}
-      />
+      <View style={styles.space}>
+        <BackButton
+          onPress={() => navigation.navigate("Customer Registration Data", { CustomerRegistrationData })}
+        />
 
-      <Logo />
-      <Text style={styles.title}>Informe o seu endereço!</Text>
+        <Logo />
+        <Text style={styles.title}>Informe o seu endereço!</Text>
 
-      <AddressInput 
-        selectedState={selectedState}
-        setSelectedState={setSelectedState} 
-        selectedCity={selectedCity}
-        setSelectedCity={setSelectedCity}
-      />
+        <AddressInput 
+          selectedState={selectedState}
+          setSelectedState={setSelectedState} 
+          selectedCity={selectedCity}
+          setSelectedCity={setSelectedCity}
+        />
 
-      <Input
-        label="Endereço"
-        value={endereco}
-        onChangeText={setEndereco}
-        placeholder="Insira o seu endereço"
-        keyboardType="default"
-      />
+        <Input
+          label="Rua"
+          value={rua}
+          onChangeText={setRua}
+          placeholder="Insira o nome da sua rua"
+          keyboardType="default"
+        />
 
-      <Input
-        label="Rua"
-        value={rua}
-        onChangeText={setRua}
-        placeholder="Insira o nome da sua rua"
-        keyboardType="default"
-      />
+        <Input
+          label="Número"
+          value={numero}
+          onChangeText={setNumero}
+          placeholder="Insira o número da sua casa"
+          keyboardType="numeric"
+        />
 
-      <Input
-        label="Número"
-        value={numero}
-        onChangeText={setNumero}
-        placeholder="Insira o número da sua casa"
-        keyboardType="numeric"
-      />
+        <Input
+          label="Complemento (opcional)"
+          value={complemento}
+          onChangeText={setComplemento}
+          placeholder="Insira seu complemento"
+          keyboardType="default"
+        />
 
-      <Input
-        label="Complemento (opcional)"
-        value={complemento}
-        onChangeText={setComplemento}
-        placeholder="Insira seu complemento"
-        keyboardType="default"
-      />
+        <Button buttonText="Enviar" onPress={next} />
 
-      <Button buttonText="Enviar" onPress={next} />
-
-      <Progress.Bar style={styles.progressBar} progress={0.66} width={305} />
+        <Progress.Bar style={styles.progressBar} progress={0.66} width={305} />
+      </View>
     </KeyboardAwareScrollView>
   );
 }
@@ -87,6 +82,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20
   },
+  space: {
+    gap: 10
+  },
   title: {
     fontWeight: 700,
     fontSize: 18,
@@ -94,7 +92,6 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   progressBar: {
-    marginTop: 20,
-    marginBottom: 60
+    marginTop: 15
   },
 });
