@@ -7,6 +7,7 @@ import CustomerRegistrationData from "../screens/Customer/DataRegistration";
 import CustomerRegistrationAddress from "../screens/Customer/AddressRegistration";
 import CustomerRegistrationPassword from "../screens/Customer/PasswordRegistration";
 import CompanyRegistrationData from "../screens/Company/DataRegistration";
+import CompanyRegistrationAddress from "../screens/Company/AddressRegistration";
 
 const Stack = createNativeStackNavigator();
 export function AppNavigation() {
@@ -40,6 +41,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Company Registration Data"
           component={CompanyRegistrationData}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Company Registration Address"
+          component={CompanyRegistrationAddress}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
