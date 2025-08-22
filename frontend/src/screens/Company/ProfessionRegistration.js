@@ -8,6 +8,7 @@ import { categoryMock } from "../../data/categoryMock";
 import { professionMock } from "../../data/professionMock";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
+import CompanyRegistrationPassword from "./PasswordRegistration"
 
 export default function ProfessionRegistration({ navigation }) {
     const [category, setCategory] = useState([]);
@@ -32,6 +33,7 @@ export default function ProfessionRegistration({ navigation }) {
 
     const next = () => {
         console.log(selectedCategory, selectedProfession)
+        navigation.navigate("Company Registration Password", {CompanyRegistrationPassword})
     }
 
     return (

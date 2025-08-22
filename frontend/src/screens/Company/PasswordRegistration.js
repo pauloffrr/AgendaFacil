@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import BackButton from "../../components/BackButton";
 import Logo from "../../components/Logo";
-import CustomerRegistrationAddress from "./AddressRegistration";
+import CompanyRegistrationAddress from "./AddressRegistration";
 import Input from "../../components/Input";
 import PasswordInput from "../../components/PasswordInput";
 import Button from "../../components/Button";
@@ -24,9 +24,9 @@ export default function PasswordRegistration({navigation}) {
             enableOnAndroid
             style={styles.container}
         >
-            <View style={styles.space}> 
+            <View style={styles.space}>
                 <BackButton
-                    onPress={() => navigation.navigate("Customer Registration Address", { CustomerRegistrationAddress })}
+                    onPress={() => navigation.navigate("Company Registration Address", { CompanyRegistrationAddress })}
                 />
                 
                 <Logo />
