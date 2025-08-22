@@ -18,21 +18,24 @@ export interface IUserRepo {
 export class UserRepoMock implements IUserRepo {
   async list() { return users; }
   async findById(id: number) { return users.find(u => u.id_user === id); }
+
   async create(data: Omit<User, "id_user">) {
     const novo: User = { id_user: nextId(), ...data };
     users.push(novo);
     return novo;
   }
+
   async update(id: number, data: Partial<Omit<User, "id_user">>) {
     const u = users.find(u => u.id_user === id);
     if (!u) return undefined;
     Object.assign(u, data);
     return u;
-    }
+  }
+
   async remove(id: number) {
     const idx = users.findIndex(u => u.id_user === id);
     if (idx === -1) return false;
     users.splice(idx, 1);
     return true;
-  }
+    }
 }
