@@ -39,7 +39,7 @@ const iconMap = {
   faEllipsis,
 };
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [expandedCategory, setExpandedCategory] = useState(null);
 
   const toggleCategory = (categoryId) => {
@@ -86,9 +86,12 @@ export default function Home() {
               {isExpanded && (
                 <View style={styles.professionList}>
                   {professions.map((prof) => (
-                    <Text key={prof.id} style={styles.professionItem}>
-                      • {prof.name}
-                    </Text>
+                    <TouchableOpacity
+                      key={prof.id}
+                      onPress={() => navigation.navigate("Customer Date", { id: prof.id })}
+                    >
+                      <Text style={styles.professionItem}>• {prof.name}</Text>
+                    </TouchableOpacity>
                   ))}
                 </View>
               )}
