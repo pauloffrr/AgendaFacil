@@ -88,7 +88,7 @@ export default function Home({ navigation }) {
                   {professions.map((prof) => (
                     <TouchableOpacity
                       key={prof.id}
-                      onPress={() => navigation.navigate("Customer Date", { id: prof.id })}
+                      onPress={() => navigation.navigate("Customer Date", { id: prof.id, name: prof.name })}
                     >
                       <Text style={styles.professionItem}>• {prof.name}</Text>
                     </TouchableOpacity>

@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import BackButton from "../../components/BackButton";
 import Logo from "../../components/Logo";
 import DateTimeInput from "../../components/DateTimeInput";
 import Button from "../../components/Button";
+import CustomerNavigationBar from "../../components/CustomerNavigationBar";
 
-export default function CustomerDate({ navigation }) {
+export default function CustomerDate({ navigation, route }) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
+  const { name } = route.params;
 
   const showDatePicker = () => setDatePickerVisibility(true);
   const hideDatePicker = () => setDatePickerVisibility(false);
@@ -36,53 +37,60 @@ export default function CustomerDate({ navigation }) {
   };
 
   return (
-    <KeyboardAwareScrollView enableOnAndroid style={styles.container}>
-      <View style={styles.space}>
-        <BackButton onPress={() => navigation.navigate("Customer Home")} />
+    <View style={styles.screen}>
+      <View style={styles.container}>
+        <View style={styles.space}>
+          <BackButton onPress={() => navigation.navigate("Customer Home")} />
 
-        <Logo />
-        <Text style={styles.title}>Pra quando seria o serviço?</Text>
+          <Logo />
+          <Text style={styles.title}>Pra quando seria o serviço com o profissional { name }?</Text>
 
-        <View style={styles.inputs}>
-          <DateTimeInput
-            label="Data"
-            value={date ? date.toLocaleDateString() : ""}
-            placeholder="dd/mm/aaaa"
-            onPressIn={showDatePicker}
-            editable={false}
-          />
+          <View style={styles.inputs}>
+            <DateTimeInput
+              label="Data"
+              value={date ? date.toLocaleDateString() : ""}
+              placeholder="dd/mm/aaaa"
+              onPressIn={showDatePicker}
+              editable={false}
+            />
 
-          <DateTimeInput
-            label="Horário"
-            value={time ? time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""}
-            placeholder="hh:mm"
-            onPressIn={showTimePicker}
-          />
+            <DateTimeInput
+              label="Horário"
+              value={time ? time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""}
+              placeholder="hh:mm"
+              onPressIn={showTimePicker}
+            />
 
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirmDate}
-            onCancel={hideDatePicker}
-            headerTextIOS="Escolha uma Data"
-          />
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirmDate}
+              onCancel={hideDatePicker}
+              headerTextIOS="Escolha uma Data"
+            />
 
-          <DateTimePickerModal
-            isVisible={isTimePickerVisible}
-            mode="time"
-            onConfirm={handleConfirmTime}
-            onCancel={hideTimePicker}
-            headerTextIOS="Escolha um Horário"
-          />
+            <DateTimePickerModal
+              isVisible={isTimePickerVisible}
+              mode="time"
+              onConfirm={handleConfirmTime}
+              onCancel={hideTimePicker}
+              headerTextIOS="Escolha um Horário"
+            />
 
-          <Button buttonText="Enviar" onPress={next} />
+            <Button buttonText="Enviar" onPress={next} />
+          </View>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+
+      <CustomerNavigationBar/>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
