@@ -7,6 +7,7 @@ import CustomerRegistrationData from "../screens/Customer/DataRegistration";
 import CustomerRegistrationAddress from "../screens/Customer/AddressRegistration";
 import CustomerRegistrationPassword from "../screens/Customer/PasswordRegistration";
 import CustomerHome from "../screens/Customer/Home";
+import CustomerDate from "../screens/Customer/CustomerDate";
 import CompanyRegistrationData from "../screens/Company/DataRegistration";
 import CompanyRegistrationAddress from "../screens/Company/AddressRegistration";
 import CompanyRegistrationProfession from "../screens/Company/ProfessionRegistration";
@@ -44,6 +45,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Customer Home"
           component={CustomerHome}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Customer Date"
+          component={CustomerDate}
           options={{ headerShown: false }}
         />
 
