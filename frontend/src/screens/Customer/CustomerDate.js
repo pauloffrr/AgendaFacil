@@ -1,34 +1,38 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import DatePicker from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import BackButton from "../../components/BackButton";
 import Logo from "../../components/Logo";
-import Input from "../../components/Input";
+import DateTimeInput from "../../components/DateTimeInput";
 import Button from "../../components/Button";
 
 export default function CustomerDate({ navigation }) {
-  const [date, setDate] = useState(new Date());
-  const [dateText, setDateText] = useState("");
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
 
-  const toggleDatePicker = () => {
-    setShowDatePicker(!showDatePicker);
+  const showDatePicker = () => setDatePickerVisibility(true);
+  const hideDatePicker = () => setDatePickerVisibility(false);
+  const showTimePicker = () => setTimePickerVisibility(true);
+  const hideTimePicker = () => setTimePickerVisibility(false);
+
+  const handleConfirmDate = (date) => {
+    setDate(date);
+    hideDatePicker();
   };
 
-  const onChange = ({ type }, selectedDate) => {
-    if (type === "set") {
-      const currentDate = selectedDate;
-      setDate(currentDate);
-      setDateText(currentDate.toLocaleDateString("pt-BR"));
-      toggleDatePicker();
-    } else {
-      toggleDatePicker();
-    }
+  const handleConfirmTime = (time) => {
+    setTime(time);
+    hideTimePicker();
   };
 
   const next = () => {
-    console.log("Selecionar data:", { date });
+    console.log("Selecionado:", {
+      data: date.toLocaleDateString(),
+      hora: time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    });
   };
 
   return (
@@ -40,22 +44,36 @@ export default function CustomerDate({ navigation }) {
         <Text style={styles.title}>Pra quando seria o serviço?</Text>
 
         <View style={styles.inputs}>
-          <Input
+          <DateTimeInput
             label="Data"
-            value={dateText}
-            onChangeText={setDateText}
+            value={date ? date.toLocaleDateString() : ""}
             placeholder="dd/mm/aaaa"
-            onFocus={toggleDatePicker}
+            onPressIn={showDatePicker}
+            editable={false}
           />
 
-          {showDatePicker && (
-            <DatePicker
-              mode="date"
-              display="spinner"
-              value={date}
-              onChange={onChange}
-            />
-          )}
+          <DateTimeInput
+            label="Horário"
+            value={time ? time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""}
+            placeholder="hh:mm"
+            onPressIn={showTimePicker}
+          />
+
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirmDate}
+            onCancel={hideDatePicker}
+            headerTextIOS="Escolha uma Data"
+          />
+
+          <DateTimePickerModal
+            isVisible={isTimePickerVisible}
+            mode="time"
+            onConfirm={handleConfirmTime}
+            onCancel={hideTimePicker}
+            headerTextIOS="Escolha um Horário"
+          />
 
           <Button buttonText="Enviar" onPress={next} />
         </View>
@@ -81,8 +99,5 @@ const styles = StyleSheet.create({
   },
   inputs: {
     gap: 20,
-  },
-  progressBar: {
-    marginTop: 60,
-  },
+  }
 });
