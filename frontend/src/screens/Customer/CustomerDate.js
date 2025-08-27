@@ -34,6 +34,8 @@ export default function CustomerDate({ navigation, route }) {
       data: date.toLocaleDateString(),
       hora: time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     });
+
+    navigation.navigate("Professionals Available", { name: name});
   };
 
   return (
