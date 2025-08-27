@@ -12,28 +12,27 @@ export default function CardProfessional({ navigation }) {
       renderItem={({ item }) => {
 
         return (
-            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Customer Home", { id: item.id})}>
-                <View>
-                    <Image style={styles.img} source={ item.img } />
-                </View>
-                <View style={styles.info}>
-                    <Text style={styles.name}>{ item.name }</Text>
+          <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Customer Home", { id: item.id})}>
+            <View>
+              <Image style={styles.img} source={ item.img } />
+            </View>
+            <View style={styles.info}>
+              <Text style={styles.name}>{ item.name }</Text>
 
-                    <View style={styles.desc}>
-                        <View style={styles.spacing}>
-                            <FontAwesomeIcon icon={faStar} size={13} style={styles.icon}/> 
-                            <Text style={styles.assessment}>{ item.mediaAvaliacao }</Text>
-                        </View>
-                        <View style={styles.spacing}>
-                            <Text style={styles.priceText}>Preço médio</Text>
-                            <Text style={styles.averagePrice}>R$ { item.precoMedio.toFixed(2) }</Text>
-                        </View>
-                    </View>
+              <View style={styles.desc}>
+                <View style={styles.spacing}>
+                  <FontAwesomeIcon icon={faStar} size={13} style={styles.icon}/> 
+                  <Text style={styles.assessment}>{ item.mediaAvaliacao }</Text>
                 </View>
-            </TouchableOpacity>
+                <View style={styles.spacing}>
+                  <Text style={styles.priceText}>Preço médio</Text>
+                  <Text style={styles.averagePrice}>R$ { item.precoMedio.toFixed(2) }</Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
         )
       }}
-        
     />
   );
 }

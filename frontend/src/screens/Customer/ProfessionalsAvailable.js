@@ -5,6 +5,7 @@ import Logo from "../../components/Logo";
 import UserIcon from "../../components/UserIcon";
 import CustomerNavigationBar from "../../components/CustomerNavigationBar";
 import CardProfessional from "../../components/CardProfessional";
+import { cardProfessionalMock } from "../../data/cardProfessionalMock";
 
 export default function ProfessionalsAvailable({ navigation, route }) {
   const { name } = route.params;
@@ -21,9 +22,18 @@ export default function ProfessionalsAvailable({ navigation, route }) {
           <UserIcon />
         </View>
 
-        <Text style={styles.title}>{name}(s) disponíveis na data desejada</Text>
-        
-        <CardProfessional />
+        {cardProfessionalMock.length > 0 ? (
+          <>
+            <Text style={styles.title}>{name}(s) disponíveis na data desejada</Text>
+            <CardProfessional navigation={navigation}/>
+          </>
+        ) : (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>
+              Nenhum profissional disponível para está data ou horário.
+            </Text>
+          </View>
+        )}
       </View>
 
       <CustomerNavigationBar />
@@ -71,4 +81,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 3,
     borderBottomLeftRadius: 3
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  emptyText: {
+    fontSize: 18,
+    color: "#888",
+    textAlign: "center",
+  }
 });
