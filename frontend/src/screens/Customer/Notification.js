@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import CustomerNavigationBar from "../../components/CustomerNavigationBar";
 import Logo from "../../components/Logo";
 import UserIcon from "../../components/UserIcon";
+import NotificationCustomer from "../../components/NotificationCustomer";
 
 export default function Notification({ navigation }) {
   return (
@@ -15,6 +16,8 @@ export default function Notification({ navigation }) {
 
             <Text style={styles.title}>Notificações</Text>
             <View style={styles.separator} />
+
+            <NotificationCustomer />
         </View>
 
       <CustomerNavigationBar navigation={navigation}/>
@@ -28,7 +31,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20
   },
   header: {
     display: "flex",
@@ -36,12 +38,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 50,
+    paddingHorizontal: 20
   },
   title: {
     fontWeight: "700",
     fontSize: 22,
     marginBottom: 30,
     marginTop: 50,
+    paddingHorizontal: 20
   },
   separator: {
     borderWidth: 1,
