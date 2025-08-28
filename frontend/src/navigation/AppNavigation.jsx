@@ -10,6 +10,7 @@ import CustomerHome from "../screens/Customer/Home";
 import CustomerDate from "../screens/Customer/CustomerDate";
 import ProfessionalsAvailable from "../screens/Customer/ProfessionalsAvailable";
 import ProfessionalProfile from "../screens/Customer/ProfessionalProfile";
+import CustomerNotification from "../screens/Customer/Notification";
 import CompanyRegistrationData from "../screens/Company/DataRegistration";
 import CompanyRegistrationAddress from "../screens/Company/AddressRegistration";
 import CompanyRegistrationProfession from "../screens/Company/ProfessionRegistration";
@@ -65,6 +66,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Professional Profile"
           component={ProfessionalProfile}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Customer Notifications"
+          component={CustomerNotification}
           options={{ headerShown: false }}
         />
 
