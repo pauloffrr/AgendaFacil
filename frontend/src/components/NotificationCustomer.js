@@ -1,23 +1,40 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { notificationsCustomerMock } from "../data/notificationsCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
 
 export default function NotificationCustomer() {
-    const getIconByType = (type) => {
+    const [notifications, setNotifications] = useState(notificationsCustomerMock);
+
+    const handleReview = (id) => {
+        setNotifications((prev) =>
+            prev.map((item) => {
+                if (item.id === id && item.type === "Avaliação") {
+                    return {
+                        ...item,
+                        type: "Concluído",
+                        message: "Serviço concluído com sucesso.",
+                    };
+                }
+                return item;
+            })
+        );
+    };
+
+    const renderIcon = (type) => {
         switch (type) {
             case "Cancelamento":
-                return { icon: faCalendarXmark, color: "#FF0000" };
+                return <FontAwesomeIcon icon={faCalendarXmark} size={22} color="#FF0000" />;
             case "Confirmação":
-                return { icon: faCalendarCheck, color: "#25D366" };
+                return <FontAwesomeIcon icon={faCalendarCheck} size={22} color="#25D366" />;
             case "Avaliação":
             case "Concluído":
-                return { icon: faCalendarCheck, color: "#007BFF" };
+                return <FontAwesomeIcon icon={faCalendarCheck} size={22} color="#007BFF" />;
             case "Lembrete":
-                return { icon: faBell, color: "#007BFF" };
+                return <FontAwesomeIcon icon={faBell} size={22} color="#007BFF" />;
             default:
-                return { icon: null, color: "black" };
+                return null;
         }
     };
 
@@ -25,30 +42,30 @@ export default function NotificationCustomer() {
         <View style={styles.container}>
             <FlatList
                 style={styles.list}
-                data={notificationsCustomerMock}
+                data={notifications}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => {
-                    const { icon, color } = getIconByType(item.type);
-                    return (
-                        <View style={styles.card}>
-                            <View style={styles.header}>
-                                <Text style={styles.professionName}>{item.professionName}</Text>
-                                {icon && (
-                                    <FontAwesomeIcon icon={icon} size={22} color={color} />
-                                )}
-                            </View>
-
-                            <Text style={styles.message}>{ item.message }</Text>
-
-                            <View style={styles.date}>
-                                <Text style={styles.textDate}>{ item.date }</Text>
-                            </View>
+                renderItem={({ item }) => (
+                    <View style={styles.card}>
+                        <View style={styles.header}>
+                            <Text style={styles.professionName}>{item.professionName}</Text>
+                            {renderIcon(item.type)}
                         </View>
-                    )
-                }}
+                        <Text style={styles.message}>{item.message}</Text>
+
+                        {item.type === "Avaliação" && (
+                            <TouchableOpacity style={styles.button} onPress={() => handleReview(item.id)}>
+                                <Text style={styles.buttonText}>Avaliar</Text>
+                            </TouchableOpacity>
+                        )}
+
+                        <View style={styles.date}>
+                            <Text style={styles.textDate}>{item.date}</Text>
+                        </View>
+                    </View>
+                )}
             />
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -57,7 +74,6 @@ const styles = StyleSheet.create({
     },
     list: {
         width: "100%",
-        marginBottom: 0
     },
     card: {
         borderBottomWidth: 2,
@@ -86,5 +102,17 @@ const styles = StyleSheet.create({
     textDate: {
         marginVertical: 5,
         color: "#858585ff",
+    },
+    button: {
+        backgroundColor: "#007BFF",
+        paddingVertical: 8,
+        paddingHorizontal: 15,
+        borderRadius: 8,
+        width: "30%"
+    },
+    buttonText: {
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: 16
     }
 })
