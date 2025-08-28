@@ -9,6 +9,7 @@ import CustomerRegistrationPassword from "../screens/Customer/PasswordRegistrati
 import CustomerHome from "../screens/Customer/Home";
 import CustomerDate from "../screens/Customer/CustomerDate";
 import ProfessionalsAvailable from "../screens/Customer/ProfessionalsAvailable";
+import ProfessionalProfile from "../screens/Customer/ProfessionalProfile";
 import CompanyRegistrationData from "../screens/Company/DataRegistration";
 import CompanyRegistrationAddress from "../screens/Company/AddressRegistration";
 import CompanyRegistrationProfession from "../screens/Company/ProfessionRegistration";
@@ -58,6 +59,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Professionals Available"
           component={ProfessionalsAvailable}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Professional Profile"
+          component={ProfessionalProfile}
           options={{ headerShown: false }}
         />
 

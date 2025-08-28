@@ -5,7 +5,7 @@ import Logo from "../../components/Logo";
 import UserIcon from "../../components/UserIcon";
 import CustomerNavigationBar from "../../components/CustomerNavigationBar";
 import CardProfessional from "../../components/CardProfessional";
-import { cardProfessionalMock } from "../../data/cardProfessionalMock";
+import { professionalMock } from "../../data/professionalMock";
 
 export default function ProfessionalsAvailable({ navigation, route }) {
   const { name } = route.params;
@@ -22,10 +22,12 @@ export default function ProfessionalsAvailable({ navigation, route }) {
           <UserIcon />
         </View>
 
-        {cardProfessionalMock.length > 0 ? (
+        {professionalMock.length > 0 ? (
           <>
-            <Text style={styles.title}>{name}(s) disponíveis na data desejada</Text>
-            <CardProfessional navigation={navigation}/>
+            <Text style={styles.title}>
+              {name}(s) disponíveis na data desejada
+            </Text>
+            <CardProfessional navigation={navigation} />
           </>
         ) : (
           <View style={styles.emptyContainer}>
@@ -50,9 +52,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
   },
-  space: {
-    gap: 20,
-  },
   header: {
     display: "flex",
     justifyContent: "space-between",
@@ -73,22 +72,22 @@ const styles = StyleSheet.create({
     height: 130,
     borderRadius: 5,
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   img: {
     width: 120,
     height: 126,
     borderTopLeftRadius: 3,
-    borderBottomLeftRadius: 3
+    borderBottomLeftRadius: 3,
   },
   emptyContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   emptyText: {
     fontSize: 18,
     color: "#888",
     textAlign: "center",
-  }
+  },
 });

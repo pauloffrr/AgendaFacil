@@ -1,37 +1,49 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Image, StyleSheet, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  FlatList,
+} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { cardProfessionalMock } from "../data/cardProfessionalMock";
+import { professionalMock } from "../data/professionalMock";
 
 export default function CardProfessional({ navigation }) {
   return (
     <FlatList
-      data={cardProfessionalMock}
+      data={professionalMock}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => {
-
         return (
-          <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Customer Home", { id: item.id})}>
+          <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Professional Profile", { id: item.id })}>
             <View>
-              <Image style={styles.img} source={ item.img } />
+              <Image style={styles.img} source={item.img} />
             </View>
             <View style={styles.info}>
-              <Text style={styles.name}>{ item.name }</Text>
+              <Text style={styles.name}>{item.name}</Text>
 
               <View style={styles.desc}>
                 <View style={styles.spacing}>
-                  <FontAwesomeIcon icon={faStar} size={13} style={styles.icon}/> 
-                  <Text style={styles.assessment}>{ item.mediaAvaliacao }</Text>
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    size={13}
+                    style={styles.icon}
+                  />
+                  <Text style={styles.assessment}>{item.mediaAvaliacao}</Text>
                 </View>
                 <View style={styles.spacing}>
                   <Text style={styles.priceText}>Preço médio</Text>
-                  <Text style={styles.averagePrice}>R$ { item.precoMedio.toFixed(2) }</Text>
+                  <Text style={styles.averagePrice}>
+                    R$ {item.precoMedio.toFixed(2)}
+                  </Text>
                 </View>
               </View>
             </View>
           </TouchableOpacity>
-        )
+        );
       }}
     />
   );
@@ -58,7 +70,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 5,
     display: "flex",
-    
     justifyContent: "center"
   },
   name: {
