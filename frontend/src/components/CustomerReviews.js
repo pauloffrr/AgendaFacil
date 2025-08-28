@@ -23,6 +23,7 @@ export default function CustomerReviews() {
             <FlatList
                 data={recentReviews}
                 keyExtractor={(item) => item.id.toString()}
+                scrollEnabled={false}
                 renderItem={({ item }) => {
                 return (
                     <View style={styles.card}>
