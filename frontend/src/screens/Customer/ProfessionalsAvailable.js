@@ -38,7 +38,7 @@ export default function ProfessionalsAvailable({ navigation, route }) {
         )}
       </View>
 
-      <CustomerNavigationBar />
+      <CustomerNavigationBar navigation={navigation}/>
     </View>
   );
 }

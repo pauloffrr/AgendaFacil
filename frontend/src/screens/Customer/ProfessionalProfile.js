@@ -62,7 +62,7 @@ export default function ProfessionalProfile({ navigation, route }) {
             ))}
         </ScrollView>
 
-        <CustomerNavigationBar />
+        <CustomerNavigationBar navigation={navigation}/>
     </View>
   );
 }
