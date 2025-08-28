@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import CustomerReviews from "../../components/CustomerReviews";
+import AverageRating from "../../components/AverageRating";
 
 export default function ProfessionalProfile({ navigation, route }) {
     const { id } = route.params;
@@ -54,13 +55,9 @@ export default function ProfessionalProfile({ navigation, route }) {
                         <FontAwesomeIcon icon={faWhatsapp} size={38} style={styles.iconWpp}/>
                         <Text style={styles.textWpp}>Entre em Contato</Text>
                     </TouchableOpacity>
-
-                    <View style={styles.reviews}>
-                        <FontAwesomeIcon icon={faStar} size={35} style={styles.iconStar} />
-                        <Text style={styles.textReviews}>Avaliações</Text>
-                    </View>
-
+                    
                     <CustomerReviews />
+                    <AverageRating />
                 </View>
             ))}
         </ScrollView>
@@ -148,20 +145,6 @@ const styles = StyleSheet.create({
     textWpp: {
         color: "#fff",
         fontSize: 16,
-        fontWeight: "700"
-    },
-    reviews: {
-        marginTop: 40,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-    },
-    iconStar: {
-        color: "#f1c40f"
-    },
-    textReviews: {
-        fontSize: 20,
         fontWeight: "700"
     }
 });
