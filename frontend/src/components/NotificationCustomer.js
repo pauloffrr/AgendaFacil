@@ -3,11 +3,15 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native
 import { notificationsCustomerMock } from "../data/notificationsCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
+import CustomerModal from "./CustomerModal";
 
 export default function NotificationCustomer() {
     const [notifications, setNotifications] = useState(notificationsCustomerMock);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const handleReview = (id) => {
+        setModalVisible(true);
+
         setNotifications((prev) =>
             prev.map((item) => {
                 if (item.id === id && item.type === "Avaliação") {
@@ -57,13 +61,14 @@ export default function NotificationCustomer() {
                                 <Text style={styles.buttonText}>Avaliar</Text>
                             </TouchableOpacity>
                         )}
-
                         <View style={styles.date}>
                             <Text style={styles.textDate}>{item.date}</Text>
                         </View>
                     </View>
                 )}
             />
+
+            <CustomerModal visible={modalVisible} onClose={() => setModalVisible(false)} />
         </View>
     );
 }
