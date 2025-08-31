@@ -3,15 +3,15 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHome, faCircleExclamation, faCalendarDays, faStar } from "@fortawesome/free-solid-svg-icons";
 
-export default function CustomerNavigationBar() {
+export default function CustomerNavigationBar({ navigation }) {
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Customer Home")}>
                 <FontAwesomeIcon icon={faHome} style={styles.icon} size={22} />
                 <Text style={styles.text}>Início</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Customer Notifications")}>
                 <FontAwesomeIcon icon={faCircleExclamation} style={styles.icon} size={22} />
                 <Text style={styles.text}>Notificações</Text>
             </TouchableOpacity>

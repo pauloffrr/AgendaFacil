@@ -102,7 +102,7 @@ export default function Home({ navigation }) {
         }}
       />
 
-      <CustomerNavigationBar />
+      <CustomerNavigationBar navigation={navigation}/>
     </View>
   );
 }

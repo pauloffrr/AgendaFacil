@@ -84,7 +84,7 @@ export default function CustomerDate({ navigation, route }) {
         </View>
       </View>
 
-      <CustomerNavigationBar/>
+      <CustomerNavigationBar navigation={navigation}/>
     </View>
   );
 }
