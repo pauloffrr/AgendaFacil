@@ -1,4 +1,12 @@
-export const reviewsMock = [
+export interface Review {
+  id: number;
+  name: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
+export const reviewsMock: Review[] = [
     {
         id: 1,
         name: "João Silva",

@@ -15,7 +15,7 @@ import { professionalMock } from "../../data/professionalMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import CustomerReviews from "../../components/CustomerReviews";
+import { CustomerReviews } from "../../components/display/CustomerReviews";
 import { AverageRating } from "../../components/display/AverageRating";
 import { reviewsMock } from "../../data/reviewsMock";
 
