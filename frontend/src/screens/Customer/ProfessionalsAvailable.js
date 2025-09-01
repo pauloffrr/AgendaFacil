@@ -4,7 +4,7 @@ import { BackButton } from "../../components/buttons/BackButton";
 import Logo from "../../components/Logo";
 import UserIcon from "../../components/UserIcon";
 import CustomerNavigationBar from "../../components/CustomerNavigationBar";
-import CardProfessional from "../../components/CardProfessional";
+import { CardProfessional } from "../../components/display/CardProfessional";
 import { professionalMock } from "../../data/professionalMock";
 
 export default function ProfessionalsAvailable({ navigation, route }) {
