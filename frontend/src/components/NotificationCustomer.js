@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native
 import { notificationsCustomerMock } from "../data/notificationsCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
-import CustomerModal from "./CustomerModal";
+import { CustomerModal } from "../components/modals/CustomerModal";
 
 export default function NotificationCustomer() {
     const [notifications, setNotifications] = useState(notificationsCustomerMock);
