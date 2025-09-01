@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SelectAccount from "../../components/SelectAccount";
 import Logo from "../../components/Logo";
 import Input from "../../components/Input";
-import Button from "../../components/Button";
+import { Button } from "../../components/layout/Button";
 import * as Progress from "react-native-progress";
 import MaskInput from "../../components/MaskInput";
 import { BackButton } from "../../components/layout/BackButton";
@@ -26,9 +26,7 @@ export default function CustomerRegistrationData({ navigation }) {
       enableOnAndroid
       extraScrollHeight={64}
     >
-      <BackButton
-        onPress={() => navigation.navigate("Login")}
-      />
+      <BackButton onPress={() => navigation.navigate("Login")} />
 
       <Logo />
       <Text style={styles.title}>Informações pessoais</Text>
@@ -70,15 +68,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20
+    padding: 20,
   },
   title: {
     fontWeight: 700,
     fontSize: 18,
     marginBottom: 30,
-    marginTop: 30
+    marginTop: 30,
   },
   progressBar: {
-    marginTop: 30
+    marginTop: 30,
   },
 });

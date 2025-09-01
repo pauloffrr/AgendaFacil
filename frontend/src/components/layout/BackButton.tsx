@@ -6,8 +6,8 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface BackButtonProps {
   onPress: (event: GestureResponderEvent) => void;
-  size?: number;        // tamanho opcional do ícone
-  color?: string;       // cor opcional do ícone
+  size?: number;
+  color?: string;
 }
 
 export const BackButton: React.FC<BackButtonProps> = ({

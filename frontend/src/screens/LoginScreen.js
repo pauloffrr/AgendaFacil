@@ -8,7 +8,7 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Input from "../components/Input";
 import Logo from "../components/Logo";
-import Button from "../components/Button";
+import { Button } from "../components/layout/Button";
 import PasswordInput from "../components/PasswordInput";
 
 export default function LoginScreen({ navigation }) {

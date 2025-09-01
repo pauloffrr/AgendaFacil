@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Logo from "../../components/Logo";
 import Input from "../../components/Input";
-import Button from "../../components/Button";
+import { Button } from "../../components/layout/Button";
 import * as Progress from "react-native-progress";
 import { BackButton } from "../../components/layout/BackButton";
 import { AddressInput } from "../../components/forms/AddressInput";

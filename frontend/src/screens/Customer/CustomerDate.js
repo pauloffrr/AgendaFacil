@@ -4,7 +4,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { BackButton } from "../../components/layout/BackButton";
 import Logo from "../../components/Logo";
 import DateTimeInput from "../../components/DateTimeInput";
-import Button from "../../components/Button";
+import { Button } from "../../components/layout/Button";
 import CustomerNavigationBar from "../../components/CustomerNavigationBar";
 
 export default function CustomerDate({ navigation, route }) {
@@ -35,7 +35,7 @@ export default function CustomerDate({ navigation, route }) {
       hora: time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     });
 
-    navigation.navigate("Professionals Available", { name: name});
+    navigation.navigate("Professionals Available", { name: name });
   };
 
   return (
@@ -45,7 +45,9 @@ export default function CustomerDate({ navigation, route }) {
           <BackButton onPress={() => navigation.navigate("Customer Home")} />
 
           <Logo />
-          <Text style={styles.title}>Pra quando seria o serviço com o profissional { name }?</Text>
+          <Text style={styles.title}>
+            Pra quando seria o serviço com o profissional {name}?
+          </Text>
 
           <View style={styles.inputs}>
             <DateTimeInput
@@ -58,7 +60,14 @@ export default function CustomerDate({ navigation, route }) {
 
             <DateTimeInput
               label="Horário"
-              value={time ? time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : ""}
+              value={
+                time
+                  ? time.toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : ""
+              }
               placeholder="hh:mm"
               onPressIn={showTimePicker}
             />
@@ -84,14 +93,14 @@ export default function CustomerDate({ navigation, route }) {
         </View>
       </View>
 
-      <CustomerNavigationBar navigation={navigation}/>
+      <CustomerNavigationBar navigation={navigation} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1
+    flex: 1,
   },
   container: {
     flex: 1,
@@ -109,5 +118,5 @@ const styles = StyleSheet.create({
   },
   inputs: {
     gap: 20,
-  }
+  },
 });

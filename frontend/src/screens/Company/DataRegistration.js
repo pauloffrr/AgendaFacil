@@ -6,7 +6,7 @@ import Logo from "../../components/Logo";
 import SelectAccount from "../../components/SelectAccount";
 import Input from "../../components/Input";
 import MaskInput from "../../components/MaskInput";
-import Button from "../../components/Button";
+import { Button } from "../../components/layout/Button";
 import * as Progress from "react-native-progress";
 
 export default function CompanyRegistrationData({ navigation }) {
@@ -18,7 +18,7 @@ export default function CompanyRegistrationData({ navigation }) {
   const next = () => {
     console.log("Criar Conta:", { nomeFantasia, razaoSocial, cnpj });
     // API ou navegação
-    navigation.navigate("Company Registration Address")
+    navigation.navigate("Company Registration Address");
   };
 
   return (
@@ -27,9 +27,7 @@ export default function CompanyRegistrationData({ navigation }) {
       enableOnAndroid
       extraScrollHeight={144}
     >
-      <BackButton
-        onPress={() => navigation.navigate("Login")}
-      />
+      <BackButton onPress={() => navigation.navigate("Login")} />
 
       <Logo />
       <Text style={styles.title}>Informações da empresa</Text>
