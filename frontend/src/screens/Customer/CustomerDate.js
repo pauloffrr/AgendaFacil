@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { BackButton } from "../../components/layout/BackButton";
+import { BackButton } from "../../components/buttons/BackButton";
 import Logo from "../../components/Logo";
 import DateTimeInput from "../../components/DateTimeInput";
-import { Button } from "../../components/layout/Button";
+import { Button } from "../../components/buttons/Button";
 import CustomerNavigationBar from "../../components/CustomerNavigationBar";
 
 export default function CustomerDate({ navigation, route }) {

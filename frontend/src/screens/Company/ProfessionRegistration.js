@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { BackButton } from "../../components/layout/BackButton";
+import { BackButton } from "../../components/buttons/BackButton";
 import Logo from "../../components/Logo";
 import { Picker } from "@react-native-picker/picker";
 import { categoryMock } from "../../data/categoryMock";
 import { professionMock } from "../../data/professionMock";
-import { Button } from "../../components/layout/Button";
+import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 
 export default function ProfessionRegistration({ navigation }) {

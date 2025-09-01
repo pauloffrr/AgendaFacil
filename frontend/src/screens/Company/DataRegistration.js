@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { BackButton } from "../../components/layout/BackButton";
+import { BackButton } from "../../components/buttons/BackButton";
 import Logo from "../../components/Logo";
 import SelectAccount from "../../components/SelectAccount";
 import Input from "../../components/Input";
 import MaskInput from "../../components/MaskInput";
-import { Button } from "../../components/layout/Button";
+import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 
 export default function CompanyRegistrationData({ navigation }) {

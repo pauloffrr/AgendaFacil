@@ -4,10 +4,10 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SelectAccount from "../../components/SelectAccount";
 import Logo from "../../components/Logo";
 import Input from "../../components/Input";
-import { Button } from "../../components/layout/Button";
+import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 import MaskInput from "../../components/MaskInput";
-import { BackButton } from "../../components/layout/BackButton";
+import { BackButton } from "../../components/buttons/BackButton";
 
 export default function CustomerRegistrationData({ navigation }) {
   const [nome, setNome] = useState("");

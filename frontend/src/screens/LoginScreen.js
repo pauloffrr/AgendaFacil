@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Input from "../components/Input";
 import Logo from "../components/Logo";
-import { Button } from "../components/layout/Button";
+import { Button } from "../components/buttons/Button";
 import PasswordInput from "../components/PasswordInput";
 
 export default function LoginScreen({ navigation }) {
@@ -18,7 +13,7 @@ export default function LoginScreen({ navigation }) {
   const handleLogin = () => {
     console.log("Login:", { email, senha });
     // API ou navegação
-    navigation.navigate("Customer Home")
+    navigation.navigate("Customer Home");
   };
 
   return (
@@ -37,7 +32,7 @@ export default function LoginScreen({ navigation }) {
         keyboardType="email-address"
       />
 
-      <PasswordInput 
+      <PasswordInput
         label="Senha"
         placeholder={"Insira a sua senha"}
         value={senha}
@@ -46,9 +41,7 @@ export default function LoginScreen({ navigation }) {
 
       <View style={styles.row}>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("Customer Registration Data")
-          }
+          onPress={() => navigation.navigate("Customer Registration Data")}
         >
           <Text style={styles.link}>Criar Conta</Text>
         </TouchableOpacity>
@@ -81,5 +74,5 @@ const styles = StyleSheet.create({
   link: {
     color: "#007BFF",
     fontWeight: "bold",
-  }
+  },
 });
