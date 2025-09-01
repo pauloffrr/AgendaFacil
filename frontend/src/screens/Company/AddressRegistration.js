@@ -6,7 +6,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
 import BackButton from "../../components/BackButton";
-import AddressInput from "../../components/AddressInput";
+import { AddressInput } from "../../components/forms/AddressInput";
 
 export default function CompanyRegistrationAddress({ navigation }) {
   const [selectedState, setSelectedState] = useState("");
