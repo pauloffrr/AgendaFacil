@@ -9,7 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import CustomerReviews from "../../components/CustomerReviews";
-import AverageRating from "../../components/AverageRating";
+import { AverageRating } from "../../components/feedback/AverageRating";
+import { reviewsMock } from "../../data/reviewsMock";
 
 export default function ProfessionalProfile({ navigation, route }) {
     const { id } = route.params;
@@ -57,7 +58,7 @@ export default function ProfessionalProfile({ navigation, route }) {
                     </TouchableOpacity>
                     
                     <CustomerReviews />
-                    <AverageRating />
+                    <AverageRating reviews={reviewsMock} />
                 </View>
             ))}
         </ScrollView>
