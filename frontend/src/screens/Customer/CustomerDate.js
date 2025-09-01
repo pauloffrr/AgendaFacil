@@ -5,7 +5,7 @@ import { BackButton } from "../../components/buttons/BackButton";
 import Logo from "../../components/Logo";
 import DateTimeInput from "../../components/DateTimeInput";
 import { Button } from "../../components/buttons/Button";
-import CustomerNavigationBar from "../../components/CustomerNavigationBar";
+import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 
 export default function CustomerDate({ navigation, route }) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import CustomerNavigationBar from "../../components/CustomerNavigationBar";
+import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { BackButton } from "../../components/buttons/BackButton";
 import Logo from "../../components/Logo";
 import UserIcon from "../../components/UserIcon";

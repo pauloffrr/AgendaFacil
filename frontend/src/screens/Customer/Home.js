@@ -22,7 +22,7 @@ import {
 
 import { categoryMock } from "../../data/categoryMock";
 import { professionMock } from "../../data/professionMock";
-import CustomerNavigationBar from "../../components/CustomerNavigationBar";
+import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 
 const iconMap = {
   faHelmetSafety,

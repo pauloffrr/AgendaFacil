@@ -23,7 +23,7 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ navigation }
     <TouchableOpacity
       style={styles.card}
       onPress={() =>
-        navigation.navigate("ProfessionalProfile", { id: item.id })
+        navigation.navigate("Professional Profile", { id: item.id })
       }
     >
       <Image style={styles.img} source={item.img} />
@@ -35,7 +35,7 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ navigation }
             <FontAwesomeIcon icon={faStar as IconProp} size={13} style={styles.icon} />
             <Text style={styles.assessment}>{item.mediaAvaliacao}</Text>
           </View>
-          
+
           <View style={styles.spacing}>
             <Text style={styles.priceText}>Preço médio</Text>
             <Text style={styles.averagePrice}>

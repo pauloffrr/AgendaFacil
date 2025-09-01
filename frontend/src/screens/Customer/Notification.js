@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import CustomerNavigationBar from "../../components/CustomerNavigationBar";
+import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import Logo from "../../components/Logo";
 import UserIcon from "../../components/UserIcon";
 import NotificationCustomer from "../../components/NotificationCustomer";
