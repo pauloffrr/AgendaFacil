@@ -6,7 +6,6 @@ import Logo from "../../components/Logo";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
-import LoginScreen from "../LoginScreen";
 import MaskInput from "../../components/MaskInput";
 import BackButton from "../../components/BackButton";
 
@@ -28,7 +27,7 @@ export default function CustomerRegistrationData({ navigation }) {
       extraScrollHeight={64}
     >
       <BackButton
-        onPress={() => navigation.navigate("Login", { LoginScreen })}
+        onPress={() => navigation.navigate("Login")}
       />
 
       <Logo />

@@ -5,8 +5,6 @@ import Logo from "../../components/Logo";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
-import CustomerRegistrationData from "./DataRegistration";
-import CustomerRegistrationPassword from "./PasswordRegistration";
 import BackButton from "../../components/BackButton";
 import AddressInput from "../../components/AddressInput";
 
@@ -20,7 +18,7 @@ export default function CustomerRegistrationAddress({ navigation }) {
   const next = () => {
     console.log("Criar Conta:", { rua });
     // API ou navegação
-    navigation.navigate("Customer Registration Password", {CustomerRegistrationPassword})
+    navigation.navigate("Customer Registration Password")
   };
 
   return (
@@ -31,7 +29,7 @@ export default function CustomerRegistrationAddress({ navigation }) {
     >
       <View style={styles.space}>
         <BackButton
-          onPress={() => navigation.navigate("Customer Registration Data", { CustomerRegistrationData })}
+          onPress={() => navigation.navigate("Customer Registration Data")}
         />
 
         <Logo />

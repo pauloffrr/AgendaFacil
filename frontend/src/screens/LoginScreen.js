@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import CustomerRegistrationData from "./Customer/DataRegistration";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Input from "../components/Input";
 import Logo from "../components/Logo";
@@ -19,6 +18,7 @@ export default function LoginScreen({ navigation }) {
   const handleLogin = () => {
     console.log("Login:", { email, senha });
     // API ou navegação
+    navigation.navigate("Customer Home")
   };
 
   return (
@@ -47,9 +47,7 @@ export default function LoginScreen({ navigation }) {
       <View style={styles.row}>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("Customer Registration Data", {
-              CustomerRegistrationData,
-            })
+            navigation.navigate("Customer Registration Data")
           }
         >
           <Text style={styles.link}>Criar Conta</Text>

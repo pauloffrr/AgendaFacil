@@ -3,12 +3,10 @@ import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import BackButton from "../../components/BackButton";
 import Logo from "../../components/Logo";
-import CustomerRegistrationAddress from "./AddressRegistration";
 import Input from "../../components/Input";
 import PasswordInput from "../../components/PasswordInput";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
-import LoginScreen from "../LoginScreen";
 
 export default function PasswordRegistration({navigation}) {
     const [email, setEmail] = useState("");
@@ -16,7 +14,7 @@ export default function PasswordRegistration({navigation}) {
 
     const next = () => {
         console.log("Criar Conta:", { email, senha })
-        navigation.navigate("Login", {LoginScreen})
+        navigation.navigate("Login")
     }
 
     return (
@@ -26,7 +24,7 @@ export default function PasswordRegistration({navigation}) {
         >
             <View style={styles.space}> 
                 <BackButton
-                    onPress={() => navigation.navigate("Customer Registration Address", { CustomerRegistrationAddress })}
+                    onPress={() => navigation.navigate("Customer Registration Address")}
                 />
                 
                 <Logo />

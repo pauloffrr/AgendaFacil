@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import BackButton from "../../components/BackButton";
-import CompanyRegistrationAddress from "./AddressRegistration";
 import Logo from "../../components/Logo";
 import { Picker } from "@react-native-picker/picker";
 import { categoryMock } from "../../data/categoryMock";
 import { professionMock } from "../../data/professionMock";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
-import CompanyRegistrationPassword from "./PasswordRegistration"
 
 export default function ProfessionRegistration({ navigation }) {
     const [category, setCategory] = useState([]);
@@ -33,12 +31,12 @@ export default function ProfessionRegistration({ navigation }) {
 
     const next = () => {
         console.log(selectedCategory, selectedProfession)
-        navigation.navigate("Company Registration Password", {CompanyRegistrationPassword})
+        navigation.navigate("Company Registration Password")
     }
 
     return (
         <View style={styles.container}>
-            <BackButton onPress={() => navigation.navigate("Company Registration Address", {CompanyRegistrationAddress})}/>
+            <BackButton onPress={() => navigation.navigate("Company Registration Address")}/>
             <Logo />
             <Text style={styles.title}>Informe a sua área de atuação</Text>
 
