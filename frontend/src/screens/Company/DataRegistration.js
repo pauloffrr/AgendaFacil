@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import BackButton from "../../components/BackButton";
+import { BackButton } from "../../components/layout/BackButton";
 import Logo from "../../components/Logo";
 import SelectAccount from "../../components/SelectAccount";
 import Input from "../../components/Input";

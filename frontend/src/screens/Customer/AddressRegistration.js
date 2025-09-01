@@ -5,7 +5,7 @@ import Logo from "../../components/Logo";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
-import BackButton from "../../components/BackButton";
+import { BackButton } from "../../components/layout/BackButton";
 import { AddressInput } from "../../components/forms/AddressInput";
 
 export default function CustomerRegistrationAddress({ navigation }) {
@@ -18,7 +18,7 @@ export default function CustomerRegistrationAddress({ navigation }) {
   const next = () => {
     console.log("Criar Conta:", { rua });
     // API ou navegação
-    navigation.navigate("Customer Registration Password")
+    navigation.navigate("Customer Registration Password");
   };
 
   return (
@@ -35,9 +35,9 @@ export default function CustomerRegistrationAddress({ navigation }) {
         <Logo />
         <Text style={styles.title}>Informe o seu endereço!</Text>
 
-        <AddressInput 
+        <AddressInput
           selectedState={selectedState}
-          setSelectedState={setSelectedState} 
+          setSelectedState={setSelectedState}
           selectedCity={selectedCity}
           setSelectedCity={setSelectedCity}
         />
@@ -78,18 +78,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20
+    padding: 20,
   },
   space: {
-    gap: 10
+    gap: 10,
   },
   title: {
     fontWeight: 700,
     fontSize: 18,
     marginBottom: 20,
-    marginTop: 20
+    marginTop: 20,
   },
   progressBar: {
-    marginTop: 15
+    marginTop: 15,
   },
 });

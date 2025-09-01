@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import BackButton from "../../components/BackButton";
+import { BackButton } from "../../components/layout/BackButton";
 import Logo from "../../components/Logo";
 import UserIcon from "../../components/UserIcon";
 import CustomerNavigationBar from "../../components/CustomerNavigationBar";

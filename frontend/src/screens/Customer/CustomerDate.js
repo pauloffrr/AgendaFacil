@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import BackButton from "../../components/BackButton";
+import { BackButton } from "../../components/layout/BackButton";
 import Logo from "../../components/Logo";
 import DateTimeInput from "../../components/DateTimeInput";
 import Button from "../../components/Button";

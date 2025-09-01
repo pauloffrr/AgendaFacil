@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import CustomerNavigationBar from "../../components/CustomerNavigationBar";
-import BackButton from "../../components/BackButton";
+import { BackButton } from "../../components/layout/BackButton";
 import Logo from "../../components/Logo";
 import UserIcon from "../../components/UserIcon";
 import { professionalMock } from "../../data/professionalMock";

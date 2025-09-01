@@ -7,7 +7,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import * as Progress from "react-native-progress";
 import MaskInput from "../../components/MaskInput";
-import BackButton from "../../components/BackButton";
+import { BackButton } from "../../components/layout/BackButton";
 
 export default function CustomerRegistrationData({ navigation }) {
   const [nome, setNome] = useState("");

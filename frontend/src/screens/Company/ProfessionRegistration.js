@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import BackButton from "../../components/BackButton";
+import { BackButton } from "../../components/layout/BackButton";
 import Logo from "../../components/Logo";
 import { Picker } from "@react-native-picker/picker";
 import { categoryMock } from "../../data/categoryMock";
