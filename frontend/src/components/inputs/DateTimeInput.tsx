@@ -1,14 +1,23 @@
 import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardTypeOptions } from "react-native";
 
-export default function DateTimeInput({
+interface DateTimeInputProps {
+  label?: string;
+  placeholder?: string;
+  value?: string;
+  onChangeText?: (text: string) => void;
+  keyboardType?: KeyboardTypeOptions;
+  onPressIn?: () => void;
+};
+
+export const DateTimeInput: React.FC<DateTimeInputProps> = ({
   label,
   placeholder,
   value,
   onChangeText,
   keyboardType,
   onPressIn
-}) {
+}) => {
 
   return (
     <View style={styles.container}>

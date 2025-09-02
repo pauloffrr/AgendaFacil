@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { BackButton } from "../../components/buttons/BackButton";
 import Logo from "../../components/Logo";
-import DateTimeInput from "../../components/DateTimeInput";
+import { DateTimeInput } from "../../components/inputs/DateTimeInput";
 import { Button } from "../../components/buttons/Button";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 
