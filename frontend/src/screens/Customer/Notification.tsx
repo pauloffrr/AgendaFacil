@@ -5,13 +5,17 @@ import { Logo } from "../../components/display/Logo";
 import { UserIcon } from "../../components/buttons/UserIcon";
 import { NotificationCustomer } from "../../components/display/NotificationCustomer";
 
-export default function Notification({ navigation }) {
+export const Notification: React.FC = () => {
+  const handleProfile = () => {
+    console.log("Perfil");
+  };
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Logo />
-          <UserIcon />
+          <UserIcon onPress={handleProfile}/>
         </View>
 
         <Text style={styles.title}>Notificações</Text>
@@ -20,7 +24,7 @@ export default function Notification({ navigation }) {
         <NotificationCustomer />
       </View>
 
-      <CustomerNavigationBar navigation={navigation} />
+      <CustomerNavigationBar />
     </View>
   );
 }

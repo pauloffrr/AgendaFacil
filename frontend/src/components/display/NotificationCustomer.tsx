@@ -1,23 +1,13 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { NotificationsCustomerMock } from "../../data/NotificationCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faCalendarCheck,
-  faCalendarXmark,
-  faBell,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { CustomerModal } from "../modals/CustomerModal";
 import { Notification } from "../../types/NotificationType";
 
-export const NotificationCustomer: React.FC<Notification> = () => {
+export const NotificationCustomer: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>(NotificationsCustomerMock);
   const [modalVisible, setModalVisible] = useState(false);
 
