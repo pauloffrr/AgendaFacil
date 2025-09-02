@@ -28,7 +28,7 @@ import {
 
 import { CategoryMock } from "../../data/CategoriesMock";
 import { ProfessionMock } from "../../data/ProfessionMock";
-//import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
+import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { Category } from "@/src/types/CategoryType";
 import { Profession } from "../../types/ProfessionType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -121,7 +121,7 @@ export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
         }}
       />
 
-      { /* <CustomerNavigationBar navigation={navigation}/> */ }
+      <CustomerNavigationBar navigation={navigation}/>
     </View>
   );
 }

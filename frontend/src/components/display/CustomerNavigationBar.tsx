@@ -4,16 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHome, faCircleExclamation, faCalendarDays, faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
-type CustomerStackParamList = {
-  "Customer Home": undefined;
-  "Customer Notifications": undefined;
-  "Customer Scheduling": undefined;
-  "Favorites": undefined;
-};
+import { CustomerStackParamList } from "@/src/types/HomeTypes";
 
 interface CustomerNavigationBarProps {
-  navigation: NativeStackNavigationProp<CustomerStackParamList>;
+  navigation: NativeStackNavigationProp<CustomerStackParamList, "Customer Home">;
 }
 
 export const CustomerNavigationBar: React.FC<CustomerNavigationBarProps> = ({ navigation }) => {
