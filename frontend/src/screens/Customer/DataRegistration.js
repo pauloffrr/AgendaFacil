@@ -6,7 +6,7 @@ import { Logo } from "../../components/display/Logo";
 import { Input } from "../../components/inputs/Input";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
-import MaskInput from "../../components/MaskInput";
+import { MaskInput } from "../../components/inputs/MaskInput";
 import { BackButton } from "../../components/buttons/BackButton";
 
 export default function CustomerRegistrationData({ navigation }) {

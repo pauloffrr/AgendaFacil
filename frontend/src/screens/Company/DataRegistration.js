@@ -5,7 +5,7 @@ import { BackButton } from "../../components/buttons/BackButton";
 import { Logo } from "../../components/display/Logo";
 import SelectAccount from "../../components/SelectAccount";
 import { Input } from "../../components/inputs/Input";
-import MaskInput from "../../components/MaskInput";
+import { MaskInput } from "../../components/inputs/MaskInput";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 
