@@ -8,7 +8,7 @@ type SelectAccountRouteProp = RouteProp<
   "Customer Registration Data" | "Company Registration Data"
 >;
 
-export const SelectAccount: React.FC<SelectAccountRouteProp> = () => {
+export const SelectAccount: React.FC = () => {
     const route = useRoute<SelectAccountRouteProp>();
     const navigation = useNavigation<NavigationProps>();
     const selected = route.name === "Customer Registration Data" ? "Cliente" : "Empresa"

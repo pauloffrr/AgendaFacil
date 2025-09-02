@@ -8,15 +8,15 @@ import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { MaskInput } from "../../components/inputs/MaskInput";
 import { BackButton } from "../../components/buttons/BackButton";
+import { CustomerRegistrationDataProps } from "@/src/types/CustomerStackType";
 
-export default function CustomerRegistrationData({ navigation }) {
+export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> = ({ navigation }) => {
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cpf, setCpf] = useState("");
 
   const next = () => {
     console.log("Criar Conta:", { nome, telefone, cpf });
-    // API ou navegação
     navigation.navigate("Customer Registration Address");
   };
 
@@ -52,7 +52,7 @@ export default function CustomerRegistrationData({ navigation }) {
         label="CPF"
         mask="999.999.999-99"
         value={cpf}
-        onChangeText={(text, rawText) => setCpf(rawText)}
+        onChangeText={(text) => setCpf(text)}
         keyboardType="numeric"
         placeholder="000.000.000-00"
       />

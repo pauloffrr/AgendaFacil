@@ -7,8 +7,9 @@ import { Input } from "../../components/inputs/Input";
 import { PasswordInput } from "../../components/inputs/PasswordInput";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
+import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerStackType";
 
-export default function PasswordRegistration({ navigation }) {
+export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPasswordProps> = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
