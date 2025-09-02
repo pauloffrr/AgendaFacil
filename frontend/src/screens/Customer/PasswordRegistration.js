@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { BackButton } from "../../components/buttons/BackButton";
 import { Logo } from "../../components/display/Logo";
 import { Input } from "../../components/inputs/Input";
-import PasswordInput from "../../components/PasswordInput";
+import { PasswordInput } from "../../components/inputs/PasswordInput";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 

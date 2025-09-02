@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Input } from "../components/inputs/Input";
 import { Logo } from "../components/display/Logo";
 import { Button } from "../components/buttons/Button";
-import PasswordInput from "../components/PasswordInput";
+import { PasswordInput } from "../components/inputs/PasswordInput";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");

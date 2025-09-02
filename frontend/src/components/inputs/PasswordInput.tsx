@@ -8,12 +8,19 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function PasswordInput({
+interface PasswordInputProps {
+    label?: string;
+    placeholder?: string;
+    value: string;
+    onChangeText: (text: string) => void;
+}
+
+export const PasswordInput: React.FC<PasswordInputProps> = ({
     label,
     placeholder,
     value,
     onChangeText
-}) {
+}) => {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
