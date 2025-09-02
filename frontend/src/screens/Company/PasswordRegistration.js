@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { BackButton } from "../../components/buttons/BackButton";
-import Logo from "../../components/Logo";
+import { Logo } from "../../components/display/Logo";
 import { Input } from "../../components/inputs/Input";
 import PasswordInput from "../../components/PasswordInput";
 import { Button } from "../../components/buttons/Button";

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { BackButton } from "../../components/buttons/BackButton";
-import Logo from "../../components/Logo";
+import { Logo } from "../../components/display/Logo";
 import UserIcon from "../../components/UserIcon";
 import { professionalMock } from "../../data/professionalMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

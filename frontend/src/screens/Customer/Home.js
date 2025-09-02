@@ -1,23 +1,29 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import Logo from "../../components/Logo";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+import { Logo } from "../../components/display/Logo";
 import UserIcon from "../../components/UserIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { 
-    faHelmetSafety,
-    faBroom,
-    faScissors,
-    faShirt,
-    faComputer,
-    faCar,
-    faPaw,
-    faGraduationCap,
-    faTruckFast,
-    faChampagneGlasses,
-    faUserTie,
-    faEllipsis,
-    faChevronRight,
-    faChevronDown
+import {
+  faHelmetSafety,
+  faBroom,
+  faScissors,
+  faShirt,
+  faComputer,
+  faCar,
+  faPaw,
+  faGraduationCap,
+  faTruckFast,
+  faChampagneGlasses,
+  faUserTie,
+  faEllipsis,
+  faChevronRight,
+  faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { categoryMock } from "../../data/categoryMock";
@@ -88,7 +94,12 @@ export default function Home({ navigation }) {
                   {professions.map((prof) => (
                     <TouchableOpacity
                       key={prof.id}
-                      onPress={() => navigation.navigate("Customer Date", { id: prof.id, name: prof.name })}
+                      onPress={() =>
+                        navigation.navigate("Customer Date", {
+                          id: prof.id,
+                          name: prof.name,
+                        })
+                      }
                     >
                       <Text style={styles.professionItem}>• {prof.name}</Text>
                     </TouchableOpacity>
@@ -102,7 +113,7 @@ export default function Home({ navigation }) {
         }}
       />
 
-      <CustomerNavigationBar navigation={navigation}/>
+      <CustomerNavigationBar navigation={navigation} />
     </View>
   );
 }
@@ -110,7 +121,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
   header: {
     display: "flex",
@@ -118,7 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 50,
-    padding: 15
+    padding: 15,
   },
   title: {
     fontWeight: "700",
@@ -126,7 +137,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 50,
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
   },
   selection: {
     display: "flex",
@@ -135,7 +146,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 15,
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
   },
   categoryItems: {
     display: "flex",
@@ -157,7 +168,7 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "#ccc",
     marginVertical: 10,
-    margin: 15
+    margin: 15,
   },
   professionList: {
     marginLeft: 40,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SelectAccount from "../../components/SelectAccount";
-import Logo from "../../components/Logo";
+import { Logo } from "../../components/display/Logo";
 import { Input } from "../../components/inputs/Input";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
