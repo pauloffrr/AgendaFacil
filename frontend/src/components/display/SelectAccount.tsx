@@ -1,19 +1,23 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import CustomerRegistrationData from "../screens/Customer/DataRegistration";
-import CompanyRegistrationData from "../screens/Company/DataRegistration";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import { RootStackParamList, NavigationProps } from "@/src/types/selectAccount";
 
-export default function SelectAccount() {
-    const route = useRoute();
-    const navigation = useNavigation();
+type SelectAccountRouteProp = RouteProp<
+  RootStackParamList,
+  "Customer Registration Data" | "Company Registration Data"
+>;
+
+export const SelectAccount: React.FC<SelectAccountRouteProp> = () => {
+    const route = useRoute<SelectAccountRouteProp>();
+    const navigation = useNavigation<NavigationProps>();
     const selected = route.name === "Customer Registration Data" ? "Cliente" : "Empresa"
 
     return ( 
         <View style={styles.container}>
             <TouchableOpacity 
                 style={[selected === "Cliente" ? styles.activeButton : styles.inactiveButton, styles.leftButton]}
-                onPress={() => navigation.navigate("Customer Registration Data", {CustomerRegistrationData})}
+                onPress={() => navigation.navigate("Customer Registration Data")}
             >
                 <Text style={selected === "Cliente" ? styles.activeText : styles.inactiveText}>
                     Cliente
@@ -22,7 +26,7 @@ export default function SelectAccount() {
 
             <TouchableOpacity 
                 style={[selected === "Empresa" ? styles.activeButton : styles.inactiveButton, styles.rightButton]}
-                onPress={() => navigation.navigate("Company Registration Data", {CompanyRegistrationData})}
+                onPress={() => navigation.navigate("Company Registration Data")}
             >
                 <Text style={selected === "Empresa" ? styles.activeText : styles.inactiveText}>
                     Empresa
