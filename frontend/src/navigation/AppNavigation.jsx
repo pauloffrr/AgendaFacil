@@ -6,7 +6,7 @@ import LoginScreen from "../screens/LoginScreen";
 import CustomerRegistrationData from "../screens/Customer/DataRegistration";
 import CustomerRegistrationAddress from "../screens/Customer/AddressRegistration";
 import CustomerRegistrationPassword from "../screens/Customer/PasswordRegistration";
-import CustomerHome from "../screens/Customer/Home";
+import { CustomerHome } from "../screens/Customer/Home";
 import CustomerDate from "../screens/Customer/CustomerDate";
 import ProfessionalsAvailable from "../screens/Customer/ProfessionalsAvailable";
 import ProfessionalProfile from "../screens/Customer/ProfessionalProfile";

@@ -5,7 +5,7 @@ import { Logo } from "../../components/display/Logo";
 import { UserIcon } from "../../components/buttons/UserIcon";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { CardProfessional } from "../../components/display/CardProfessional";
-import { professionalMock } from "../../data/ProfessionalsMock";
+import { ProfessionalMock } from "../../data/ProfessionalsMock";
 
 export default function ProfessionalsAvailable({ navigation, route }) {
   const { name } = route.params;
@@ -22,7 +22,7 @@ export default function ProfessionalsAvailable({ navigation, route }) {
           <UserIcon />
         </View>
 
-        {professionalMock.length > 0 ? (
+        {ProfessionalMock.length > 0 ? (
           <>
             <Text style={styles.title}>
               {name}(s) disponíveis na data desejada

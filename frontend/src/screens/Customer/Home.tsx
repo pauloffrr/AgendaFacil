@@ -26,11 +26,15 @@ import {
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { CategoryMock } from "../../data/CategoryMock";
+import { CategoryMock } from "../../data/CategoriesMock";
 import { ProfessionMock } from "../../data/ProfessionMock";
-import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
+//import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
+import { Category } from "@/src/types/CategoryType";
+import { Profession } from "../../types/ProfessionType";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { HomeProps } from "@/src/types/HomeTypes";
 
-const iconMap = {
+const iconMap: Record<string, any> = {
   faHelmetSafety,
   faBroom,
   faScissors,
@@ -45,18 +49,22 @@ const iconMap = {
   faEllipsis,
 };
 
-export default function Home({ navigation }) {
-  const [expandedCategory, setExpandedCategory] = useState(null);
+export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
-  const toggleCategory = (categoryId) => {
+  const toggleCategory = (categoryId: number) => {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
+  };
+
+  const handleProfile = () => {
+    console.log("Perfil");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Logo />
-        <UserIcon />
+        <UserIcon onPress={handleProfile}/>
       </View>
 
       <Text style={styles.title}>Escolha a categoria de serviços!</Text>
@@ -64,10 +72,10 @@ export default function Home({ navigation }) {
       <FlatList
         data={CategoryMock}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => {
+        renderItem={({ item }: { item: Category }) => {
           const isExpanded = expandedCategory === item.id;
           const professions = ProfessionMock.filter(
-            (prof) => prof.categoryId === item.id
+            (prof: Profession) => prof.categoryId === item.id
           );
 
           return (
@@ -83,7 +91,7 @@ export default function Home({ navigation }) {
                     <Text style={styles.category}>{item.name}</Text>
                   </View>
                   <FontAwesomeIcon
-                    icon={isExpanded ? faChevronDown : faChevronRight}
+                    icon={isExpanded ? faChevronDown as IconProp : faChevronRight as IconProp}
                     style={styles.buttonIcon}
                   />
                 </View>
@@ -91,7 +99,7 @@ export default function Home({ navigation }) {
 
               {isExpanded && (
                 <View style={styles.professionList}>
-                  {professions.map((prof) => (
+                  {professions.map((prof: Profession) => (
                     <TouchableOpacity
                       key={prof.id}
                       onPress={() =>
@@ -113,7 +121,7 @@ export default function Home({ navigation }) {
         }}
       />
 
-      <CustomerNavigationBar navigation={navigation} />
+      { /* <CustomerNavigationBar navigation={navigation}/> */ }
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import { Profession } from "../types/ProfessionType";
 
-export const professionMock: Profession[] = [
+export const ProfessionMock: Profession[] = [
     // 🛠 Serviços de Reparos e Manutenção
     { id: 1, name: "Eletricista", categoryId: 1 },
     { id: 2, name: "Encanador", categoryId: 1 },

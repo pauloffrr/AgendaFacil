@@ -1,6 +1,6 @@
 import { Category } from "../types/CategoryType"
 
-export const categoryMock: Category[] = [
+export const CategoryMock: Category[] = [
     { id: 1, name: "Reparos e Manutenção", icon: "faHelmetSafety" },
     { id: 2, name: "Serviços Domésticos", icon: "faBroom" },
     { id: 3, name: "Beleza e Estética", icon: "faScissors" },
