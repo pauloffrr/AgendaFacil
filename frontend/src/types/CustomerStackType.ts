@@ -11,6 +11,7 @@ export type CustomerStackParamList = {
   "Professional Profile": { id: number };
 };
 
+//Customer Home
 export type CustomerNavigationProp =
   NativeStackNavigationProp<CustomerStackParamList>;
 
@@ -25,6 +26,7 @@ export interface HomeProps {
   route: HomeRouteProp;
 }
 
+//Customer Date
 export type CustomerDateNavigationProp = NativeStackNavigationProp<
   CustomerStackParamList,
   "Customer Date"
@@ -36,4 +38,20 @@ export type CustomerDateRouteProp = RouteProp<
 export interface CustomerDateProps {
   navigation: CustomerDateNavigationProp;
   route: CustomerDateRouteProp;
+}
+
+// Professional Profile
+export type ProfessionalProfileNavigationProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Professional Profile"
+>;
+
+export type ProfessionalProfileRouteProp = RouteProp<
+  CustomerStackParamList,
+  "Professional Profile"
+>;
+
+export interface ProfessionalProfileProps {
+  navigation: ProfessionalProfileNavigationProp;
+  route: ProfessionalProfileRouteProp;
 }

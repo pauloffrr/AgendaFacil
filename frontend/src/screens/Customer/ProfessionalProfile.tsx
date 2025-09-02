@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { BackButton } from "../../components/buttons/BackButton";
 import { Logo } from "../../components/display/Logo";
@@ -18,8 +11,10 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { CustomerReviews } from "../../components/display/CustomerReviews";
 import { AverageRating } from "../../components/display/AverageRating";
 import { ReviewsCustomerMock } from "../../data/ReviewsCustomerMock";
+import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-export default function ProfessionalProfile({ navigation, route }) {
+export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
   const { id } = route.params;
   const [iconStarColor, setIconStarColor] = useState("#CCC");
 
@@ -27,6 +22,10 @@ export default function ProfessionalProfile({ navigation, route }) {
     setIconStarColor((prevColor) =>
       prevColor === "#f1c40f" ? "#CCC" : "#f1c40f"
     );
+  };
+
+  const handleProfile = () => {
+    console.log("Perfil");
   };
 
   return (
@@ -40,7 +39,7 @@ export default function ProfessionalProfile({ navigation, route }) {
 
         <View style={styles.header}>
           <Logo />
-          <UserIcon />
+          <UserIcon onPress={handleProfile}/>
         </View>
 
         {ProfessionalMock
@@ -53,7 +52,7 @@ export default function ProfessionalProfile({ navigation, route }) {
 
               <View style={styles.address}>
                 <FontAwesomeIcon
-                  icon={faLocationDot}
+                  icon={faLocationDot as IconProp}
                   size={33}
                   style={styles.icon}
                 />
@@ -74,7 +73,7 @@ export default function ProfessionalProfile({ navigation, route }) {
               <View style={styles.favorites}>
                 <TouchableOpacity onPress={toggleStarColor}>
                   <FontAwesomeIcon
-                    icon={faStar}
+                    icon={faStar as IconProp}
                     size={28}
                     color={iconStarColor}
                   />
@@ -84,7 +83,7 @@ export default function ProfessionalProfile({ navigation, route }) {
 
               <TouchableOpacity style={styles.buttonWpp}>
                 <FontAwesomeIcon
-                  icon={faWhatsapp}
+                  icon={faWhatsapp as IconProp}
                   size={38}
                   style={styles.iconWpp}
                 />
@@ -97,7 +96,7 @@ export default function ProfessionalProfile({ navigation, route }) {
           ))}
       </ScrollView>
 
-      <CustomerNavigationBar navigation={navigation} />
+      <CustomerNavigationBar />
     </View>
   );
 }
