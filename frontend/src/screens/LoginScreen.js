@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import Input from "../components/Input";
+import { Input } from "../components/inputs/Input";
 import Logo from "../components/Logo";
 import { Button } from "../components/buttons/Button";
 import PasswordInput from "../components/PasswordInput";

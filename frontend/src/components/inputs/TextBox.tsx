@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text, TextInput, StyleSheet, TextInputProps } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardTypeOptions } from "react-native";
 
 interface TextBoxProps {
   label?: string;
   placeholder?: string;
   value: string;
   onChangeText: (text: string) => void;
-  keyboardType?: TextInputProps["keyboardType"];
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export const TextBox: React.FC<TextBoxProps> = ({
