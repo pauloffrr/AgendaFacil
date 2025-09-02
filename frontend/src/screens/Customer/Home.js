@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Logo } from "../../components/display/Logo";
-import UserIcon from "../../components/UserIcon";
+import { UserIcon } from "../../components/buttons/UserIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faHelmetSafety,

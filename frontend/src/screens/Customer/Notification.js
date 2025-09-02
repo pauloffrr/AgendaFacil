@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { Logo } from "../../components/display/Logo";
-import UserIcon from "../../components/UserIcon";
+import { UserIcon } from "../../components/buttons/UserIcon";
 import { NotificationCustomer } from "../../components/display/NotificationCustomer";
 
 export default function Notification({ navigation }) {

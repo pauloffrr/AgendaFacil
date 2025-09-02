@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { BackButton } from "../../components/buttons/BackButton";
 import { Logo } from "../../components/display/Logo";
-import UserIcon from "../../components/UserIcon";
+import { UserIcon } from "../../components/buttons/UserIcon";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { CardProfessional } from "../../components/display/CardProfessional";
 import { professionalMock } from "../../data/professionalMock";
