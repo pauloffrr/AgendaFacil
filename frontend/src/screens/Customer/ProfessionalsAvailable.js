@@ -5,7 +5,7 @@ import { Logo } from "../../components/display/Logo";
 import { UserIcon } from "../../components/buttons/UserIcon";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { CardProfessional } from "../../components/display/CardProfessional";
-import { professionalMock } from "../../data/professionalMock";
+import { professionalMock } from "../../data/ProfessionalsMock";
 
 export default function ProfessionalsAvailable({ navigation, route }) {
   const { name } = route.params;

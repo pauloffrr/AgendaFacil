@@ -11,13 +11,13 @@ import { CustomerNavigationBar } from "../../components/display/CustomerNavigati
 import { BackButton } from "../../components/buttons/BackButton";
 import { Logo } from "../../components/display/Logo";
 import { UserIcon } from "../../components/buttons/UserIcon";
-import { professionalMock } from "../../data/professionalMock";
+import { ProfessionalMock } from "../../data/ProfessionalsMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { CustomerReviews } from "../../components/display/CustomerReviews";
 import { AverageRating } from "../../components/display/AverageRating";
-import { reviewsMock } from "../../data/reviewsMock";
+import { ReviewsCustomerMock } from "../../data/ReviewsCustomerMock";
 
 export default function ProfessionalProfile({ navigation, route }) {
   const { id } = route.params;
@@ -43,7 +43,7 @@ export default function ProfessionalProfile({ navigation, route }) {
           <UserIcon />
         </View>
 
-        {professionalMock
+        {ProfessionalMock
           .filter((professional) => professional.id === id)
           .map((filteredProfessional) => (
             <View key={filteredProfessional.id}>
@@ -92,7 +92,7 @@ export default function ProfessionalProfile({ navigation, route }) {
               </TouchableOpacity>
 
               <CustomerReviews />
-              <AverageRating reviews={reviewsMock} />
+              <AverageRating reviews={ReviewsCustomerMock} />
             </View>
           ))}
       </ScrollView>

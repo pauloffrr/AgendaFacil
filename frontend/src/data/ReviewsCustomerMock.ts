@@ -1,12 +1,6 @@
-export interface Review {
-  id: number;
-  name: string;
-  rating: number;
-  comment: string;
-  date: string;
-}
+import { ReviewsCustomer } from "../types/ReviewsCustomerType";
 
-export const reviewsMock: Review[] = [
+export const ReviewsCustomerMock: ReviewsCustomer[] = [
     {
         id: 1,
         name: "João Silva",

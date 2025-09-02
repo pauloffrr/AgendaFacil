@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { notificationsCustomerMock } from "../../data/notificationsCustomerMock";
+import { NotificationsCustomerMock } from "../../data/NotificationCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faCalendarCheck,
@@ -15,10 +15,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { CustomerModal } from "../modals/CustomerModal";
-import { Notification } from "../../types/notification";
+import { Notification } from "../../types/NotificationType";
 
 export const NotificationCustomer: React.FC<Notification> = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(notificationsCustomerMock);
+  const [notifications, setNotifications] = useState<Notification[]>(NotificationsCustomerMock);
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleReview = (id: number) => {
@@ -42,19 +42,37 @@ export const NotificationCustomer: React.FC<Notification> = () => {
     switch (type) {
       case "Cancelamento":
         return (
-          <FontAwesomeIcon icon={faCalendarXmark as IconProp} size={22} color="#FF0000" />
+          <FontAwesomeIcon
+            icon={faCalendarXmark as IconProp}
+            size={22}
+            color="#FF0000"
+          />
         );
       case "Confirmação":
         return (
-          <FontAwesomeIcon icon={faCalendarCheck as IconProp} size={22} color="#25D366" />
+          <FontAwesomeIcon
+            icon={faCalendarCheck as IconProp}
+            size={22}
+            color="#25D366"
+          />
         );
       case "Avaliação":
       case "Concluído":
         return (
-          <FontAwesomeIcon icon={faCalendarCheck as IconProp} size={22} color="#007BFF" />
+          <FontAwesomeIcon
+            icon={faCalendarCheck as IconProp}
+            size={22}
+            color="#007BFF"
+          />
         );
       case "Lembrete":
-        return <FontAwesomeIcon icon={faBell as IconProp} size={22} color="#007BFF" />;
+        return (
+          <FontAwesomeIcon
+            icon={faBell as IconProp}
+            size={22}
+            color="#007BFF"
+          />
+        );
       default:
         return null;
     }
@@ -95,7 +113,7 @@ export const NotificationCustomer: React.FC<Notification> = () => {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

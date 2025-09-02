@@ -10,7 +10,8 @@ import {
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { professionalMock, Professional } from "../../data/professionalMock";
+import { ProfessionalMock } from "../../data/ProfessionalsMock";
+import { Professional } from "@/src/types/ProfessionalType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -32,7 +33,11 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ navigation }
         <Text style={styles.name}>{item.name}</Text>
         <View style={styles.desc}>
           <View style={styles.spacing}>
-            <FontAwesomeIcon icon={faStar as IconProp} size={13} style={styles.icon} />
+            <FontAwesomeIcon
+              icon={faStar as IconProp}
+              size={13}
+              style={styles.icon}
+            />
             <Text style={styles.assessment}>{item.mediaAvaliacao}</Text>
           </View>
 
@@ -49,7 +54,7 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ navigation }
 
   return (
     <FlatList
-      data={professionalMock}
+      data={ProfessionalMock}
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
     />

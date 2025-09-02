@@ -26,8 +26,8 @@ import {
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { categoryMock } from "../../data/categoryMock";
-import { professionMock } from "../../data/professionMock";
+import { CategoryMock } from "../../data/CategoryMock";
+import { ProfessionMock } from "../../data/ProfessionMock";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 
 const iconMap = {
@@ -62,11 +62,11 @@ export default function Home({ navigation }) {
       <Text style={styles.title}>Escolha a categoria de serviços!</Text>
 
       <FlatList
-        data={categoryMock}
+        data={CategoryMock}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => {
           const isExpanded = expandedCategory === item.id;
-          const professions = professionMock.filter(
+          const professions = ProfessionMock.filter(
             (prof) => prof.categoryId === item.id
           );
 

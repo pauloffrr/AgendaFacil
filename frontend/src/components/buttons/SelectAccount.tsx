@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import { RootStackParamList, NavigationProps } from "@/src/types/selectAccount";
+import { RootStackParamList, NavigationProps } from "@/src/types/SelectAccountType";
 
 type SelectAccountRouteProp = RouteProp<
   RootStackParamList,

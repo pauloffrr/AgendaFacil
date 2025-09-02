@@ -3,8 +3,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { BackButton } from "../../components/buttons/BackButton";
 import { Logo } from "../../components/display/Logo";
 import { Picker } from "@react-native-picker/picker";
-import { categoryMock } from "../../data/categoryMock";
-import { professionMock } from "../../data/professionMock";
+import { categoryMock } from "../../data/CategoryMock";
+import { professionMock } from "../../data/ProfessionMock";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 

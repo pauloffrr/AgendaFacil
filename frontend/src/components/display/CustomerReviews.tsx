@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { reviewsMock } from "../../data/reviewsMock";
+import { ReviewsCustomerMock } from "../../data/ReviewsCustomerMock";
 
 interface Review {
   id: number;
@@ -13,7 +13,7 @@ interface Review {
 }
 
 export const CustomerReviews: React.FC = () => {
-  const recentReviews: Review[] = [...reviewsMock]
+  const recentReviews: Review[] = [...ReviewsCustomerMock]
     .sort((a, b) => {
       const dateA = new Date(a.date.split("/").reverse().join("-")).getTime();
       const dateB = new Date(b.date.split("/").reverse().join("-")).getTime();
@@ -24,7 +24,11 @@ export const CustomerReviews: React.FC = () => {
   return (
     <View>
       <View style={styles.reviews}>
-        <FontAwesomeIcon icon={faStar as any} size={35} style={styles.iconStar} />
+        <FontAwesomeIcon
+          icon={faStar as any}
+          size={35}
+          style={styles.iconStar}
+        />
         <Text style={styles.textReviews}>Avaliações</Text>
       </View>
 
@@ -38,7 +42,11 @@ export const CustomerReviews: React.FC = () => {
               <Text style={styles.nameCustomer}>{item.name}</Text>
               <View style={styles.reviewsNote}>
                 <Text style={styles.textReview}>{item.rating}</Text>
-                <FontAwesomeIcon icon={faStar as any} size={15} style={styles.icon} />
+                <FontAwesomeIcon
+                  icon={faStar as any}
+                  size={15}
+                  style={styles.icon}
+                />
               </View>
             </View>
 

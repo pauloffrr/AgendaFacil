@@ -1,4 +1,4 @@
-import { State, City } from "../types/address";
+import { State, City } from "../types/AddressType";
 
 const BASE_URL = "https://servicodados.ibge.gov.br/api/v1/localidades";
 
