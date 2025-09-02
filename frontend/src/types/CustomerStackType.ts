@@ -1,35 +1,39 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RouteProp } from "@react-navigation/native";
 
 export type CustomerStackParamList = {
-  "Customer Registration Data": undefined;
-  "Customer Registration Address": undefined;
-  "Customer Registration Password": undefined;
-  Login: undefined;
+  "Customer Home": undefined;
+  "Customer Notifications": undefined;
+  "Scheduling": undefined;
+  "Favorites": undefined;
+  "Customer Date": { id: number; name: string };
+  "Professionals Available": { name: string } | { id: number };
+  "Professional Profile": { id: number };
 };
 
-export type CustomerRegistrationDataNavigationProp = NativeStackNavigationProp<
-  CustomerStackParamList,
-  "Customer Registration Data"
->;
+export type CustomerNavigationProp =
+  NativeStackNavigationProp<CustomerStackParamList>;
 
-export type CustomerRegistrationAddressNavigationProp = NativeStackNavigationProp<
+export type HomeNavigationProp = NativeStackNavigationProp<
   CustomerStackParamList,
-  "Customer Registration Address"
+  "Customer Home"
 >;
+export type HomeRouteProp = RouteProp<CustomerStackParamList, "Customer Home">;
 
-export type CustomerRegistrationPasswordNavigationProp = NativeStackNavigationProp<
-  CustomerStackParamList,
-  "Customer Registration Password"
->;
-
-export interface CustomerRegistrationDataProps {
-  navigation: CustomerRegistrationDataNavigationProp;
+export interface HomeProps {
+  navigation: HomeNavigationProp;
+  route: HomeRouteProp;
 }
 
-export interface CustomerRegistrationAddressProps {
-  navigation: CustomerRegistrationAddressNavigationProp;
-}
-
-export interface CustomerRegistrationPasswordProps {
-  navigation: CustomerRegistrationPasswordNavigationProp;
+export type CustomerDateNavigationProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Customer Date"
+>;
+export type CustomerDateRouteProp = RouteProp<
+  CustomerStackParamList,
+  "Customer Date"
+>;
+export interface CustomerDateProps {
+  navigation: CustomerDateNavigationProp;
+  route: CustomerDateRouteProp;
 }

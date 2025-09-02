@@ -6,36 +6,40 @@ import { Logo } from "../../components/display/Logo";
 import { DateTimeInput } from "../../components/inputs/DateTimeInput";
 import { Button } from "../../components/buttons/Button";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
+import { CustomerDateProps } from "@/src/types/CustomerStackType";
 
-export default function CustomerDate({ navigation, route }) {
+export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route }) => {
+  const { name } = route.params;
+
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
-  const { name } = route.params;
+  const [date, setDate] = useState<Date | null>(null);
+  const [time, setTime] = useState<Date | null>(null);
 
   const showDatePicker = () => setDatePickerVisibility(true);
   const hideDatePicker = () => setDatePickerVisibility(false);
   const showTimePicker = () => setTimePickerVisibility(true);
   const hideTimePicker = () => setTimePickerVisibility(false);
 
-  const handleConfirmDate = (date) => {
-    setDate(date);
+  const handleConfirmDate = (selectedDate: Date) => {
+    setDate(selectedDate);
     hideDatePicker();
   };
 
-  const handleConfirmTime = (time) => {
-    setTime(time);
+  const handleConfirmTime = (selectedTime: Date) => {
+    setTime(selectedTime);
     hideTimePicker();
   };
 
   const next = () => {
+    if (!date || !time) return;
+
     console.log("Selecionado:", {
       data: date.toLocaleDateString(),
       hora: time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     });
 
-    navigation.navigate("Professionals Available", { name: name });
+    navigation.navigate("Professionals Available", { name });
   };
 
   return (
@@ -55,7 +59,6 @@ export default function CustomerDate({ navigation, route }) {
               value={date ? date.toLocaleDateString() : ""}
               placeholder="dd/mm/aaaa"
               onPressIn={showDatePicker}
-              editable={false}
             />
 
             <DateTimeInput
@@ -77,7 +80,6 @@ export default function CustomerDate({ navigation, route }) {
               mode="date"
               onConfirm={handleConfirmDate}
               onCancel={hideDatePicker}
-              headerTextIOS="Escolha uma Data"
             />
 
             <DateTimePickerModal
@@ -85,7 +87,6 @@ export default function CustomerDate({ navigation, route }) {
               mode="time"
               onConfirm={handleConfirmTime}
               onCancel={hideTimePicker}
-              headerTextIOS="Escolha um Horário"
             />
 
             <Button buttonText="Enviar" onPress={next} />
@@ -93,7 +94,7 @@ export default function CustomerDate({ navigation, route }) {
         </View>
       </View>
 
-      <CustomerNavigationBar navigation={navigation} />
+      <CustomerNavigationBar />
     </View>
   );
 }

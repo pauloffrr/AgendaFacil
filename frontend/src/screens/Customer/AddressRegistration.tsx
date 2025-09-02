@@ -7,9 +7,11 @@ import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { BackButton } from "../../components/buttons/BackButton";
 import { AddressInput } from "../../components/inputs/AddressInput";
-import { CustomerRegistrationAddressProps } from "@/src/types/CustomerStackType";
+import { CustomerRegistrationAddressProps } from "@/src/types/CustomerRegistrationStackType";
 
-export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressProps> = ({ navigation }) => {
+export const CustomerRegistrationAddress: React.FC<
+  CustomerRegistrationAddressProps
+> = ({ navigation }) => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [rua, setRua] = useState("");
@@ -72,7 +74,7 @@ export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressPr
       </View>
     </KeyboardAwareScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

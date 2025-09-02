@@ -32,7 +32,7 @@ import { CustomerNavigationBar } from "../../components/display/CustomerNavigati
 import { Category } from "@/src/types/CategoryType";
 import { Profession } from "../../types/ProfessionType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { HomeProps } from "@/src/types/HomeTypes";
+import { HomeProps } from "@/src/types/CustomerStackType";
 
 const iconMap: Record<string, any> = {
   faHelmetSafety,
@@ -121,7 +121,7 @@ export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
         }}
       />
 
-      <CustomerNavigationBar navigation={navigation}/>
+      <CustomerNavigationBar />
     </View>
   );
 }

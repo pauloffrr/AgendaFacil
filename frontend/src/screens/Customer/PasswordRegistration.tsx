@@ -7,9 +7,11 @@ import { Input } from "../../components/inputs/Input";
 import { PasswordInput } from "../../components/inputs/PasswordInput";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
-import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerStackType";
+import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerRegistrationStackType";
 
-export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPasswordProps> = ({ navigation }) => {
+export const CustomerRegistrationPassword: React.FC<
+  CustomerRegistrationPasswordProps
+> = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
@@ -51,7 +53,7 @@ export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPassword
       </View>
     </KeyboardAwareScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

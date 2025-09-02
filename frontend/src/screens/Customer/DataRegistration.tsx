@@ -8,9 +8,11 @@ import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { MaskInput } from "../../components/inputs/MaskInput";
 import { BackButton } from "../../components/buttons/BackButton";
-import { CustomerRegistrationDataProps } from "@/src/types/CustomerStackType";
+import { CustomerRegistrationDataProps } from "@/src/types/CustomerRegistrationStackType";
 
-export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> = ({ navigation }) => {
+export const CustomerRegistrationData: React.FC<
+  CustomerRegistrationDataProps
+> = ({ navigation }) => {
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cpf, setCpf] = useState("");
@@ -62,7 +64,7 @@ export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> =
       <Progress.Bar style={styles.progressBar} progress={0.33} width={305} />
     </KeyboardAwareScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
