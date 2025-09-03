@@ -1,8 +1,10 @@
 import React from "react";
 import { AppNavigation } from "./src/navigation/AppNavigation";
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <AppNavigation />
   );
 }
+
+export default Home

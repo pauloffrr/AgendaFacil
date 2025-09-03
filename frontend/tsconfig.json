@@ -12,5 +12,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "src/components/buttons/BackButton.tsx"
-  ]
+, "App.tsx"  ]
 }
