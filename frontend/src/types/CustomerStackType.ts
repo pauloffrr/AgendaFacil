@@ -12,7 +12,7 @@ export type CustomerStackParamList = {
   "Favorites": undefined;
   "Customer Date": { id: number; name: string };
   "Professionals Available": { id: number; name: string };
-  "Professional Profile": { id: number };
+  "Professional Profile": { id: number; name: string };
 };
 
 //Login

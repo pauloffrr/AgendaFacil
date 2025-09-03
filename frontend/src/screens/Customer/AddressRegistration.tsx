@@ -9,9 +9,7 @@ import { BackButton } from "../../components/buttons/BackButton";
 import { AddressInput } from "../../components/inputs/AddressInput";
 import { CustomerRegistrationAddressProps } from "@/src/types/CustomerStackType";
 
-export const CustomerRegistrationAddress: React.FC<
-  CustomerRegistrationAddressProps
-> = ({ navigation }) => {
+export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressProps> = ({ navigation }) => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [rua, setRua] = useState("");

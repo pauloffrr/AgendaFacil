@@ -9,9 +9,7 @@ import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerStackType";
 
-export const CustomerRegistrationPassword: React.FC<
-  CustomerRegistrationPasswordProps
-> = ({ navigation }) => {
+export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPasswordProps> = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 

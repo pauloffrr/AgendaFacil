@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { Logo } from "../../components/display/Logo";
 import { UserIcon } from "../../components/buttons/UserIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -25,7 +19,6 @@ import {
   faChevronRight,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { CategoryMock } from "../../data/CategoriesMock";
 import { ProfessionMock } from "../../data/ProfessionMock";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";

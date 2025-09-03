@@ -16,6 +16,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
   const { id } = route.params;
+  const { name } = route.params;
   const [iconStarColor, setIconStarColor] = useState("#CCC");
 
   const toggleStarColor = () => {
@@ -33,7 +34,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
       <ScrollView style={styles.container}>
         <BackButton
           onPress={() =>
-            navigation.navigate("Professionals Available", { id: id })
+            navigation.navigate("Professionals Available", { id, name })
           }
         />
 
