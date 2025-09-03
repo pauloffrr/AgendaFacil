@@ -55,6 +55,10 @@ export interface CustomerRegistrationPasswordProps {
   navigation: CustomerRegistrationPasswordNavigationProp;
 }
 
+//Navigation Bar
+export type CustomerNavigationProp =
+  NativeStackNavigationProp<CustomerStackParamList>;
+
 //Customer Home
 export type HomeNavigationProp = NativeStackNavigationProp<
   CustomerStackParamList,
