@@ -7,7 +7,7 @@ import { Input } from "../../components/inputs/Input";
 import { PasswordInput } from "../../components/inputs/PasswordInput";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
-import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerRegistrationStackType";
+import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerStackType";
 
 export const CustomerRegistrationPassword: React.FC<
   CustomerRegistrationPasswordProps

@@ -7,7 +7,7 @@ import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { BackButton } from "../../components/buttons/BackButton";
 import { AddressInput } from "../../components/inputs/AddressInput";
-import { CustomerRegistrationAddressProps } from "@/src/types/CustomerRegistrationStackType";
+import { CustomerRegistrationAddressProps } from "@/src/types/CustomerStackType";
 
 export const CustomerRegistrationAddress: React.FC<
   CustomerRegistrationAddressProps

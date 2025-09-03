@@ -2,6 +2,10 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 
 export type CustomerStackParamList = {
+  "Customer Registration Data": undefined;
+  "Customer Registration Address": undefined;
+  "Customer Registration Password": undefined;
+  Login: undefined;
   "Customer Home": undefined;
   "Customer Notifications": undefined;
   "Scheduling": undefined;
@@ -11,10 +15,37 @@ export type CustomerStackParamList = {
   "Professional Profile": { id: number };
 };
 
-//Customer Home
-export type CustomerNavigationProp =
-  NativeStackNavigationProp<CustomerStackParamList>;
+//Customer Registration Data
+export type CustomerRegistrationDataNavigationProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Customer Registration Data"
+>;
 
+export interface CustomerRegistrationDataProps {
+  navigation: CustomerRegistrationDataNavigationProp;
+}
+
+//Customer Registration Address
+export type CustomerRegistrationAddressNavigationProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Customer Registration Address"
+>;
+
+export interface CustomerRegistrationAddressProps {
+  navigation: CustomerRegistrationAddressNavigationProp;
+}
+
+//Customer Registration Password
+export type CustomerRegistrationPasswordNavigationProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Customer Registration Password"
+>;
+
+export interface CustomerRegistrationPasswordProps {
+  navigation: CustomerRegistrationPasswordNavigationProp;
+}
+
+//Customer Home
 export type HomeNavigationProp = NativeStackNavigationProp<
   CustomerStackParamList,
   "Customer Home"
