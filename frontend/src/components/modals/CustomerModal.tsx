@@ -4,12 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { TextBox } from "../inputs/TextBox";
-
-interface CustomerModalProps {
-  visible: boolean;
-  onClose: () => void;
-  onSubmit?: (description: string, rating: number) => void;
-}
+import { CustomerModalProps } from "@/src/types/CustomerModalType";
 
 export const CustomerModal: React.FC<CustomerModalProps> = ({ visible, onClose, onSubmit }) => {
   const [description, setDescription] = useState("");
