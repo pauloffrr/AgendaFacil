@@ -4,8 +4,8 @@ import { NotificationsCustomerMock } from "../../data/NotificationCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { CustomerModal } from "../modals/CustomerModal";
-import { Notification } from "../../types/NotificationType";
+import { CustomerModal } from "@/src/components/modals/CustomerModal";
+import { Notification } from "@/src/types/NotificationType";
 import { colors } from "@/src/styles/theme";
 
 export const NotificationCustomer: React.FC = () => {
@@ -152,5 +152,5 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "bold",
     fontSize: 16,
-  },
+  }
 });

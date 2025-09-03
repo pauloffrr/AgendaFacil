@@ -73,7 +73,7 @@ export type HomeRouteProp = RouteProp<CustomerStackParamList, "Customer Home">;
 export interface HomeProps {
   navigation: HomeNavigationProp;
   route: HomeRouteProp;
-}
+};
 
 //Customer Date
 export type CustomerDateNavigationProp = NativeStackNavigationProp<
@@ -87,7 +87,7 @@ export type CustomerDateRouteProp = RouteProp<
 export interface CustomerDateProps {
   navigation: CustomerDateNavigationProp;
   route: CustomerDateRouteProp;
-}
+};
 
 // Professionals Available
 export type ProfessionalsAvailableNavigationProp = NativeStackNavigationProp<
@@ -103,7 +103,7 @@ export type ProfessionalsAvailableRouteProp = RouteProp<
 export interface ProfessionalsAvailableProps {
   navigation: ProfessionalsAvailableNavigationProp;
   route: ProfessionalsAvailableRouteProp;
-}
+};
 
 // Professional Profile
 export type ProfessionalProfileNavigationProp = NativeStackNavigationProp<
@@ -119,4 +119,4 @@ export type ProfessionalProfileRouteProp = RouteProp<
 export interface ProfessionalProfileProps {
   navigation: ProfessionalProfileNavigationProp;
   route: ProfessionalProfileRouteProp;
-}
+};

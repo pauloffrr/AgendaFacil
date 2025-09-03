@@ -25,8 +25,8 @@ export const MaskInput: React.FC<MaskInputProps> = ({
         keyboardType={keyboardType}
       />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

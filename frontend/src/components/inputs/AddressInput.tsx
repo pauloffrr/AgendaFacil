@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { getStates, getCitiesByState } from "../../services/IbgeServices";
-import { State, City } from "../../types/AddressType";
+import { getStates, getCitiesByState } from "@/src/services/IbgeServices";
+import { State, City } from "@/src/types/AddressType";
 import { AddressInputProps } from "@/src/types/AddressInputType";
 import { colors } from "@/src/styles/theme";
 
@@ -128,5 +128,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.disable_input_background,
     borderColor: colors.disable_input_border,
     opacity: 0.6,
-  },
+  }
 });

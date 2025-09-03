@@ -35,8 +35,8 @@ export const PasswordInput: React.FC<InputProps> = ({
                 </TouchableOpacity>
             </View>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     label: {
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     eyeIcon: {
         paddingHorizontal: 10,
     }
-})
+});

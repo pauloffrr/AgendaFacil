@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Logo } from "../../components/display/Logo";
-import { Input } from "../../components/inputs/Input";
-import { Button } from "../../components/buttons/Button";
+import { BackButton } from "@/src/components/buttons/BackButton";
+import { Logo } from "@/src/components/display/Logo";
+import { AddressInput } from "@/src/components/inputs/AddressInput";
+import { Input } from "@/src/components/inputs/Input";
+import { Button } from "@/src/components/buttons/Button";
 import * as Progress from "react-native-progress";
-import { BackButton } from "../../components/buttons/BackButton";
-import { AddressInput } from "../../components/inputs/AddressInput";
 import { CompanyRegistrationAddressProps } from "@/src/types/CompanyStackType";
 import { colors } from "@/src/styles/theme";
 
@@ -73,7 +73,7 @@ export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProp
       </View>
     </KeyboardAwareScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -92,5 +92,5 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     marginTop: 15,
-  },
+  }
 });

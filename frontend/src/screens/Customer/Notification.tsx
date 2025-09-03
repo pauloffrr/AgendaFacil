@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
-import { Logo } from "../../components/display/Logo";
-import { UserIcon } from "../../components/buttons/UserIcon";
-import { NotificationCustomer } from "../../components/display/NotificationCustomer";
+import { Logo } from "@/src/components/display/Logo";
+import { UserIcon } from "@/src/components/buttons/UserIcon";
+import { NotificationCustomer } from "@/src/components/display/NotificationCustomer";
+import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { colors } from "@/src/styles/theme";
 
 export const Notification: React.FC = () => {
@@ -28,7 +28,7 @@ export const Notification: React.FC = () => {
       <CustomerNavigationBar />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -56,5 +56,5 @@ const styles = StyleSheet.create({
   separator: {
     borderWidth: 1,
     borderColor: colors.light_gray,
-  },
+  }
 });

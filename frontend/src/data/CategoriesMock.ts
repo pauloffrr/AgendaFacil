@@ -61,4 +61,4 @@ export const CategoryMock: Category[] = [
         name: "Outros Serviços", 
         icon: "faEllipsis" 
     }
-]
+];

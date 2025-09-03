@@ -4,4 +4,4 @@ export interface ReviewsCustomer {
   rating: number;
   comment: string;
   date: string;
-}
+};

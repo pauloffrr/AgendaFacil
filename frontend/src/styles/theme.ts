@@ -12,4 +12,4 @@ export const colors = {
     disable_input_background: "#e6e6e6",
     disable_input_border: "#d0d0d0",
     black: "#000"
-}
+};

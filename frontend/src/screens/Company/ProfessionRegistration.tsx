@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { BackButton } from "../../components/buttons/BackButton";
-import { Logo } from "../../components/display/Logo";
+import { BackButton } from "@/src/components/buttons/BackButton";
+import { Logo } from "@/src/components/display/Logo";
 import { Picker } from "@react-native-picker/picker";
-import { CategoryMock } from "../../data/CategoriesMock";
-import { ProfessionMock } from "../../data/ProfessionMock";
-import { Button } from "../../components/buttons/Button";
+import { Button } from "@/src/components/buttons/Button";
 import * as Progress from "react-native-progress";
+import { CategoryMock } from "@/src/data/CategoriesMock";
+import { ProfessionMock } from "@/src/data/ProfessionMock";
 import { CompanyRegistrationProfessionProps } from "@/src/types/CompanyStackType";
 import { Category } from "@/src/types/CategoryType";
 import { Profession } from "@/src/types/ProfessionType";
@@ -93,7 +93,7 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
       <Progress.Bar style={styles.progressBar} progress={0.75} width={305} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -139,5 +139,5 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     marginTop: 50,
-  },
+  }
 });

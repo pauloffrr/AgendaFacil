@@ -100,4 +100,4 @@ export function AppNavigation() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};

@@ -41,4 +41,4 @@ export const NotificationsCustomerMock: Notification[] = [
         professionId: 19,
         professionName: "Diarista"
     }
-]
+];

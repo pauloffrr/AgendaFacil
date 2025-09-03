@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { Logo } from "../../components/display/Logo";
-import { UserIcon } from "../../components/buttons/UserIcon";
+import { Logo } from "@/src/components/display/Logo";
+import { UserIcon } from "@/src/components/buttons/UserIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faHelmetSafety,
@@ -19,11 +19,11 @@ import {
   faChevronRight,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
-import { CategoryMock } from "../../data/CategoriesMock";
-import { ProfessionMock } from "../../data/ProfessionMock";
-import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
+import { CategoryMock } from "@/src/data/CategoriesMock";
+import { ProfessionMock } from "@/src/data/ProfessionMock";
+import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { Category } from "@/src/types/CategoryType";
-import { Profession } from "../../types/ProfessionType";
+import { Profession } from "@/src/types/ProfessionType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { HomeProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
@@ -118,7 +118,7 @@ export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
       <CustomerNavigationBar />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -180,5 +180,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.gray,
     marginVertical: 3,
-  },
+  }
 });

@@ -5,8 +5,8 @@ import { RootStackParamList, NavigationProps } from "@/src/types/SelectAccountTy
 import { colors } from "@/src/styles/theme";
 
 type SelectAccountRouteProp = RouteProp<
-  RootStackParamList,
-  "Customer Registration Data" | "Company Registration Data"
+    RootStackParamList,
+    "Customer Registration Data" | "Company Registration Data"
 >;
 
 export const SelectAccount: React.FC = () => {
@@ -35,7 +35,7 @@ export const SelectAccount: React.FC = () => {
             </TouchableOpacity>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
     }
-})
+});

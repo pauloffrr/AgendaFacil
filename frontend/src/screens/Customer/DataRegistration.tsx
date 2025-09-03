@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { SelectAccount } from "../../components/buttons/SelectAccount";
-import { Logo } from "../../components/display/Logo";
-import { Input } from "../../components/inputs/Input";
-import { Button } from "../../components/buttons/Button";
+import { BackButton } from "@/src/components/buttons/BackButton";
+import { Logo } from "@/src/components/display/Logo";
+import { SelectAccount } from "@/src/components/buttons/SelectAccount";
+import { Input } from "@/src/components/inputs/Input";
+import { MaskInput } from "@/src/components/inputs/MaskInput";
+import { Button } from "@/src/components/buttons/Button";
 import * as Progress from "react-native-progress";
-import { MaskInput } from "../../components/inputs/MaskInput";
-import { BackButton } from "../../components/buttons/BackButton";
 import { CustomerRegistrationDataProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
@@ -79,5 +79,5 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     marginTop: 30,
-  },
+  }
 });

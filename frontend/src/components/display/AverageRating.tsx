@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import * as Progress from "react-native-progress";
-import { CalculateReviews } from "../../types/CalculateReviewsType";
-import { calculateAverage, countRatings } from "../../utils/CalculateReviewsAverage";
+import { CalculateReviews } from "@/src/types/CalculateReviewsType";
+import { calculateAverage, countRatings } from "@/src/utils/CalculateReviewsAverage";
 import { colors } from "@/src/styles/theme";
 
 interface AverageRatingProps {
   reviews: CalculateReviews[];
-}
+};
 
 export const AverageRating: React.FC<AverageRatingProps> = ({ reviews }) => {
   const totalReviews = reviews.length;
@@ -121,5 +121,5 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     width: 100,
-  },
+  }
 });

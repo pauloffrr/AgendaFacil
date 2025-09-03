@@ -11,8 +11,8 @@ export const UserIcon: React.FC<ButtonProps> = ({ onPress }) => {
         <TouchableOpacity onPress={onPress}>
             <FontAwesomeIcon icon={faCircleUser as IconProp} style={styles.icon} size={28} />
         </TouchableOpacity>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     icon: {
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 10,
     }
-})
+});

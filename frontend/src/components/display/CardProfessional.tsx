@@ -7,7 +7,6 @@ import { CardProfessionalProps } from "@/src/types/CardProfessionalType";
 import { colors } from "@/src/styles/theme";
 
 export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional, onPress }) => {
-
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} key={professional.id} >
       <Image style={styles.img} source={professional.img} />
@@ -86,5 +85,5 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 12,
     color: colors.blue,
-  },
+  }
 });

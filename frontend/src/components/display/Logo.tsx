@@ -14,8 +14,8 @@ export const Logo: React.FC = () => {
                 /> AgendaFácil
             </Text>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     title: {
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 20
     }
-})
+});

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Input } from "../components/inputs/Input";
-import { Logo } from "../components/display/Logo";
-import { Button } from "../components/buttons/Button";
-import { PasswordInput } from "../components/inputs/PasswordInput";
+import { Logo } from "@/src/components/display/Logo";
+import { Input } from "@/src/components/inputs/Input";
+import { PasswordInput } from "@/src/components/inputs/PasswordInput";
+import { Button } from "@/src/components/buttons/Button";
 import { LoginProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
@@ -51,7 +51,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
       </View>
     </KeyboardAwareScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -75,5 +75,5 @@ const styles = StyleSheet.create({
   link: {
     color: colors.blue,
     fontWeight: "bold",
-  },
+  }
 });

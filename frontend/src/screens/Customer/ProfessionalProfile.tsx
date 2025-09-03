@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
-import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
-import { BackButton } from "../../components/buttons/BackButton";
-import { Logo } from "../../components/display/Logo";
-import { UserIcon } from "../../components/buttons/UserIcon";
-import { ProfessionalMock } from "../../data/ProfessionalsMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import { CustomerReviews } from "../../components/display/CustomerReviews";
-import { AverageRating } from "../../components/display/AverageRating";
-import { ReviewsCustomerMock } from "../../data/ReviewsCustomerMock";
-import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { BackButton } from "@/src/components/buttons/BackButton";
+import { Logo } from "@/src/components/display/Logo";
+import { UserIcon } from "@/src/components/buttons/UserIcon";
+import { CustomerReviews } from "@/src/components/display/CustomerReviews";
+import { AverageRating } from "@/src/components/display/AverageRating";
+import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
+import { ProfessionalMock } from "@/src/data/ProfessionalsMock";
+import { ReviewsCustomerMock } from "@/src/data/ReviewsCustomerMock";
+import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
@@ -26,7 +26,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
         <Text>Profissional não encontrado.</Text>
       </View>
     );
-  }
+  };
 
   const toggleStarColor = () => {
     setIconStarColor((prevColor) =>
@@ -105,7 +105,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
       <CustomerNavigationBar />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -186,5 +186,5 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
     fontWeight: "700",
-  },
+  }
 });

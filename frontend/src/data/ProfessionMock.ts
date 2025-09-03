@@ -131,4 +131,4 @@ export const ProfessionMock: Profession[] = [
     { id: 105, name: "Ajudante de obra", categoryId: 12 },
     { id: 106, name: "Apoio para eventos e feiras", categoryId: 12 },
     { id: 107, name: "Serviços espirituais", categoryId: 12 }
-]
+];

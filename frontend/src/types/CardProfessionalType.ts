@@ -7,4 +7,4 @@ export type CardProfessionalNavigationProp = NativeStackNavigationProp<CustomerS
 export interface CardProfessionalProps {
   professional: Professional;
   onPress: () => void;
-}
+};

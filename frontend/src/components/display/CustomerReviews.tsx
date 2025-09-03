@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { ReviewsCustomerMock } from "../../data/ReviewsCustomerMock";
+import { ReviewsCustomerMock } from "@/src/data/ReviewsCustomerMock";
 import { ReviewsCustomer } from "@/src/types/ReviewsCustomerType";
 import { colors } from "@/src/styles/theme";
 
@@ -122,5 +122,5 @@ const styles = StyleSheet.create({
   textDate: {
     fontSize: 12,
     color: colors.gray,
-  },
+  }
 });

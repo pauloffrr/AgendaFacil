@@ -16,7 +16,7 @@ export type CompanyRegistrationDataNavigationProp = NativeStackNavigationProp<
 
 export interface CompanyRegistrationDataProps {
   navigation: CompanyRegistrationDataNavigationProp;
-}
+};
 
 //Company Registration Address
 export type CompanyRegistrationAddressNavigationProp = NativeStackNavigationProp<
@@ -26,7 +26,7 @@ export type CompanyRegistrationAddressNavigationProp = NativeStackNavigationProp
 
 export interface CompanyRegistrationAddressProps {
   navigation: CompanyRegistrationAddressNavigationProp;
-}
+};
 
 //Company Registration Profession
 export type CompanyRegistrationProfessionNavigationProp = NativeStackNavigationProp<
@@ -36,7 +36,7 @@ export type CompanyRegistrationProfessionNavigationProp = NativeStackNavigationP
 
 export interface CompanyRegistrationProfessionProps {
   navigation: CompanyRegistrationProfessionNavigationProp;
-}
+};
 
 //Company Registration Password
 export type CompanyRegistrationPasswordNavigationProp = NativeStackNavigationProp<
@@ -46,4 +46,4 @@ export type CompanyRegistrationPasswordNavigationProp = NativeStackNavigationPro
 
 export interface CompanyRegistrationPasswordProps {
   navigation: CompanyRegistrationPasswordNavigationProp;
-}
+};

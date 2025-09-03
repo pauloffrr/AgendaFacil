@@ -22,8 +22,8 @@ export const Input: React.FC<InputProps> = ({
         keyboardType={keyboardType}
       />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

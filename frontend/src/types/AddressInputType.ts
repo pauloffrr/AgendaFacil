@@ -3,4 +3,4 @@ export interface AddressInputProps {
     setSelectedState: (stateId: string) => void;
     selectedCity: string;
     setSelectedCity: (cityName: string) => void;
-}
+};

@@ -12,4 +12,4 @@ export interface Professional {
   cidade: string;
   rua: string;
   numero: number;
-}
+};

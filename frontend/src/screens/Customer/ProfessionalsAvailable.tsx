@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { BackButton } from "../../components/buttons/BackButton";
-import { Logo } from "../../components/display/Logo";
-import { UserIcon } from "../../components/buttons/UserIcon";
-import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
-import { CardProfessional } from "../../components/display/CardProfessional";
-import { ProfessionalMock } from "../../data/ProfessionalsMock";
+import { BackButton } from "@/src/components/buttons/BackButton";
+import { Logo } from "@/src/components/display/Logo";
+import { UserIcon } from "@/src/components/buttons/UserIcon";
+import { CardProfessional } from "@/src/components/display/CardProfessional";
+import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
+import { ProfessionalMock } from "@/src/data/ProfessionalsMock";
 import { ProfessionalsAvailableProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
@@ -65,7 +65,7 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
       <CustomerNavigationBar />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -113,5 +113,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.gray,
     textAlign: "center",
-  },
+  }
 });

@@ -12,4 +12,4 @@ export interface Notification {
   date: string;
   professionId: number;
   professionName: string;
-}
+};

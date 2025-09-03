@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { TextBox } from "../inputs/TextBox";
+import { TextBox } from "@/src/components/inputs/TextBox";
 import { CustomerModalProps } from "@/src/types/CustomerModalType";
 import { colors } from "@/src/styles/theme";
 
@@ -100,5 +100,5 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "bold",
     fontSize: 16,
-  },
+  }
 });
