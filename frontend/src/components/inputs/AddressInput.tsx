@@ -3,15 +3,9 @@ import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { getStates, getCitiesByState } from "../../services/IbgeServices";
 import { State, City } from "../../types/AddressType";
+import { InputProps } from "@/src/types/InputType";
 
-interface AddressInputProps {
-  selectedState: string;
-  setSelectedState: (stateId: string) => void;
-  selectedCity: string;
-  setSelectedCity: (cityName: string) => void;
-}
-
-export const AddressInput: React.FC<AddressInputProps> = ({
+export const AddressInput: React.FC<InputProps> = ({
   selectedState,
   setSelectedState,
   selectedCity,

@@ -1,17 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, KeyboardTypeOptions } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { MaskedTextInput } from "react-native-mask-text";
+import { InputProps } from "@/src/types/InputType";
 
-interface MaskInputProps {
-  label?: string;
-  mask?: string;
-  placeholder?: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  keyboardType?: KeyboardTypeOptions;
-}
-
-export const MaskInput: React.FC<MaskInputProps> = ({
+export const MaskInput: React.FC<InputProps> = ({
   label,
   mask,
   placeholder,

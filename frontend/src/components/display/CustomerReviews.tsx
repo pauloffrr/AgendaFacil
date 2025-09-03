@@ -3,17 +3,10 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { ReviewsCustomerMock } from "../../data/ReviewsCustomerMock";
-
-interface Review {
-  id: number;
-  name: string;
-  rating: number;
-  comment: string;
-  date: string;
-}
+import { ReviewsCustomer } from "@/src/types/ReviewsCustomerType";
 
 export const CustomerReviews: React.FC = () => {
-  const recentReviews: Review[] = [...ReviewsCustomerMock]
+  const recentReviews: ReviewsCustomer[] = [...ReviewsCustomerMock]
     .sort((a, b) => {
       const dateA = new Date(a.date.split("/").reverse().join("-")).getTime();
       const dateB = new Date(b.date.split("/").reverse().join("-")).getTime();
