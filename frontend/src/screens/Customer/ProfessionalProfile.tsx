@@ -15,9 +15,17 @@ import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
-  const { id } = route.params;
-  const { name } = route.params;
+  const { professionalId, professionId, professionName } = route.params;
   const [iconStarColor, setIconStarColor] = useState("#CCC");
+  const professional = ProfessionalMock.find(p => p.id === professionalId);
+
+  if (!professional) {
+    return (
+      <View style={styles.screen}>
+        <Text>Profissional não encontrado.</Text>
+      </View>
+    );
+  }
 
   const toggleStarColor = () => {
     setIconStarColor((prevColor) =>
@@ -34,7 +42,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
       <ScrollView style={styles.container}>
         <BackButton
           onPress={() =>
-            navigation.navigate("Professionals Available", { id, name })
+            navigation.navigate("Professionals Available", { id: professionId, name: professionName })
           }
         />
 
@@ -42,59 +50,55 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
           <Logo />
           <UserIcon onPress={handleProfile}/>
         </View>
+        
+        <View key={professional.id}>
+          <Image source={professional.img} style={styles.img} />
+          <Text style={styles.name}>{professional.name}</Text>
+          <Text style={styles.cnpj}>{professional.cnpj}</Text>
 
-        {ProfessionalMock
-          .filter((professional) => professional.id === id)
-          .map((filteredProfessional) => (
-            <View key={filteredProfessional.id}>
-              <Image source={filteredProfessional.img} style={styles.img} />
-              <Text style={styles.name}>{filteredProfessional.name}</Text>
-              <Text style={styles.cnpj}>{filteredProfessional.cnpj}</Text>
-
-              <View style={styles.address}>
-                <FontAwesomeIcon
-                  icon={faLocationDot as IconProp}
-                  size={33}
-                  style={styles.icon}
-                />
-                <View>
-                  <Text style={styles.textAddress}>
-                    {filteredProfessional.cidade} -{" "}
-                    {filteredProfessional.estado}
-                  </Text>
-                  <Text style={styles.textAddress}>
-                    {filteredProfessional.rua}, N° {filteredProfessional.numero}
-                  </Text>
-                </View>
-              </View>
-
-              <Text style={styles.rayKm}>
-                • Atende em até {filteredProfessional.raioKm}km
+          <View style={styles.address}>
+            <FontAwesomeIcon
+              icon={faLocationDot as IconProp}
+              size={33}
+              style={styles.icon}
+            />
+            <View>
+              <Text style={styles.textAddress}>
+                {professional.cidade} -{" "}
+                {professional.estado}
               </Text>
-              <View style={styles.favorites}>
-                <TouchableOpacity onPress={toggleStarColor}>
-                  <FontAwesomeIcon
-                    icon={faStar as IconProp}
-                    size={28}
-                    color={iconStarColor}
-                  />
-                </TouchableOpacity>
-                <Text>Adicionar aos Favoritos</Text>
-              </View>
-
-              <TouchableOpacity style={styles.buttonWpp}>
-                <FontAwesomeIcon
-                  icon={faWhatsapp as IconProp}
-                  size={38}
-                  style={styles.iconWpp}
-                />
-                <Text style={styles.textWpp}>Entre em Contato</Text>
-              </TouchableOpacity>
-
-              <CustomerReviews />
-              <AverageRating reviews={ReviewsCustomerMock} />
+              <Text style={styles.textAddress}>
+                {professional.rua}, N° {professional.numero}
+              </Text>
             </View>
-          ))}
+          </View>
+
+          <Text style={styles.rayKm}>
+            • Atende em até {professional.raioKm}km
+          </Text>
+          <View style={styles.favorites}>
+            <TouchableOpacity onPress={toggleStarColor}>
+              <FontAwesomeIcon
+                icon={faStar as IconProp}
+                size={28}
+                color={iconStarColor}
+              />
+            </TouchableOpacity>
+            <Text>Adicionar aos Favoritos</Text>
+          </View>
+
+          <TouchableOpacity style={styles.buttonWpp}>
+            <FontAwesomeIcon
+              icon={faWhatsapp as IconProp}
+              size={38}
+              style={styles.iconWpp}
+            />
+            <Text style={styles.textWpp}>Entre em Contato</Text>
+          </TouchableOpacity>
+
+          <CustomerReviews />
+          <AverageRating reviews={ReviewsCustomerMock} />
+        </View>
       </ScrollView>
 
       <CustomerNavigationBar />

@@ -16,6 +16,10 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
     console.log("Perfil");
   };
 
+  const filteredProfessionals = ProfessionalMock.filter(
+    (prof) => prof.professionId === id
+  );
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
@@ -28,17 +32,30 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
           <UserIcon onPress={handleProfile}/>
         </View>
 
-        {ProfessionalMock.length > 0 ? (
+        {filteredProfessionals.length > 0 ? (
           <>
             <Text style={styles.title}>
               {name}(s) disponíveis na data desejada
             </Text>
-            <CardProfessional navigation={navigation} />
+
+            {filteredProfessionals.map((prof) => (
+              <CardProfessional
+                key={prof.id}
+                professional={prof}
+                onPress={() =>
+                  navigation.navigate("Professional Profile", {
+                    professionalId: prof.id,
+                    professionId: id,
+                    professionName: name,
+                  })
+                }
+              />
+            ))}
           </>
         ) : (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
-              Nenhum profissional disponível para está data ou horário.
+              Nenhum profissional cadastrado para a profissão {name} na sua região.
             </Text>
           </View>
         )}

@@ -1,14 +1,11 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, GestureResponderEvent } from "react-native"
+import { TouchableOpacity, StyleSheet } from "react-native"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { ButtonProps } from "@/src/types/ButtonType";
 
-interface UserIconProps {
-  onPress: (event: GestureResponderEvent) => void;
-}
-
-export const UserIcon: React.FC<UserIconProps> = ({ onPress }) => {
+export const UserIcon: React.FC<ButtonProps> = ({ onPress }) => {
     return (
         <TouchableOpacity onPress={onPress}>
             <FontAwesomeIcon icon={faCircleUser as IconProp} style={styles.icon} size={28} />

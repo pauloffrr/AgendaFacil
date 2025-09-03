@@ -38,6 +38,8 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
     console.log("Selecionado:", {
       data: date.toLocaleDateString(),
       hora: time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      id: id,
+      name: name
     });
 
     navigation.navigate("Professionals Available", { id, name });

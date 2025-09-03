@@ -1,36 +1,18 @@
 import React from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  FlatList,
-  ListRenderItem,
-} from "react-native";
+import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { ProfessionalMock } from "../../data/ProfessionalsMock";
-import { Professional } from "@/src/types/ProfessionalType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { CardProfessionalProps } from "@/src/types/CardProfessionalType";
 
-interface CardProfessionalProps {
-  navigation: NativeStackNavigationProp<any, any>;
-}
+export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional, onPress }) => {
 
-export const CardProfessional: React.FC<CardProfessionalProps> = ({ navigation }) => {
-  const renderItem: ListRenderItem<Professional> = ({ item }) => (
-    <TouchableOpacity
-      style={styles.card}
-      onPress={() =>
-        navigation.navigate("Professional Profile", { id: item.id })
-      }
-    >
-      <Image style={styles.img} source={item.img} />
+  return (
+    <TouchableOpacity style={styles.card} onPress={onPress} key={professional.id} >
+      <Image style={styles.img} source={professional.img} />
 
       <View style={styles.info}>
-        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.name}>{professional.name}</Text>
         <View style={styles.desc}>
           <View style={styles.spacing}>
             <FontAwesomeIcon
@@ -38,26 +20,18 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ navigation }
               size={13}
               style={styles.icon}
             />
-            <Text style={styles.assessment}>{item.mediaAvaliacao}</Text>
+            <Text style={styles.assessment}>{professional.mediaAvaliacao}</Text>
           </View>
 
           <View style={styles.spacing}>
             <Text style={styles.priceText}>Preço médio</Text>
             <Text style={styles.averagePrice}>
-              R$ {item.precoMedio.toFixed(2)}
+              R$ {professional.precoMedio.toFixed(2)}
             </Text>
           </View>
         </View>
       </View>
     </TouchableOpacity>
-  );
-
-  return (
-    <FlatList
-      data={ProfessionalMock}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-    />
   );
 };
 
