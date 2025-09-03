@@ -8,8 +8,9 @@ import { Input } from "../../components/inputs/Input";
 import { MaskInput } from "../../components/inputs/MaskInput";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
+import { CompanyRegistrationDataProps } from "@/src/types/CompanyStackType";
 
-export default function CompanyRegistrationData({ navigation }) {
+export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = ({ navigation }) => {
   const [nomeFantasia, setNomeFantasia] = useState("");
   const [razaoSocial, setRazaoSocial] = useState("");
   const [cnpj, setCnpj] = useState("");
@@ -17,7 +18,6 @@ export default function CompanyRegistrationData({ navigation }) {
 
   const next = () => {
     console.log("Criar Conta:", { nomeFantasia, razaoSocial, cnpj });
-    // API ou navegação
     navigation.navigate("Company Registration Address");
   };
 
@@ -53,7 +53,7 @@ export default function CompanyRegistrationData({ navigation }) {
         label="CNPJ"
         mask="99.999.999/9999-99"
         value={cnpj}
-        onChangeText={(text, rawText) => setCnpj(rawText)}
+        onChangeText={(text) => setCnpj(text)}
         keyboardType="numeric"
         placeholder="00.000.000/0000-00"
       />

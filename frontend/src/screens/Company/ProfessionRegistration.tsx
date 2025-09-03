@@ -7,20 +7,23 @@ import { CategoryMock } from "../../data/CategoriesMock";
 import { ProfessionMock } from "../../data/ProfessionMock";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
+import { CompanyRegistrationProfessionProps } from "@/src/types/CompanyStackType";
+import { Category } from "@/src/types/CategoryType";
+import { Profession } from "@/src/types/ProfessionType";
 
-export default function ProfessionRegistration({ navigation }) {
-  const [category, setCategory] = useState([]);
-  const [profession, setProfession] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedProfession, setSelectedProfession] = useState("");
+export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessionProps> = ({ navigation }) => {
+  const [category, setCategory] = useState<Category[]>([]);
+  const [profession, setProfession] = useState<Profession[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | "">("");
+  const [selectedProfession, setSelectedProfession] = useState<number | "">("");
 
   useEffect(() => {
-    setCategory(CategoryMock);
+    setCategory(CategoryMock as Category[]);
   }, []);
 
   useEffect(() => {
     if (selectedCategory) {
-      const filteredProfessions = ProfessionMock.filter(
+      const filteredProfessions = (ProfessionMock as Profession[]).filter(
         (profession) => profession.categoryId === selectedCategory
       );
       setProfession(filteredProfessions);

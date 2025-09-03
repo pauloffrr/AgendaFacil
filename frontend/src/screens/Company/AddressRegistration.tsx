@@ -7,8 +7,9 @@ import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { BackButton } from "../../components/buttons/BackButton";
 import { AddressInput } from "../../components/inputs/AddressInput";
+import { CompanyRegistrationAddressProps } from "@/src/types/CompanyStackType";
 
-export default function CompanyRegistrationAddress({ navigation }) {
+export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProps> = ({ navigation }) => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [rua, setRua] = useState("");
@@ -17,7 +18,6 @@ export default function CompanyRegistrationAddress({ navigation }) {
 
   const next = () => {
     console.log("Criar Conta:", { rua });
-    // API ou navegação
     navigation.navigate("Company Registration Profession");
   };
 

@@ -11,10 +11,10 @@ import { CustomerDate } from "../screens/Customer/CustomerDate";
 import { ProfessionalsAvailable } from "../screens/Customer/ProfessionalsAvailable";
 import { ProfessionalProfile } from "../screens/Customer/ProfessionalProfile";
 import { Notification } from "../screens/Customer/Notification";
-import CompanyRegistrationData from "../screens/Company/DataRegistration";
-import CompanyRegistrationAddress from "../screens/Company/AddressRegistration";
-import CompanyRegistrationProfession from "../screens/Company/ProfessionRegistration";
-import CompanyRegistrationPassword from "../screens/Company/PasswordRegistration";
+import { CompanyRegistrationData } from "../screens/Company/DataRegistration";
+import { CompanyRegistrationAddress } from "../screens/Company/AddressRegistration";
+import { CompanyRegistrationProfession } from "../screens/Company/ProfessionRegistration";
+import { CompanyRegistrationPassword } from "../screens/Company/PasswordRegistration";
 
 const Stack = createNativeStackNavigator();
 export function AppNavigation() {
