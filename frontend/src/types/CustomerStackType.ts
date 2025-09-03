@@ -5,7 +5,7 @@ export type CustomerStackParamList = {
   "Customer Registration Data": undefined;
   "Customer Registration Address": undefined;
   "Customer Registration Password": undefined;
-  Login: undefined;
+  "Login": undefined;
   "Customer Home": undefined;
   "Customer Notifications": undefined;
   "Scheduling": undefined;
@@ -14,6 +14,16 @@ export type CustomerStackParamList = {
   "Professionals Available": { id: number; name: string };
   "Professional Profile": { id: number };
 };
+
+//Login
+export type LoginNavigationProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Login"
+>;
+
+export interface LoginProps {
+  navigation: LoginNavigationProp;
+}
 
 //Customer Registration Data
 export type CustomerRegistrationDataNavigationProp = NativeStackNavigationProp<

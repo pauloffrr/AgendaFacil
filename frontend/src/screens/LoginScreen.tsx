@@ -5,14 +5,14 @@ import { Input } from "../components/inputs/Input";
 import { Logo } from "../components/display/Logo";
 import { Button } from "../components/buttons/Button";
 import { PasswordInput } from "../components/inputs/PasswordInput";
+import { LoginProps } from "@/src/types/CustomerStackType";
 
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+export const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
+  const [email, setEmail] = useState<string>("");
+  const [senha, setSenha] = useState<string>("");
 
   const handleLogin = () => {
     console.log("Login:", { email, senha });
-    // API ou navegação
     navigation.navigate("Customer Home");
   };
 
