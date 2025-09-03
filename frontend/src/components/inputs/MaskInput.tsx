@@ -1,15 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { MaskedTextInput } from "react-native-mask-text";
-import { InputProps } from "@/src/types/InputType";
+import { MaskInputProps } from "@/src/types/InputType";
 import { colors } from "@/src/styles/theme";
 
-export const MaskInput: React.FC<InputProps> = ({
+export const MaskInput: React.FC<MaskInputProps> = ({
   label,
   mask,
   placeholder,
   value,
-  onChangeText,
+  onChangeTextMask,
   keyboardType
 }) => {
 
@@ -21,7 +21,7 @@ export const MaskInput: React.FC<InputProps> = ({
         mask={mask}
         placeholder={placeholder}
         value={value}
-        onChangeText={onChangeText}
+        onChangeText={onChangeTextMask}
         keyboardType={keyboardType}
       />
     </View>

@@ -53,7 +53,7 @@ export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> =
         label="CPF"
         mask="999.999.999-99"
         value={cpf}
-        onChangeText={(text) => setCpf(text)}
+        onChangeTextMask={(text) => setCpf(text)}
         keyboardType="numeric"
         placeholder="000.000.000-00"
       />

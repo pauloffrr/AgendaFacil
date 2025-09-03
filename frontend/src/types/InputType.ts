@@ -6,6 +6,10 @@ export interface InputProps {
   value: string;
   onChangeText?: (text: string) => void;
   keyboardType?: KeyboardTypeOptions;
-  mask?: string;
   onPressIn?: () => void;
+}
+
+export interface MaskInputProps extends InputProps {
+  onChangeTextMask: (text: string, rawText: string) => void;
+  mask: string;
 }

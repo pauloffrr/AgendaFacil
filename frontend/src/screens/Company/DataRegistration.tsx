@@ -54,7 +54,7 @@ export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = (
         label="CNPJ"
         mask="99.999.999/9999-99"
         value={cnpj}
-        onChangeText={(text) => setCnpj(text)}
+        onChangeTextMask={(text) => setCnpj(text)}
         keyboardType="numeric"
         placeholder="00.000.000/0000-00"
       />
