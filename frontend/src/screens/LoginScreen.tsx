@@ -6,6 +6,7 @@ import { Logo } from "../components/display/Logo";
 import { Button } from "../components/buttons/Button";
 import { PasswordInput } from "../components/inputs/PasswordInput";
 import { LoginProps } from "@/src/types/CustomerStackType";
+import { colors } from "@/src/styles/theme";
 
 export const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
@@ -55,7 +56,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   link: {
-    color: "#007BFF",
+    color: colors.blue,
     fontWeight: "bold",
   },
 });

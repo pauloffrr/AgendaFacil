@@ -10,6 +10,7 @@ import * as Progress from "react-native-progress";
 import { CompanyRegistrationProfessionProps } from "@/src/types/CompanyStackType";
 import { Category } from "@/src/types/CategoryType";
 import { Profession } from "@/src/types/ProfessionType";
+import { colors } from "@/src/styles/theme";
 
 export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessionProps> = ({ navigation }) => {
   const [category, setCategory] = useState<Category[]>([]);
@@ -97,7 +98,7 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 20,
     gap: 20,
   },
@@ -119,9 +120,9 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 55,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: colors.light_gray,
     borderRadius: 8,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.background_input,
     marginBottom: 30,
     overflow: "hidden",
     justifyContent: "center",
@@ -132,8 +133,8 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   disabledPicker: {
-    backgroundColor: "#e6e6e6",
-    borderColor: "#d0d0d0",
+    backgroundColor: colors.disable_input_background,
+    borderColor: colors.disable_input_border,
     opacity: 0.6,
   },
   progressBar: {

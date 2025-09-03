@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { RootStackParamList, NavigationProps } from "@/src/types/SelectAccountType";
+import { colors } from "@/src/styles/theme";
 
 type SelectAccountRouteProp = RouteProp<
   RootStackParamList,
@@ -44,18 +45,18 @@ const styles = StyleSheet.create({
     }, 
 
     activeButton: {
-        backgroundColor: "#007BFF",
+        backgroundColor: colors.blue,
         padding: 12,
     },
 
     activeText: {
-        color: "#FFF",
+        color: colors.white,
         fontWeight: "bold",
         fontSize: 18
     },
 
     inactiveButton: {
-        backgroundColor: "#CCC",
+        backgroundColor: colors.light_gray,
         padding: 12,
     },
 

@@ -9,6 +9,7 @@ import * as Progress from "react-native-progress";
 import { MaskInput } from "../../components/inputs/MaskInput";
 import { BackButton } from "../../components/buttons/BackButton";
 import { CustomerRegistrationDataProps } from "@/src/types/CustomerStackType";
+import { colors } from "@/src/styles/theme";
 
 export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> = ({ navigation }) => {
   const [nome, setNome] = useState("");
@@ -67,7 +68,7 @@ export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> =
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 20,
   },
   title: {

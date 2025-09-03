@@ -5,6 +5,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { TextBox } from "../inputs/TextBox";
 import { CustomerModalProps } from "@/src/types/CustomerModalType";
+import { colors } from "@/src/styles/theme";
 
 export const CustomerModal: React.FC<CustomerModalProps> = ({ visible, onClose, onSubmit }) => {
   const [description, setDescription] = useState("");
@@ -25,7 +26,7 @@ export const CustomerModal: React.FC<CustomerModalProps> = ({ visible, onClose, 
                 <FontAwesomeIcon
                   icon={faStar as IconProp}
                   size={35}
-                  style={{ color: star <= rating ? "#FFD700" : "#CCC" }}
+                  style={{ color: star <= rating ? colors.yellow : colors.light_gray }}
                 />
               </TouchableOpacity>
             ))}
@@ -56,11 +57,11 @@ export const CustomerModal: React.FC<CustomerModalProps> = ({ visible, onClose, 
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: colors.dark_background,
     justifyContent: "center",
   },
   modalContent: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 20,
     borderRadius: 10,
     width: "100%",
@@ -79,24 +80,24 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   buttonClose: {
-    backgroundColor: "#CCC",
+    backgroundColor: colors.light_gray,
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 5,
   },
   buttonConfirm: {
-    backgroundColor: "#007BFF",
+    backgroundColor: colors.blue,
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 5,
   },
   buttonTextClose: {
-    color: "#000",
+    color: colors.black,
     fontWeight: "bold",
     fontSize: 16,
   },
   buttonTextConfirm: {
-    color: "#fff",
+    color: colors.white,
     fontWeight: "bold",
     fontSize: 16,
   },

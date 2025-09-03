@@ -26,6 +26,7 @@ import { Category } from "@/src/types/CategoryType";
 import { Profession } from "../../types/ProfessionType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { HomeProps } from "@/src/types/CustomerStackType";
+import { colors } from "@/src/styles/theme";
 
 const iconMap: Record<string, any> = {
   faHelmetSafety,
@@ -122,7 +123,7 @@ export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
   },
   header: {
     display: "flex",
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   categoryIcon: {
-    color: "#007BFF",
+    color: colors.blue,
   },
   category: {
     fontWeight: "600",
@@ -163,11 +164,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   buttonIcon: {
-    color: "#666",
+    color: colors.gray,
   },
   separator: {
     height: 1,
-    backgroundColor: "#ccc",
+    backgroundColor: colors.light_gray,
     marginVertical: 10,
     margin: 15,
   },
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
   },
   professionItem: {
     fontSize: 16,
-    color: "#333",
+    color: colors.gray,
     marginVertical: 3,
   },
 });

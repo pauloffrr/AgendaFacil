@@ -6,6 +6,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import * as Progress from "react-native-progress";
 import { CalculateReviews } from "../../types/CalculateReviewsType";
 import { calculateAverage, countRatings } from "../../utils/CalculateReviewsAverage";
+import { colors } from "@/src/styles/theme";
 
 interface AverageRatingProps {
   reviews: CalculateReviews[];
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    borderColor: "#dfdedeff",
+    borderColor: colors.light_gray,
     borderWidth: 2,
     borderRadius: 5,
     flexDirection: "row",
@@ -99,13 +100,13 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   iconStar: {
-    color: "#f1c40f",
+    color: colors.yellow,
   },
   infoReviews: {
     marginBottom: 10,
   },
   textReview: {
-    color: "#858585ff",
+    color: colors.gray,
     fontSize: 14,
   },
   second: {

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ButtonProps } from "@/src/types/ButtonType";
+import { colors } from "@/src/styles/theme";
 
 export const UserIcon: React.FC<ButtonProps> = ({ onPress }) => {
     return (
@@ -15,7 +16,7 @@ export const UserIcon: React.FC<ButtonProps> = ({ onPress }) => {
 
 const styles = StyleSheet.create({
     icon: {
-        color: "#007BFF",
+        color: colors.blue,
         marginTop: 20,
         marginBottom: 10,
     }

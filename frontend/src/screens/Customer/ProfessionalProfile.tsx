@@ -13,10 +13,11 @@ import { AverageRating } from "../../components/display/AverageRating";
 import { ReviewsCustomerMock } from "../../data/ReviewsCustomerMock";
 import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { colors } from "@/src/styles/theme";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
   const { professionalId, professionId, professionName } = route.params;
-  const [iconStarColor, setIconStarColor] = useState("#CCC");
+  const [iconStarColor, setIconStarColor] = useState(colors.light_gray);
   const professional = ProfessionalMock.find(p => p.id === professionalId);
 
   if (!professional) {
@@ -29,7 +30,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
 
   const toggleStarColor = () => {
     setIconStarColor((prevColor) =>
-      prevColor === "#f1c40f" ? "#CCC" : "#f1c40f"
+      prevColor === colors.yellow ? colors.light_gray : colors.yellow
     );
   };
 
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 20,
   },
   header: {
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 14,
     marginTop: 3,
-    color: "#858585ff",
+    color: colors.gray,
   },
   address: {
     marginTop: 25,
@@ -148,12 +149,12 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   icon: {
-    color: "#007BFF",
+    color: colors.blue,
   },
   textAddress: {
     fontSize: 13,
     fontWeight: "400",
-    color: "#858585ff",
+    color: colors.gray,
   },
   rayKm: {
     marginTop: 25,
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   },
   buttonWpp: {
     marginTop: 30,
-    backgroundColor: "#25D366",
+    backgroundColor: colors.green,
     padding: 10,
     borderRadius: 5,
     display: "flex",
@@ -179,10 +180,10 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   iconWpp: {
-    color: "#fff",
+    color: colors.white,
   },
   textWpp: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "700",
   },

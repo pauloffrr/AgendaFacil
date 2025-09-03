@@ -6,6 +6,7 @@ import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-soli
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { CustomerModal } from "../modals/CustomerModal";
 import { Notification } from "../../types/NotificationType";
+import { colors } from "@/src/styles/theme";
 
 export const NotificationCustomer: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>(NotificationsCustomerMock);
@@ -35,7 +36,7 @@ export const NotificationCustomer: React.FC = () => {
           <FontAwesomeIcon
             icon={faCalendarXmark as IconProp}
             size={22}
-            color="#FF0000"
+            color={colors.red}
           />
         );
       case "Confirmação":
@@ -43,7 +44,7 @@ export const NotificationCustomer: React.FC = () => {
           <FontAwesomeIcon
             icon={faCalendarCheck as IconProp}
             size={22}
-            color="#25D366"
+            color={colors.green}
           />
         );
       case "Avaliação":
@@ -52,7 +53,7 @@ export const NotificationCustomer: React.FC = () => {
           <FontAwesomeIcon
             icon={faCalendarCheck as IconProp}
             size={22}
-            color="#007BFF"
+            color={colors.blue}
           />
         );
       case "Lembrete":
@@ -60,7 +61,7 @@ export const NotificationCustomer: React.FC = () => {
           <FontAwesomeIcon
             icon={faBell as IconProp}
             size={22}
-            color="#007BFF"
+            color={colors.blue}
           />
         );
       default:
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderBottomWidth: 2,
-    borderBottomColor: "#D9D9D9",
+    borderBottomColor: colors.light_gray,
     marginBottom: 5,
     gap: 15,
     paddingHorizontal: 20,
@@ -138,17 +139,17 @@ const styles = StyleSheet.create({
   },
   textDate: {
     marginVertical: 5,
-    color: "#858585ff",
+    color: colors.gray,
   },
   button: {
-    backgroundColor: "#007BFF",
+    backgroundColor: colors.blue,
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 8,
     width: "30%",
   },
   buttonText: {
-    color: "#fff",
+    color: colors.white,
     fontWeight: "bold",
     fontSize: 16,
   },

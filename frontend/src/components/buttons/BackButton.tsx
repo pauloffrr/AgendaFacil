@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ButtonProps } from "@/src/types/ButtonType";
+import { colors } from "@/src/styles/theme";
 
 export const BackButton: React.FC<ButtonProps> = ({ onPress }) => {
   return (
@@ -18,6 +19,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   icon: {
-    color: "#007BFF"
+    color: colors.blue
   }
 });

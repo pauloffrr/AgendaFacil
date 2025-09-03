@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { ButtonProps } from "@/src/types/ButtonType";
+import { colors } from "@/src/styles/theme";
 
 export const Button: React.FC<ButtonProps> = ({ onPress, buttonText }) => {
   return (
@@ -18,13 +19,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-end" 
   }, 
   button: { 
-    backgroundColor: "#007BFF", 
+    backgroundColor: colors.blue, 
     paddingVertical: 10, 
     paddingHorizontal: 20, 
     borderRadius: 8, 
   }, 
   buttonText: { 
-    color: "#fff", 
+    color: colors.white, 
     fontWeight: "bold", 
     fontSize: 15 
   } 

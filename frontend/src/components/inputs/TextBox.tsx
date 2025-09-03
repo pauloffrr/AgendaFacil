@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { InputProps } from "@/src/types/InputType";
+import { colors } from "@/src/styles/theme";
 
 export const TextBox: React.FC<InputProps> = ({
   label,
@@ -18,7 +19,6 @@ export const TextBox: React.FC<InputProps> = ({
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
-        placeholderTextColor="#999"
       />
     </View>
   );
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
     width: "100%", 
     height: "70%", 
     borderWidth: 1, 
-    borderColor: "#ccc", 
+    borderColor: colors.light_gray, 
     borderRadius: 8, 
     paddingHorizontal: 10, 
-    backgroundColor: "#f5f5f5" 
+    backgroundColor: colors.background_input
   } 
 });

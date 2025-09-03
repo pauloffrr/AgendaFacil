@@ -5,6 +5,7 @@ import { faHome, faCircleExclamation, faCalendarDays, faStar } from "@fortawesom
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useNavigation } from "@react-navigation/native";
 import { CustomerNavigationProp } from "@/src/types/CustomerStackType";
+import { colors } from "@/src/styles/theme";
 
 export const CustomerNavigationBar: React.FC = () => {
     const navigation = useNavigation<CustomerNavigationProp>();
@@ -65,14 +66,14 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: "#CCC",
+        backgroundColor: colors.light_gray,
         padding: 20
     },
     button: {
         alignItems: "center"
     },
     icon: {
-        color: "#007BFF"
+        color: colors.blue
     },
     text: {
         fontSize: 10,

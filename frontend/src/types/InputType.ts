@@ -4,7 +4,7 @@ export interface InputProps {
   label: string;
   placeholder: string;
   value: string;
-  onChangeText: (text: string) => void;
+  onChangeText?: (text: string) => void;
   keyboardType?: KeyboardTypeOptions;
   mask?: string;
   onPressIn?: () => void;

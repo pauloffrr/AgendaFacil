@@ -7,6 +7,7 @@ import { CustomerNavigationBar } from "../../components/display/CustomerNavigati
 import { CardProfessional } from "../../components/display/CardProfessional";
 import { ProfessionalMock } from "../../data/ProfessionalsMock";
 import { ProfessionalsAvailableProps } from "@/src/types/CustomerStackType";
+import { colors } from "@/src/styles/theme";
 
 export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ navigation, route }) => {
   const { id } = route.params;
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 20,
   },
   header: {
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   card: {
-    borderColor: "#dfdedeff",
+    borderColor: colors.light_gray,
     borderStyle: "solid",
     borderWidth: 2,
     height: 130,
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 18,
-    color: "#888",
+    color: colors.gray,
     textAlign: "center",
   },
 });

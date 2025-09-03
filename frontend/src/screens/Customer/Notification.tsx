@@ -4,6 +4,7 @@ import { CustomerNavigationBar } from "../../components/display/CustomerNavigati
 import { Logo } from "../../components/display/Logo";
 import { UserIcon } from "../../components/buttons/UserIcon";
 import { NotificationCustomer } from "../../components/display/NotificationCustomer";
+import { colors } from "@/src/styles/theme";
 
 export const Notification: React.FC = () => {
   const handleProfile = () => {
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: colors.white
   },
   header: {
     display: "flex",
@@ -53,6 +55,6 @@ const styles = StyleSheet.create({
   },
   separator: {
     borderWidth: 1,
-    borderColor: "#D9D9D9",
+    borderColor: colors.light_gray,
   },
 });

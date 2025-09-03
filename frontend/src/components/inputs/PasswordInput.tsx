@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { InputProps } from "@/src/types/InputType";
+import { colors } from "@/src/styles/theme";
 
 export const PasswordInput: React.FC<InputProps> = ({
     label,
@@ -29,7 +30,7 @@ export const PasswordInput: React.FC<InputProps> = ({
                     <Ionicons
                         name={showPassword ? "eye-off" : "eye"}
                         size={22}
-                        color="#666"
+                        color={colors.dark_gray}
                     />
                 </TouchableOpacity>
             </View>
@@ -47,12 +48,12 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 45,
         borderWidth: 1,
-        borderColor: "#ccc",
+        borderColor: colors.light_gray,
         borderRadius: 8,
         marginBottom: 20,
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: colors.background_input,
     },
     passwordInput: {
         flex: 1,

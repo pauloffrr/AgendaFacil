@@ -8,6 +8,7 @@ import { PasswordInput } from "../../components/inputs/PasswordInput";
 import { Button } from "../../components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { CompanyRegistrationPasswordProps } from "@/src/types/CompanyStackType";
+import { colors } from "@/src/styles/theme";
 
 export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordProps> = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -56,7 +57,7 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 20,
   },
   space: {

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons"; 
+import { Ionicons } from "@expo/vector-icons";
+import { colors } from "@/src/styles/theme";
 
 export const Logo: React.FC = () => {
     return (
@@ -9,7 +10,7 @@ export const Logo: React.FC = () => {
                 <Ionicons
                     name={"calendar"}
                     size={22}
-                    color="#007BFF"
+                    color={colors.blue}
                 /> AgendaFácil
             </Text>
         </View>
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: "bold",
-        color: "#007BFF",
+        color: colors.blue,
         marginBottom: 10,
         marginTop: 20
     }

@@ -7,6 +7,7 @@ import { DateTimeInput } from "../../components/inputs/DateTimeInput";
 import { Button } from "../../components/buttons/Button";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { CustomerDateProps } from "@/src/types/CustomerStackType";
+import { colors } from "@/src/styles/theme";
 
 export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route }) => {
   const { id } = route.params;
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 20,
   },
   space: {

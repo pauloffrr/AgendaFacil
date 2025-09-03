@@ -8,6 +8,7 @@ import * as Progress from "react-native-progress";
 import { BackButton } from "../../components/buttons/BackButton";
 import { AddressInput } from "../../components/inputs/AddressInput";
 import { CustomerRegistrationAddressProps } from "@/src/types/CustomerStackType";
+import { colors } from "@/src/styles/theme";
 
 export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressProps> = ({ navigation }) => {
   const [selectedState, setSelectedState] = useState("");
@@ -77,7 +78,7 @@ export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressPr
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     padding: 20,
   },
   space: {

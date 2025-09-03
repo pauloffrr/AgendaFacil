@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { ReviewsCustomerMock } from "../../data/ReviewsCustomerMock";
 import { ReviewsCustomer } from "@/src/types/ReviewsCustomerType";
+import { colors } from "@/src/styles/theme";
 
 export const CustomerReviews: React.FC = () => {
   const recentReviews: ReviewsCustomer[] = [...ReviewsCustomerMock]
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   iconStar: {
-    color: "#f1c40f",
+    color: colors.yellow,
   },
   textReviews: {
     fontSize: 20,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    borderColor: "#dfdedeff",
+    borderColor: colors.light_gray,
     borderStyle: "solid",
     borderWidth: 2,
     height: "150%",
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   icon: {
-    color: "#f1c40f",
+    color: colors.yellow,
   },
   description: {
     paddingHorizontal: 15,
@@ -120,6 +121,6 @@ const styles = StyleSheet.create({
   },
   textDate: {
     fontSize: 12,
-    color: "#858585ff",
+    color: colors.gray,
   },
 });

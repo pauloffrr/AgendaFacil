@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { CardProfessionalProps } from "@/src/types/CardProfessionalType";
+import { colors } from "@/src/styles/theme";
 
 export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional, onPress }) => {
 
@@ -37,7 +38,7 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional
 
 const styles = StyleSheet.create({
   card: {
-    borderColor: "#dfdedeff",
+    borderColor: colors.light_gray,
     borderWidth: 2,
     height: 130,
     borderRadius: 5,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   icon: {
-    color: "#f1c40f",
+    color: colors.yellow,
   },
   assessment: {
     fontSize: 12,
@@ -84,6 +85,6 @@ const styles = StyleSheet.create({
   averagePrice: {
     fontWeight: "600",
     fontSize: 12,
-    color: "#007BFF",
+    color: colors.blue,
   },
 });

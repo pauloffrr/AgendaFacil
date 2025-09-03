@@ -4,6 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import { getStates, getCitiesByState } from "../../services/IbgeServices";
 import { State, City } from "../../types/AddressType";
 import { AddressInputProps } from "@/src/types/AddressInputType";
+import { colors } from "@/src/styles/theme";
 
 export const AddressInput: React.FC<AddressInputProps> = ({
   selectedState,
@@ -111,9 +112,9 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 55,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: colors.light_gray,
     borderRadius: 8,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.background_input,
     marginBottom: 10,
     overflow: "hidden",
     justifyContent: "center",
@@ -124,8 +125,8 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   disabledPicker: {
-    backgroundColor: "#e6e6e6",
-    borderColor: "#d0d0d0",
+    backgroundColor: colors.disable_input_background,
+    borderColor: colors.disable_input_border,
     opacity: 0.6,
   },
 });
