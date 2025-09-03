@@ -8,8 +8,8 @@ import { CustomerRegistrationAddress } from "../screens/Customer/AddressRegistra
 import { CustomerRegistrationPassword } from "../screens/Customer/PasswordRegistration";
 import { CustomerHome } from "../screens/Customer/Home";
 import { CustomerDate } from "../screens/Customer/CustomerDate";
-import ProfessionalsAvailable from "../screens/Customer/ProfessionalsAvailable";
-import ProfessionalProfile from "../screens/Customer/ProfessionalProfile";
+import { ProfessionalsAvailable } from "../screens/Customer/ProfessionalsAvailable";
+import { ProfessionalProfile } from "../screens/Customer/ProfessionalProfile";
 import { Notification } from "../screens/Customer/Notification";
 import CompanyRegistrationData from "../screens/Company/DataRegistration";
 import CompanyRegistrationAddress from "../screens/Company/AddressRegistration";

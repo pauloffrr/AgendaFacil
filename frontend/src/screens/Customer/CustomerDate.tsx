@@ -9,6 +9,7 @@ import { CustomerNavigationBar } from "../../components/display/CustomerNavigati
 import { CustomerDateProps } from "@/src/types/CustomerStackType";
 
 export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route }) => {
+  const { id } = route.params;
   const { name } = route.params;
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -39,7 +40,7 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
       hora: time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     });
 
-    navigation.navigate("Professionals Available", { name });
+    navigation.navigate("Professionals Available", { id, name });
   };
 
   return (

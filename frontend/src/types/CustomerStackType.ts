@@ -7,7 +7,7 @@ export type CustomerStackParamList = {
   "Scheduling": undefined;
   "Favorites": undefined;
   "Customer Date": { id: number; name: string };
-  "Professionals Available": { name: string } | { id: number };
+  "Professionals Available": { id: number; name: string };
   "Professional Profile": { id: number };
 };
 
@@ -38,6 +38,22 @@ export type CustomerDateRouteProp = RouteProp<
 export interface CustomerDateProps {
   navigation: CustomerDateNavigationProp;
   route: CustomerDateRouteProp;
+}
+
+// Professionals Available
+export type ProfessionalsAvailableNavigationProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Professionals Available"
+>;
+
+export type ProfessionalsAvailableRouteProp = RouteProp<
+  CustomerStackParamList,
+  "Professionals Available"
+>;
+
+export interface ProfessionalsAvailableProps {
+  navigation: ProfessionalsAvailableNavigationProp;
+  route: ProfessionalsAvailableRouteProp;
 }
 
 // Professional Profile

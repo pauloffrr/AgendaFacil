@@ -6,20 +6,26 @@ import { UserIcon } from "../../components/buttons/UserIcon";
 import { CustomerNavigationBar } from "../../components/display/CustomerNavigationBar";
 import { CardProfessional } from "../../components/display/CardProfessional";
 import { ProfessionalMock } from "../../data/ProfessionalsMock";
+import { ProfessionalsAvailableProps } from "@/src/types/CustomerStackType";
 
-export default function ProfessionalsAvailable({ navigation, route }) {
+export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ navigation, route }) => {
+  const { id } = route.params;
   const { name } = route.params;
+
+  const handleProfile = () => {
+    console.log("Perfil");
+  };
 
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
         <BackButton
-          onPress={() => navigation.navigate("Customer Date", { name: name })}
+          onPress={() => navigation.navigate("Customer Date", { id, name })}
         />
 
         <View style={styles.header}>
           <Logo />
-          <UserIcon />
+          <UserIcon onPress={handleProfile}/>
         </View>
 
         {ProfessionalMock.length > 0 ? (
@@ -38,7 +44,7 @@ export default function ProfessionalsAvailable({ navigation, route }) {
         )}
       </View>
 
-      <CustomerNavigationBar navigation={navigation} />
+      <CustomerNavigationBar />
     </View>
   );
 }
