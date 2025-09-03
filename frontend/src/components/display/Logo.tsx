@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: "bold",
         color: colors.blue,
-        marginBottom: 10,
-        marginTop: 20
+        marginBottom: "5%",
+        marginTop: "5%"
     }
 });

@@ -9,14 +9,14 @@ import { colors } from "@/src/styles/theme";
 export const BackButton: React.FC<ButtonProps> = ({ onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <FontAwesomeIcon icon={faChevronLeft as IconProp} style={styles.icon} size={18} />
+      <FontAwesomeIcon icon={faChevronLeft as IconProp} style={styles.icon} size={20} />
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    marginTop: "10%",
   },
   icon: {
     color: colors.blue

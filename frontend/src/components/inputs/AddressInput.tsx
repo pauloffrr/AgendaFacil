@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     borderColor: colors.light_gray,
     borderRadius: 8,
     backgroundColor: colors.background_input,
-    marginBottom: 10,
+    marginBottom: "5%",
     overflow: "hidden",
     justifyContent: "center",
   },

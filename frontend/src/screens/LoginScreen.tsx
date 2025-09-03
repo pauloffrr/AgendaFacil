@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
+    padding: "5%",
   },
   welcome: {
     fontSize: 20,
-    marginBottom: 30,
+    marginBottom: "10%",
     fontWeight: "600",
   },
   row: {
@@ -75,5 +75,6 @@ const styles = StyleSheet.create({
   link: {
     color: colors.blue,
     fontWeight: "bold",
+    fontSize: 16
   }
 });

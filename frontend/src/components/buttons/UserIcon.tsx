@@ -9,7 +9,7 @@ import { colors } from "@/src/styles/theme";
 export const UserIcon: React.FC<ButtonProps> = ({ onPress }) => {
     return (
         <TouchableOpacity onPress={onPress}>
-            <FontAwesomeIcon icon={faCircleUser as IconProp} style={styles.icon} size={28} />
+            <FontAwesomeIcon icon={faCircleUser as IconProp} style={styles.icon} size={30} />
         </TouchableOpacity>
     );
 };
@@ -17,7 +17,7 @@ export const UserIcon: React.FC<ButtonProps> = ({ onPress }) => {
 const styles = StyleSheet.create({
     icon: {
         color: colors.blue,
-        marginTop: 20,
-        marginBottom: 10,
+        marginTop: "10%",
+        marginBottom: "5%",
     }
 });

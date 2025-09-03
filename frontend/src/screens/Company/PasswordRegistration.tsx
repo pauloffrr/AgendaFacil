@@ -47,7 +47,7 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
 
           <Button buttonText="Enviar" onPress={next} />
 
-          <Progress.Bar style={styles.progressBar} progress={1} width={305} />
+          <Progress.Bar style={styles.progressBar} progress={1} width={355} />
         </View>
       </View>
     </KeyboardAwareScrollView>
@@ -58,21 +58,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    padding: 20,
+    padding: "5%",
   },
   space: {
-    gap: 20,
+    gap: "5%",
   },
   title: {
     fontWeight: 700,
     fontSize: 18,
-    marginBottom: 30,
-    marginTop: 50,
+    marginBottom: "5%",
+    marginTop: "10%",
   },
   inputs: {
-    gap: 20,
+    gap: "5%",
   },
   progressBar: {
-    marginTop: 60,
+    marginTop: "30%",
+    width: "100%"
   }
 });

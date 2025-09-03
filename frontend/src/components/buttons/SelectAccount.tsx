@@ -41,28 +41,28 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "row",
-        marginBottom: 20
+        marginBottom: "5%"
     }, 
 
     activeButton: {
         backgroundColor: colors.blue,
-        padding: 12,
+        padding: "3.5%",
     },
 
     activeText: {
         color: colors.white,
         fontWeight: "bold",
-        fontSize: 18
+        fontSize: 20
     },
 
     inactiveButton: {
         backgroundColor: colors.light_gray,
-        padding: 12,
+        padding: "3.5%",
     },
 
     inactiveText: {
         fontWeight: "bold",
-        fontSize: 18 
+        fontSize: 20
     },
 
     leftButton: {

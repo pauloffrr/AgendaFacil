@@ -69,7 +69,7 @@ export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProp
 
         <Button buttonText="Enviar" onPress={next} />
 
-        <Progress.Bar style={styles.progressBar} progress={0.5} width={305} />
+        <Progress.Bar style={styles.progressBar} progress={0.5} width={355} />
       </View>
     </KeyboardAwareScrollView>
   );
@@ -87,10 +87,11 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 700,
     fontSize: 18,
-    marginBottom: 20,
-    marginTop: 20,
+    marginBottom: "5%",
+    marginTop: "5%",
   },
   progressBar: {
     marginTop: 15,
+    width: "100%"
   }
 });

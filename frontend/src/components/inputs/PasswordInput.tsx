@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
     },
     passwordContainer: {
         width: "100%",
-        height: 45,
+        height: 50,
         borderWidth: 1,
         borderColor: colors.light_gray,
         borderRadius: 8,
-        marginBottom: 20,
+        marginBottom: "5%",
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: colors.background_input,

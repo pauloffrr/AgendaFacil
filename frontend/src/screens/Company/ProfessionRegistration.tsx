@@ -90,7 +90,7 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
       </View>
 
       <Button buttonText="Enviar" onPress={next} />
-      <Progress.Bar style={styles.progressBar} progress={0.75} width={305} />
+      <Progress.Bar style={styles.progressBar} progress={0.75} width={355} />
     </View>
   );
 };
@@ -99,17 +99,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    padding: 20,
-    gap: 20,
+    padding: "5%",
+    gap: "3%",
   },
   title: {
     fontWeight: 700,
     fontSize: 18,
-    marginBottom: 20,
-    marginTop: 50,
+    marginBottom: "5%",
+    marginTop: "10%",
   },
   inputs: {
-    marginTop: 30,
+    marginTop: "10%",
   },
   label: {
     alignSelf: "flex-start",
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     borderColor: colors.light_gray,
     borderRadius: 8,
     backgroundColor: colors.background_input,
-    marginBottom: 30,
+    marginBottom: "10%",
     overflow: "hidden",
     justifyContent: "center",
   },
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   progressBar: {
-    marginTop: 50,
+    marginTop: "30%",
+    width: "100%"
   }
 });
