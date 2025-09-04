@@ -1,0 +1,184 @@
+import React, { useState } from "react";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { Logo } from "@/src/components/display/Logo";
+import { UserIcon } from "@/src/components/buttons/UserIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+  faHelmetSafety,
+  faBroom,
+  faScissors,
+  faShirt,
+  faComputer,
+  faCar,
+  faPaw,
+  faGraduationCap,
+  faTruckFast,
+  faChampagneGlasses,
+  faUserTie,
+  faEllipsis,
+  faChevronRight,
+  faChevronDown,
+} from "@fortawesome/free-solid-svg-icons";
+import { CategoryMock } from "@/src/data/CategoriesMock";
+import { ProfessionMock } from "@/src/data/ProfessionMock";
+import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
+import { Category } from "@/src/types/CategoryType";
+import { Profession } from "@/src/types/ProfessionType";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { HomeProps } from "@/src/types/CustomerStackType";
+import { colors } from "@/src/styles/theme";
+
+const iconMap: Record<string, any> = {
+  faHelmetSafety,
+  faBroom,
+  faScissors,
+  faShirt,
+  faComputer,
+  faCar,
+  faPaw,
+  faGraduationCap,
+  faTruckFast,
+  faChampagneGlasses,
+  faUserTie,
+  faEllipsis,
+};
+
+export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
+
+  const toggleCategory = (categoryId: number) => {
+    setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
+  };
+
+  const handleProfile = () => {
+    console.log("Perfil");
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Logo />
+        <UserIcon onPress={handleProfile}/>
+      </View>
+
+      <Text style={styles.title}>Escolha a categoria de serviços!</Text>
+
+      <FlatList
+        data={CategoryMock}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }: { item: Category }) => {
+          const isExpanded = expandedCategory === item.id;
+          const professions = ProfessionMock.filter(
+            (prof: Profession) => prof.categoryId === item.id
+          );
+
+          return (
+            <View>
+              <TouchableOpacity onPress={() => toggleCategory(item.id)}>
+                <View style={styles.selection}>
+                  <View style={styles.categoryItems}>
+                    <FontAwesomeIcon
+                      icon={iconMap[item.icon]}
+                      size={28}
+                      style={styles.categoryIcon}
+                    />
+                    <Text style={styles.category}>{item.name}</Text>
+                  </View>
+                  <FontAwesomeIcon
+                    icon={isExpanded ? faChevronDown as IconProp : faChevronRight as IconProp}
+                    style={styles.buttonIcon}
+                  />
+                </View>
+              </TouchableOpacity>
+
+              {isExpanded && (
+                <View style={styles.professionList}>
+                  {professions.map((prof: Profession) => (
+                    <TouchableOpacity
+                      key={prof.id}
+                      onPress={() =>
+                        navigation.navigate("Customer Date", {
+                          id: prof.id,
+                          name: prof.name,
+                        })
+                      }
+                    >
+                      <Text style={styles.professionItem}>• {prof.name}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+
+              <View style={styles.separator} />
+            </View>
+          );
+        }}
+      />
+
+      <CustomerNavigationBar />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: "20%",
+    padding: "3%",
+  },
+  title: {
+    fontWeight: "700",
+    fontSize: 20,
+    marginBottom: "10%",
+    marginTop: "10%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
+  },
+  selection: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: "6%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
+  },
+  categoryItems: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  categoryIcon: {
+    color: colors.blue,
+  },
+  category: {
+    fontWeight: "600",
+    fontSize: 16,
+    marginLeft: "5%",
+  },
+  buttonIcon: {
+    color: colors.gray,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: colors.light_gray,
+    marginVertical: "4%",
+    margin: "5%",
+  },
+  professionList: {
+    marginLeft: "15%",
+    marginTop: "3%",
+  },
+  professionItem: {
+    fontSize: 16,
+    color: colors.gray,
+    marginVertical: "2%",
+  }
+});

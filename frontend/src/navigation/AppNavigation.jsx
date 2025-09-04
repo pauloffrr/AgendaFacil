@@ -1,20 +1,19 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-import LoginScreen from "../screens/LoginScreen";
-import CustomerRegistrationData from "../screens/Customer/DataRegistration";
-import CustomerRegistrationAddress from "../screens/Customer/AddressRegistration";
-import CustomerRegistrationPassword from "../screens/Customer/PasswordRegistration";
-import CustomerHome from "../screens/Customer/Home";
-import CustomerDate from "../screens/Customer/CustomerDate";
-import ProfessionalsAvailable from "../screens/Customer/ProfessionalsAvailable";
-import ProfessionalProfile from "../screens/Customer/ProfessionalProfile";
-import CustomerNotification from "../screens/Customer/Notification";
-import CompanyRegistrationData from "../screens/Company/DataRegistration";
-import CompanyRegistrationAddress from "../screens/Company/AddressRegistration";
-import CompanyRegistrationProfession from "../screens/Company/ProfessionRegistration";
-import CompanyRegistrationPassword from "../screens/Company/PasswordRegistration";
+import { LoginScreen } from "../screens/LoginScreen";
+import { CustomerRegistrationData } from "../screens/Customer/DataRegistration";
+import { CustomerRegistrationAddress } from "../screens/Customer/AddressRegistration";
+import { CustomerRegistrationPassword } from "../screens/Customer/PasswordRegistration";
+import { CustomerHome } from "../screens/Customer/Home";
+import { CustomerDate } from "../screens/Customer/CustomerDate";
+import { ProfessionalsAvailable } from "../screens/Customer/ProfessionalsAvailable";
+import { ProfessionalProfile } from "../screens/Customer/ProfessionalProfile";
+import { Notification } from "../screens/Customer/Notification";
+import { CompanyRegistrationData } from "../screens/Company/DataRegistration";
+import { CompanyRegistrationAddress } from "../screens/Company/AddressRegistration";
+import { CompanyRegistrationProfession } from "../screens/Company/ProfessionRegistration";
+import { CompanyRegistrationPassword } from "../screens/Company/PasswordRegistration";
 
 const Stack = createNativeStackNavigator();
 export function AppNavigation() {
@@ -71,7 +70,7 @@ export function AppNavigation() {
 
         <Stack.Screen
           name="Customer Notifications"
-          component={CustomerNotification}
+          component={Notification}
           options={{ headerShown: false }}
         />
 
@@ -101,4 +100,4 @@ export function AppNavigation() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
