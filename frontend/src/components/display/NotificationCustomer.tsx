@@ -116,41 +116,41 @@ const styles = StyleSheet.create({
   card: {
     borderBottomWidth: 2,
     borderBottomColor: colors.light_gray,
-    marginBottom: 5,
+    marginBottom: "2%",
     gap: 15,
-    paddingHorizontal: 20,
+    paddingHorizontal: "5%",
   },
   header: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     marginTop: "10%",
-    gap: 5,
+    gap: "2%",
   },
   professionName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "600",
   },
   message: {
-    marginTop: 5,
+    marginTop: "3%",
   },
   date: {
     alignItems: "flex-end",
   },
   textDate: {
-    marginVertical: 5,
+    marginVertical: "3%",
     color: colors.gray,
   },
   button: {
     backgroundColor: colors.blue,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: "3%",
     borderRadius: 8,
     width: "30%",
   },
   buttonText: {
     color: colors.white,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
+    textAlign: "center"
   }
 });

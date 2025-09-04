@@ -19,7 +19,7 @@ export const ProfessionalMock: Professional[] = [
   {
     id: 2,
     name: "Maria Souza",
-    professionId: 2,
+    professionId: 1,
     mediaAvaliacao: 4.5,
     precoMedio: 200.0,
     img: require("../assets/profissional.webp"),
@@ -34,7 +34,7 @@ export const ProfessionalMock: Professional[] = [
   { 
     id: 3,
     name: "Carlos Oliveira",
-    professionId: 3,
+    professionId: 1,
     mediaAvaliacao: 4.9,
     precoMedio: 150.75,
     img: require("../assets/profissional.webp"),

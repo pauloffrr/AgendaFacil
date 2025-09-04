@@ -110,18 +110,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    padding: 20,
+    padding: "5%",
   },
   space: {
-    gap: 20,
+    gap: "4%",
   },
   title: {
     fontWeight: "700",
     fontSize: 18,
-    marginBottom: 30,
-    marginTop: 50,
+    marginBottom: "10%",
+    marginTop: "15%",
   },
   inputs: {
-    gap: 20,
+    gap: "5%",
   }
 });

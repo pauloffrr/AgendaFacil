@@ -130,25 +130,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 50,
-    padding: 15,
+    marginTop: "20%",
+    padding: "3%",
   },
   title: {
     fontWeight: "700",
     fontSize: 20,
-    marginBottom: 30,
-    marginTop: 50,
-    paddingLeft: 15,
-    paddingRight: 15,
+    marginBottom: "10%",
+    marginTop: "10%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   selection: {
     display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 15,
-    paddingLeft: 15,
-    paddingRight: 15,
+    marginTop: "6%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   categoryItems: {
     display: "flex",
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   category: {
     fontWeight: "600",
     fontSize: 16,
-    marginLeft: 10,
+    marginLeft: "5%",
   },
   buttonIcon: {
     color: colors.gray,
@@ -169,16 +169,16 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: colors.light_gray,
-    marginVertical: 10,
-    margin: 15,
+    marginVertical: "4%",
+    margin: "5%",
   },
   professionList: {
-    marginLeft: 40,
-    marginTop: 8,
+    marginLeft: "15%",
+    marginTop: "3%",
   },
   professionItem: {
     fontSize: 16,
     color: colors.gray,
-    marginVertical: 3,
+    marginVertical: "2%",
   }
 });

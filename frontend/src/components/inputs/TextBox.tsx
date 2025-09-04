@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
   label: { 
     alignSelf: "flex-start", 
     marginBottom: 5, 
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: 18
   }, 
   input: { 
     width: "100%", 
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     borderWidth: 1, 
     borderColor: colors.light_gray, 
     borderRadius: 8, 
-    paddingHorizontal: 10, 
+    paddingHorizontal: "5%", 
     backgroundColor: colors.background_input
   } 
 });

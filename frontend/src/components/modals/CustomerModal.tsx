@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: colors.white,
-    padding: 20,
+    padding: "5%",
     borderRadius: 10,
     width: "100%",
     height: 450,
@@ -71,34 +71,34 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
+    gap: "5%",
     marginTop: "5%",
   },
   buttons: {
     flexDirection: "row",
-    gap: 10,
+    gap: "5%",
     justifyContent: "flex-end",
   },
   buttonClose: {
     backgroundColor: colors.light_gray,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: "3.5%",
+    paddingHorizontal: "5%",
     borderRadius: 5,
   },
   buttonConfirm: {
     backgroundColor: colors.blue,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: "3.5%",
+    paddingHorizontal: "5%",
     borderRadius: 5,
   },
   buttonTextClose: {
     color: colors.black,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
   },
   buttonTextConfirm: {
     color: colors.white,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
   }
 });

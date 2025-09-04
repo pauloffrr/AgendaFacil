@@ -70,9 +70,9 @@ export const AverageRating: React.FC<AverageRatingProps> = ({ reviews }) => {
 
 const styles = StyleSheet.create({
   textAverage: {
-    fontSize: 20,
+    fontSize: 23,
     fontWeight: "700",
-    marginTop: 30,
+    marginTop: "10%",
   },
   card: {
     flex: 1,
@@ -80,30 +80,30 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     flexDirection: "row",
-    paddingVertical: 10,
-    marginBottom: 40,
-    marginTop: 10,
+    paddingVertical: "5%",
+    marginBottom: "70%",
+    marginTop: "5%",
   },
   first: {
     flexDirection: "column",
-    paddingHorizontal: 15,
+    paddingHorizontal: "6%",
   },
   totalAverage: {
-    marginBottom: 20,
+    marginBottom: "20%",
   },
   number: {
-    fontSize: 44,
+    fontSize: 50,
     fontWeight: "700",
   },
   stars: {
     flexDirection: "row",
-    gap: 2,
+    gap: "2%",
   },
   iconStar: {
     color: colors.yellow,
   },
   infoReviews: {
-    marginBottom: 10,
+    marginBottom: "5%",
   },
   textReview: {
     color: colors.gray,
@@ -112,14 +112,14 @@ const styles = StyleSheet.create({
   second: {
     flexDirection: "column",
     justifyContent: "center",
-    gap: 10,
+    gap: "10%",
   },
   rows: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: "4%",
   },
   progressBar: {
-    width: 100,
+    width: "50%",
   }
 });

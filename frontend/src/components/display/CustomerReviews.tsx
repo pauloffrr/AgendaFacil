@@ -62,17 +62,17 @@ export const CustomerReviews: React.FC = () => {
 
 const styles = StyleSheet.create({
   reviews: {
-    marginTop: 40,
+    marginTop: "20%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: "2%",
   },
   iconStar: {
     color: colors.yellow,
   },
   textReviews: {
-    fontSize: 20,
+    fontSize: 23,
     fontWeight: "700",
   },
   card: {
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     display: "flex",
     flexDirection: "column",
-    marginBottom: 5,
-    marginTop: 20,
+    marginBottom: "5%",
+    marginTop: "5%",
   },
   customer: {
     display: "flex",
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     width: "100%",
-    padding: 15,
+    padding: "5%",
   },
   nameCustomer: {
     fontSize: 18,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: "5%",
   },
   textReview: {
     fontSize: 16,
@@ -113,14 +113,14 @@ const styles = StyleSheet.create({
     color: colors.yellow,
   },
   description: {
-    paddingHorizontal: 15,
+    paddingHorizontal: "5%",
   },
   date: {
-    padding: 15,
+    padding: "5%",
     alignItems: "flex-end",
   },
   textDate: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.gray,
   }
 });

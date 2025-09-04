@@ -85,7 +85,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
                 color={iconStarColor}
               />
             </TouchableOpacity>
-            <Text>Adicionar aos Favoritos</Text>
+            <Text style={styles.textFavorites}>Adicionar aos Favoritos</Text>
           </View>
 
           <TouchableOpacity style={styles.buttonWpp}>
@@ -114,69 +114,72 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    padding: 20,
+    padding: "5%",
   },
   header: {
     display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 50,
+    marginTop: "10%",
   },
   img: {
-    width: 230,
-    height: 170,
+    width: "85%",
+    height: "10%",
     borderRadius: 3,
     alignSelf: "center",
-    marginTop: 30,
+    marginTop: "10%",
   },
   name: {
     fontWeight: "700",
-    fontSize: 20,
-    marginTop: 10,
+    fontSize: 25,
+    marginTop: "5%",
   },
   cnpj: {
     fontWeight: "400",
-    fontSize: 14,
-    marginTop: 3,
+    fontSize: 18,
+    marginTop: "1%",
     color: colors.gray,
   },
   address: {
-    marginTop: 25,
+    marginTop: "10%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: "3%",
   },
   icon: {
     color: colors.blue,
   },
   textAddress: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: "400",
     color: colors.gray,
   },
   rayKm: {
-    marginTop: 25,
-    fontSize: 15,
+    marginTop: "10%",
+    fontSize: 18,
     fontWeight: "500",
   },
   favorites: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
-    marginTop: 5,
+    gap: "2%",
+    marginTop: "2%",
+  },
+  textFavorites: {
+    fontSize: 18
   },
   buttonWpp: {
-    marginTop: 30,
+    marginTop: "10%",
     backgroundColor: colors.green,
-    padding: 10,
+    padding: "5%",
     borderRadius: 5,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: "5%",
     width: "70%",
   },
   iconWpp: {
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
   },
   textWpp: {
     color: colors.white,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "700",
   }
 });

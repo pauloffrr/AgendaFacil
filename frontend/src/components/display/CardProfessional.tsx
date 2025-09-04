@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: "500",
-    fontSize: 13,
+    fontSize: 15,
     marginTop: 20,
   },
   desc: {
@@ -76,14 +76,14 @@ const styles = StyleSheet.create({
     color: colors.yellow,
   },
   assessment: {
-    fontSize: 12,
+    fontSize: 15,
   },
   priceText: {
-    fontSize: 12,
+    fontSize: 13,
   },
   averagePrice: {
     fontWeight: "600",
-    fontSize: 12,
+    fontSize: 13,
     color: colors.blue,
   }
 });
