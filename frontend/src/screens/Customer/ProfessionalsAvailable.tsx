@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
@@ -10,8 +10,7 @@ import { ProfessionalsAvailableProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
 export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ navigation, route }) => {
-  const { id } = route.params;
-  const { name } = route.params;
+  const { id, name } = route.params;
 
   const handleProfile = () => {
     console.log("Perfil");
@@ -39,19 +38,24 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
               {name}(s) disponíveis na data desejada
             </Text>
 
-            {filteredProfessionals.map((prof) => (
-              <CardProfessional
-                key={prof.id}
-                professional={prof}
-                onPress={() =>
-                  navigation.navigate("Professional Profile", {
-                    professionalId: prof.id,
-                    professionId: id,
-                    professionName: name,
-                  })
-                }
-              />
-            ))}
+            <FlatList
+              data={filteredProfessionals}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <CardProfessional
+                  professional={item}
+                  onPress={() =>
+                    navigation.navigate("Professional Profile", {
+                      professionalId: item.id,
+                      professionId: id,
+                      professionName: name,
+                    })
+                  }
+                />
+              )}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 20 }}
+            />
           </>
         ) : (
           <View style={styles.emptyContainer}>
