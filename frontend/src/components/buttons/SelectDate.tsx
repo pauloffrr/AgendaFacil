@@ -28,10 +28,14 @@ export const SelectDate: React.FC<SelectDateProps> = ({ selectedDate, onDateChan
     const showDatePicker = () => setDatePickerVisibility(true);
     const hideDatePicker = () => setDatePickerVisibility(false);
 
-    const handleConfirm = (date: Date) => {
+    const handleConfirmPicker = (date: Date) => {
         onDateChange(date);
         setDays(getWeekDays(date));
         hideDatePicker();
+    };
+
+    const handleSelectDay = (day: Date) => {
+        onDateChange(day);
     };
 
     return (
@@ -50,7 +54,7 @@ export const SelectDate: React.FC<SelectDateProps> = ({ selectedDate, onDateChan
                 isVisible={isDatePickerVisible}
                 mode="date"
                 date={selectedDate}
-                onConfirm={handleConfirm}
+                onConfirm={handleConfirmPicker}
                 onCancel={hideDatePicker}
             />
             
@@ -65,7 +69,7 @@ export const SelectDate: React.FC<SelectDateProps> = ({ selectedDate, onDateChan
                         <TouchableOpacity
                             key={index}
                             style={[styles.dayBox, isSelected && styles.daySelected]}
-                            onPress={() => handleConfirm(day)}
+                            onPress={() => handleSelectDay(day)}
                         >
                             <Text style={[styles.dayText, isSelected && { color: colors.white }]}>
                                 {dayNames[day.getDay()]}

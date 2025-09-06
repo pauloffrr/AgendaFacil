@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-//import { SchedulingMock } from "@/src/data/SchedulingMock";
 import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
 import { SelectDate } from "@/src/components/buttons/SelectDate";
@@ -49,22 +48,8 @@ export const CustomerScheduling: React.FC = () => {
                     height={700}
                     mode="day"
                     date={selectedDate}
+                    renderHeader={() => null}
                 />
-
-                { /* <FlatList
-                    data={SchedulingMock}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                    <View style={styles.scheduleBox}>
-                        <Text style={styles.time}>{item.time}</Text>
-                        <View style={styles.scheduleContent}>
-                        <Text style={styles.title}>{item.title}</Text>
-                        <Text style={styles.description}>{item.description}</Text>
-                        <Text style={styles.address}>{item.address}</Text>
-                        </View>
-                    </View>
-                    )}
-                /> */ }
             </View>
 
             <CustomerNavigationBar />
