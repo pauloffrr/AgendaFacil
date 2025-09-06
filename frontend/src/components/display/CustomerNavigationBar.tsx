@@ -38,6 +38,7 @@ export const CustomerNavigationBar: React.FC = () => {
 
             <TouchableOpacity 
                 style={styles.button}
+                onPress={() => navigation.navigate("Customer Scheduling")}
             >
                 <FontAwesomeIcon 
                     icon={faCalendarDays as IconProp} 
