@@ -6,19 +6,7 @@ import { SelectDate } from "@/src/components/buttons/SelectDate";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { colors } from "@/src/styles/theme";
 import { Calendar } from "react-native-big-calendar";
-
-const events = [
-  {
-    title: "Eletricista",
-    start: new Date(2025, 8, 6, 8, 0),
-    end: new Date(2025, 8, 6, 11, 0),
-  },
-  {
-    title: "Encanador",
-    start: new Date(2025, 8, 7, 15, 0),
-    end: new Date(2025, 8, 7, 16, 0),
-  },
-];
+import { CustomerSchedulingMock } from "@/src/data/CustomerSchedulingMock"
 
 export const CustomerScheduling: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -27,7 +15,7 @@ export const CustomerScheduling: React.FC = () => {
         console.log("Perfil");
     };
 
-    const filteredEvents = events.filter((event) =>
+    const filteredEvents = CustomerSchedulingMock.filter((event) =>
         event.start.getDate() === selectedDate.getDate() &&
         event.start.getMonth() === selectedDate.getMonth() &&
         event.start.getFullYear() === selectedDate.getFullYear()
