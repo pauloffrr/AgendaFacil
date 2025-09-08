@@ -40,9 +40,7 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
 
   return (
     <View style={styles.container}>
-      <BackButton
-        onPress={() => navigation.navigate("Company Registration Address")}
-      />
+      <BackButton />
       <Logo />
       <Text style={styles.title}>Informe a sua área de atuação</Text>
 

@@ -28,7 +28,7 @@ export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = (
       enableOnAndroid
       extraScrollHeight={144}
     >
-      <BackButton onPress={() => navigation.navigate("Login")} />
+      <BackButton />
 
       <Logo />
       <Text style={styles.title}>Informações da empresa</Text>

@@ -27,7 +27,7 @@ export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> =
       enableOnAndroid
       extraScrollHeight={64}
     >
-      <BackButton onPress={() => navigation.navigate("Login")} />
+      <BackButton />
 
       <Logo />
       <Text style={styles.title}>Informações pessoais</Text>

@@ -22,9 +22,7 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
   return (
     <KeyboardAwareScrollView enableOnAndroid style={styles.container}>
       <View style={styles.space}>
-        <BackButton
-          onPress={() => navigation.navigate("Company Registration Address")}
-        />
+        <BackButton />
 
         <Logo />
         <Text style={styles.title}>Cadastro de Email e Senha</Text>
