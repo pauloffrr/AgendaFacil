@@ -9,12 +9,12 @@ import { Calendar } from "react-native-big-calendar";
 
 const events = [
   {
-    title: "Reunião",
-    start: new Date(2025, 8, 6, 10, 0),
+    title: "Eletricista",
+    start: new Date(2025, 8, 6, 8, 0),
     end: new Date(2025, 8, 6, 11, 0),
   },
   {
-    title: "Dentista",
+    title: "Encanador",
     start: new Date(2025, 8, 7, 15, 0),
     end: new Date(2025, 8, 7, 16, 0),
   },
