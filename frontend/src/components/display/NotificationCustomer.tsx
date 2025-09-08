@@ -1,15 +1,27 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { NotificationsCustomerMock } from "../../data/NotificationCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarCheck,
+  faCalendarXmark,
+  faBell,
+} from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { CustomerModal } from "@/src/components/modals/CustomerModal";
+import { CustomerReviewModal } from "@/src/components/modals/CustomerReviewModal";
 import { Notification } from "@/src/types/NotificationType";
 import { colors } from "@/src/styles/theme";
 
 export const NotificationCustomer: React.FC = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(NotificationsCustomerMock);
+  const [notifications, setNotifications] = useState<Notification[]>(
+    NotificationsCustomerMock
+  );
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleReview = (id: number) => {
@@ -98,7 +110,7 @@ export const NotificationCustomer: React.FC = () => {
         )}
       />
 
-      <CustomerModal
+      <CustomerReviewModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
       />
@@ -151,6 +163,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "bold",
     fontSize: 18,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });

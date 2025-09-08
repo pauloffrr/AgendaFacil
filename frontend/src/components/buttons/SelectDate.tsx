@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         margin: "10%",
+        gap: "3%"
     },
     date: {
         fontSize: 20,

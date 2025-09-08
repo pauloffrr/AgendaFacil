@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { TextBox } from "@/src/components/inputs/TextBox";
-import { CustomerModalProps } from "@/src/types/CustomerModalType";
+import { CustomerReviewModalProps } from "@/src/types/CustomerModalType";
 import { colors } from "@/src/styles/theme";
 
-export const CustomerModal: React.FC<CustomerModalProps> = ({ visible, onClose, onSubmit }) => {
+export const CustomerReviewModal: React.FC<CustomerReviewModalProps> = ({ visible, onClose, onSubmit }) => {
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
 

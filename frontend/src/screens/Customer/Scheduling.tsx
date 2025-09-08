@@ -6,10 +6,14 @@ import { SelectDate } from "@/src/components/buttons/SelectDate";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { colors } from "@/src/styles/theme";
 import { Calendar } from "react-native-big-calendar";
-import { CustomerSchedulingMock } from "@/src/data/CustomerSchedulingMock"
+import { CustomerSchedulingMock } from "@/src/data/CustomerSchedulingMock";
+import { CustomerSchedulingPros } from "@/src/types/CustomerSchedulingType";
+import { CancelAppoimentModal } from "@/src/components/modals/CancelAppoimentModal";
 
 export const CustomerScheduling: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState<CustomerSchedulingPros | null>(null);
 
     const handleProfile = () => {
         console.log("Perfil");
@@ -20,6 +24,11 @@ export const CustomerScheduling: React.FC = () => {
         event.start.getMonth() === selectedDate.getMonth() &&
         event.start.getFullYear() === selectedDate.getFullYear()
     );
+
+    const handleEventPress = (event: CustomerSchedulingPros) => {
+        setSelectedEvent(event);
+        setModalVisible(true);
+    }
 
     return (
         <View style={styles.screen}>
@@ -37,8 +46,18 @@ export const CustomerScheduling: React.FC = () => {
                     mode="day"
                     date={selectedDate}
                     renderHeader={() => null}
+                    onPressEvent={handleEventPress}
                 />
             </View>
+
+            <CancelAppoimentModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onSubmit={() => {
+                    console.log("Evento:", selectedEvent);
+                    setModalVisible(false);
+                }}
+            />
 
             <CustomerNavigationBar />
         </View>
@@ -60,30 +79,5 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginTop: "20%"
-    },
-    scheduleBox: {
-        marginBottom: 12,
-    },
-    time: {
-        fontWeight: "bold",
-        marginBottom: 4,
-    },
-    scheduleContent: {
-        backgroundColor: "#007BFF",
-        padding: 10,
-        borderRadius: 8,
-    },
-    title: {
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: 14,
-    },
-    description: {
-        color: "#fff",
-        fontSize: 12,
-    },
-    address: {
-        color: "#fff",
-        fontSize: 12,
     }
 });
