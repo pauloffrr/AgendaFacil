@@ -11,6 +11,7 @@ import { ProfessionalsAvailable } from "../screens/Customer/ProfessionalsAvailab
 import { ProfessionalProfile } from "../screens/Customer/ProfessionalProfile";
 import { Notification } from "../screens/Customer/Notification";
 import { CustomerScheduling } from "../screens/Customer/Scheduling";
+import { Favorites } from "../screens/Customer/Favorites";
 import { CompanyRegistrationData } from "../screens/Company/DataRegistration";
 import { CompanyRegistrationAddress } from "../screens/Company/AddressRegistration";
 import { CompanyRegistrationProfession } from "../screens/Company/ProfessionRegistration";
@@ -78,6 +79,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Customer Scheduling"
           component={CustomerScheduling}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Favorites"
+          component={Favorites}
           options={{ headerShown: false }}
         />
 

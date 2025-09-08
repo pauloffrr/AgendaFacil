@@ -8,7 +8,7 @@ export type CustomerStackParamList = {
   "Login": undefined;
   "Customer Home": undefined;
   "Customer Notifications": undefined;
-  "Scheduling": undefined;
+  "Customer Scheduling": undefined;
   "Favorites": undefined;
   "Customer Date": { id: number; name: string };
   "Professionals Available": { id: number; name: string };
