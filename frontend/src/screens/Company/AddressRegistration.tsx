@@ -29,9 +29,7 @@ export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProp
       extraScrollHeight={84}
     >
       <View style={styles.space}>
-        <BackButton
-          onPress={() => navigation.navigate("Company Registration Data")}
-        />
+        <BackButton />
 
         <Logo />
         <Text style={styles.title}>Informe o seu endereço!</Text>

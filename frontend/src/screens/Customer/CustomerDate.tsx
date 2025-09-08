@@ -50,7 +50,7 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
     <View style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.space}>
-          <BackButton onPress={() => navigation.navigate("Customer Home")} />
+          <BackButton />
 
           <Logo />
           <Text style={styles.title}>

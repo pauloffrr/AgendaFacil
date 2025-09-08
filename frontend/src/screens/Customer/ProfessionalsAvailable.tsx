@@ -23,9 +23,7 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-        <BackButton
-          onPress={() => navigation.navigate("Customer Date", { id, name })}
-        />
+        <BackButton />
 
         <View style={styles.header}>
           <Logo />

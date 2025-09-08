@@ -17,7 +17,7 @@ import { colors } from "@/src/styles/theme";
 import { useFavorites } from "@/src/context/FavoritesContext";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
-  const { professionalId, professionId, professionName } = route.params;
+  const { professionalId } = route.params;
   const professional = ProfessionalMock.find(p => p.id === professionalId);
   const { toggleFavorite, isFavorite } = useFavorites();
 
@@ -38,11 +38,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
   return (
     <View style={styles.screen}>
       <ScrollView style={styles.container}>
-        <BackButton
-          onPress={() =>
-            navigation.navigate("Professionals Available", { id: professionId, name: professionName })
-          }
-        />
+        <BackButton />
 
         <View style={styles.header}>
           <Logo />
