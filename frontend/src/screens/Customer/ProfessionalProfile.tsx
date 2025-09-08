@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
@@ -14,11 +14,12 @@ import { ProfessionalMock } from "@/src/data/ProfessionalsMock";
 import { ReviewsCustomerMock } from "@/src/data/ReviewsCustomerMock";
 import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
+import { useFavorites } from "@/src/context/FavoritesContext";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
   const { professionalId, professionId, professionName } = route.params;
-  const [iconStarColor, setIconStarColor] = useState(colors.light_gray);
   const professional = ProfessionalMock.find(p => p.id === professionalId);
+  const { toggleFavorite, isFavorite } = useFavorites();
 
   if (!professional) {
     return (
@@ -28,11 +29,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
     );
   };
 
-  const toggleStarColor = () => {
-    setIconStarColor((prevColor) =>
-      prevColor === colors.yellow ? colors.light_gray : colors.yellow
-    );
-  };
+  const favorite = isFavorite(professional.id);
 
   const handleProfile = () => {
     console.log("Perfil");
@@ -78,11 +75,11 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
             • Atende em até {professional.raioKm}km
           </Text>
           <View style={styles.favorites}>
-            <TouchableOpacity onPress={toggleStarColor}>
+            <TouchableOpacity onPress={() => toggleFavorite(professional)}>
               <FontAwesomeIcon
                 icon={faStar as IconProp}
                 size={28}
-                color={iconStarColor}
+                color={favorite ? colors.yellow : colors.light_gray}
               />
             </TouchableOpacity>
             <Text style={styles.textFavorites}>Adicionar aos Favoritos</Text>

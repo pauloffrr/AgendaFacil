@@ -9,7 +9,7 @@ export type CustomerStackParamList = {
   "Customer Home": undefined;
   "Customer Notifications": undefined;
   "Customer Scheduling": undefined;
-  "Favorites": undefined;
+  "Favorites": { professionalId: number };
   "Customer Date": { id: number; name: string };
   "Professionals Available": { id: number; name: string };
   "Professional Profile": {
@@ -119,4 +119,21 @@ export type ProfessionalProfileRouteProp = RouteProp<
 export interface ProfessionalProfileProps {
   navigation: ProfessionalProfileNavigationProp;
   route: ProfessionalProfileRouteProp;
+};
+
+
+// Favorites
+export type FavoritesProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Favorites"
+>;
+
+export type FavoritesRouteProp = RouteProp<
+  CustomerStackParamList,
+  "Favorites"
+>;
+
+export interface FavoritesProps {
+  navigation: FavoritesProp;
+  route: FavoritesRouteProp;
 };
