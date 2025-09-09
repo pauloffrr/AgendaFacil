@@ -6,6 +6,7 @@ export type CustomerStackParamList = {
   "Customer Registration Address": undefined;
   "Customer Registration Password": undefined;
   "Login": undefined;
+  "Profile": undefined;
   "Customer Home": undefined;
   "Customer Notifications": undefined;
   "Customer Scheduling": undefined;
