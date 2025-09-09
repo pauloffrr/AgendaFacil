@@ -50,7 +50,7 @@ export const CustomerNavigationBar: React.FC = () => {
 
             <TouchableOpacity 
                 style={styles.button}
-                onPress={() => navigation.navigate("Favorites")}
+                onPress={() => navigation.navigate("Favorites", {professionalId: 0})}
             >
                 <FontAwesomeIcon 
                     icon={faStar as IconProp} 

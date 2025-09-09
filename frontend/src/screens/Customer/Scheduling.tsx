@@ -15,10 +15,6 @@ export const CustomerScheduling: React.FC = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<CustomerSchedulingPros | null>(null);
 
-    const handleProfile = () => {
-        console.log("Perfil");
-    };
-
     const filteredEvents = CustomerSchedulingMock.filter((event) =>
         event.start.getDate() === selectedDate.getDate() &&
         event.start.getMonth() === selectedDate.getMonth() &&
@@ -35,7 +31,7 @@ export const CustomerScheduling: React.FC = () => {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Logo />
-                    <UserIcon onPress={handleProfile}/>
+                    <UserIcon />
                 </View>
 
                 <SelectDate selectedDate={selectedDate} onDateChange={setSelectedDate} />

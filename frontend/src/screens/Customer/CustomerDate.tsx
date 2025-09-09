@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
+import { UserIcon } from "@/src/components/buttons/UserIcon";
 import { DateTimeInput } from "@/src/components/inputs/DateTimeInput";
 import { Button } from "@/src/components/buttons/Button";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
@@ -52,7 +53,11 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
         <View style={styles.space}>
           <BackButton />
 
-          <Logo />
+          <View style={styles.header}>
+            <Logo />
+            <UserIcon />
+          </View>
+
           <Text style={styles.title}>
             Pra quando seria o serviço com o profissional {name}?
           </Text>
@@ -114,6 +119,12 @@ const styles = StyleSheet.create({
   },
   space: {
     gap: "4%",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center"
   },
   title: {
     fontWeight: "700",

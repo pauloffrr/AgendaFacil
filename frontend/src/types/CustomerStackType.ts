@@ -138,3 +138,19 @@ export interface FavoritesProps {
   navigation: FavoritesProp;
   route: FavoritesRouteProp;
 };
+
+// Profile
+export type ProfileProp = NativeStackNavigationProp<
+  CustomerStackParamList,
+  "Profile"
+>;
+
+export type ProfileRouteProp = RouteProp<
+  CustomerStackParamList,
+  "Profile"
+>;
+
+export interface ProfileProps {
+  navigation: ProfileProp;
+  route: ProfileRouteProp;
+};

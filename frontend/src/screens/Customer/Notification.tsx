@@ -7,16 +7,13 @@ import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigati
 import { colors } from "@/src/styles/theme";
 
 export const Notification: React.FC = () => {
-  const handleProfile = () => {
-    console.log("Perfil");
-  };
 
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Logo />
-          <UserIcon onPress={handleProfile}/>
+          <UserIcon />
         </View>
 
         <Text style={styles.title}>Notificações</Text>

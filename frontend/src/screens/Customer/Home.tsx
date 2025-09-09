@@ -50,16 +50,11 @@ export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
   };
 
-  const handleProfile = () => {
-    console.log("Perfil");
-    navigation.navigate("Profile");
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Logo />
-        <UserIcon onPress={handleProfile}/>
+        <UserIcon />
       </View>
 
       <Text style={styles.title}>Escolha a categoria de serviços!</Text>
