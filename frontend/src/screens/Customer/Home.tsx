@@ -52,6 +52,7 @@ export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
 
   const handleProfile = () => {
     console.log("Perfil");
+    navigation.navigate("Profile");
   };
 
   return (
