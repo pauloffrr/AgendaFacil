@@ -12,10 +12,6 @@ import { colors } from "@/src/styles/theme";
 export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ navigation, route }) => {
   const { id, name } = route.params;
 
-  const handleProfile = () => {
-    console.log("Perfil");
-  };
-
   const filteredProfessionals = ProfessionalMock.filter(
     (prof) => prof.professionId === id
   );
@@ -27,7 +23,7 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
 
         <View style={styles.header}>
           <Logo />
-          <UserIcon onPress={handleProfile}/>
+          <UserIcon />
         </View>
 
         {filteredProfessionals.length > 0 ? (

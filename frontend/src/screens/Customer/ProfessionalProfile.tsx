@@ -31,10 +31,6 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
 
   const favorite = isFavorite(professional.id);
 
-  const handleProfile = () => {
-    console.log("Perfil");
-  };
-
   return (
     <View style={styles.screen}>
       <ScrollView style={styles.container}>
@@ -42,7 +38,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
 
         <View style={styles.header}>
           <Logo />
-          <UserIcon onPress={handleProfile}/>
+          <UserIcon />
         </View>
         
         <View key={professional.id}>

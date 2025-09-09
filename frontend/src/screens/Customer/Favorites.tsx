@@ -11,16 +11,12 @@ import { colors } from "@/src/styles/theme";
 export const Favorites: React.FC<FavoritesProps> = ({ navigation }) => {
     const { favorites } = useFavorites();
 
-    const handleProfile = () => {
-        console.log("Perfil");
-    };
-
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Logo />
-                    <UserIcon onPress={handleProfile}/>
+                    <UserIcon />
                 </View>
 
                 <Text style={styles.title}>Favoritos</Text>
