@@ -5,7 +5,11 @@ export type CompanyStackParamList = {
   "Company Registration Address": undefined;
   "Company Registration Profession": undefined;
   "Company Registration Password": undefined;
-  Login: undefined;
+  "Login": undefined;
+  "Company Scheduling": undefined;
+  "Edit Schedule": undefined;
+  "Company Notifications": undefined;
+  "Reports": undefined;
 };
 
 //Company Registration Data
@@ -47,3 +51,7 @@ export type CompanyRegistrationPasswordNavigationProp = NativeStackNavigationPro
 export interface CompanyRegistrationPasswordProps {
   navigation: CompanyRegistrationPasswordNavigationProp;
 };
+
+//Navigation Bar
+export type CompanyNavigationProp =
+  NativeStackNavigationProp<CompanyStackParamList>;
