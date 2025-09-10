@@ -17,6 +17,7 @@ import { CompanyRegistrationData } from "../screens/Company/DataRegistration";
 import { CompanyRegistrationAddress } from "../screens/Company/AddressRegistration";
 import { CompanyRegistrationProfession } from "../screens/Company/ProfessionRegistration";
 import { CompanyRegistrationPassword } from "../screens/Company/PasswordRegistration";
+import { CompanyScheduling } from "../screens/Company/CompanyScheduling";
 
 const Stack = createNativeStackNavigator();
 export function AppNavigation() {
@@ -116,6 +117,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Company Registration Password"
           component={CompanyRegistrationPassword}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Company Scheduling"
+          component={CompanyScheduling}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
