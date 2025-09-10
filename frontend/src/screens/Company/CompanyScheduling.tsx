@@ -3,28 +3,19 @@ import { View, StyleSheet } from "react-native";
 import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
 import { SelectDate } from "@/src/components/buttons/SelectDate";
-import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
+import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
 import { colors } from "@/src/styles/theme";
 import { Calendar } from "react-native-big-calendar";
-import { CustomerSchedulingMock } from "@/src/data/CustomerSchedulingMock";
-import { SchedulingEventsPros } from "@/src/types/SchedulingEventsType";
-import { CancelAppoimentModal } from "@/src/components/modals/CancelAppoimentModal";
+import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
 
-export const CustomerScheduling: React.FC = () => {
+export const CompanyScheduling: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState<SchedulingEventsPros | null>(null);
 
-    const filteredEvents = CustomerSchedulingMock.filter((event) =>
+    const filteredEvents = CompanySchedulingMock.filter((event) =>
         event.start.getDate() === selectedDate.getDate() &&
         event.start.getMonth() === selectedDate.getMonth() &&
         event.start.getFullYear() === selectedDate.getFullYear()
     );
-
-    const handleEventPress = (event: SchedulingEventsPros) => {
-        setSelectedEvent(event);
-        setModalVisible(true);
-    }
 
     return (
         <View style={styles.screen}>
@@ -42,20 +33,11 @@ export const CustomerScheduling: React.FC = () => {
                     mode="day"
                     date={selectedDate}
                     renderHeader={() => null}
-                    onPressEvent={handleEventPress}
+                    onPressEvent={() => console.log("next")}
                 />
             </View>
 
-            <CancelAppoimentModal
-                visible={modalVisible}
-                onClose={() => setModalVisible(false)}
-                onSubmit={() => {
-                    console.log("Evento:", selectedEvent);
-                    setModalVisible(false);
-                }}
-            />
-
-            <CustomerNavigationBar />
+            <CompanyNavigationBar />
         </View>
     );
 };
