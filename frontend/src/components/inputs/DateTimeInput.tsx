@@ -31,7 +31,7 @@ export const DateTimeInput: React.FC<InputProps> = ({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginTop: 10
+    marginTop: "5%"
   },
   label: {
     alignSelf: "flex-start",
