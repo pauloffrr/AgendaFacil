@@ -7,8 +7,9 @@ import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigation
 import { colors } from "@/src/styles/theme";
 import { Calendar } from "react-native-big-calendar";
 import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
+import { CompanySchedulingProps } from "@/src/types/CompanyStackType";
 
-export const CompanyScheduling: React.FC = () => {
+export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     const filteredEvents = CompanySchedulingMock.filter((event) =>
@@ -33,7 +34,7 @@ export const CompanyScheduling: React.FC = () => {
                     mode="day"
                     date={selectedDate}
                     renderHeader={() => null}
-                    onPressEvent={() => console.log("next")}
+                    onPressEvent={(event) => navigation.navigate("Edit Event", { id: event.id })}
                 />
             </View>
 

@@ -1,4 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RouteProp } from "@react-navigation/native";
 
 export type CompanyStackParamList = {
   "Company Registration Data": undefined;
@@ -6,7 +7,8 @@ export type CompanyStackParamList = {
   "Company Registration Profession": undefined;
   "Company Registration Password": undefined;
   "Login": undefined;
-  "Company Scheduling": undefined;
+  "Company Scheduling": { id: number };
+  "Edit Event": { id: number };
   "Edit Schedule": undefined;
   "Company Notifications": undefined;
   "Reports": undefined;
@@ -55,3 +57,31 @@ export interface CompanyRegistrationPasswordProps {
 //Navigation Bar
 export type CompanyNavigationProp =
   NativeStackNavigationProp<CompanyStackParamList>;
+
+// Company Scheduling
+export type CompanySchedulingNavigationProp = NativeStackNavigationProp<
+  CompanyStackParamList,
+  "Company Scheduling"
+>;
+export type CompanySchedulingRouteProp = RouteProp<
+  CompanyStackParamList,
+  "Company Scheduling"
+>;
+export interface CompanySchedulingProps {
+  navigation: CompanySchedulingNavigationProp;
+  route: CompanySchedulingRouteProp;
+};
+
+// Edit Event
+export type CompanyEditEventNavigationProp = NativeStackNavigationProp<
+  CompanyStackParamList,
+  "Edit Event"
+>;
+export type CompanyEditEventRouteProp = RouteProp<
+  CompanyStackParamList,
+  "Edit Event"
+>;
+export interface CompanyEditEventProps {
+  navigation: CompanyEditEventNavigationProp;
+  route: CompanyEditEventRouteProp;
+};

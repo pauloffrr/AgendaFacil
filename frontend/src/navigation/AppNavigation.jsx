@@ -18,12 +18,13 @@ import { CompanyRegistrationAddress } from "../screens/Company/AddressRegistrati
 import { CompanyRegistrationProfession } from "../screens/Company/ProfessionRegistration";
 import { CompanyRegistrationPassword } from "../screens/Company/PasswordRegistration";
 import { CompanyScheduling } from "../screens/Company/CompanyScheduling";
+import { EditEvent } from "../screens/Company/EditEvent";
 
 const Stack = createNativeStackNavigator();
 export function AppNavigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Company Scheduling">
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -123,6 +124,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Company Scheduling"
           component={CompanyScheduling}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Edit Event"
+          component={EditEvent}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
