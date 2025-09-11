@@ -15,9 +15,10 @@ import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 import { useFavorites } from "@/src/context/FavoritesContext";
 import axios from "axios";
+import { API_URL } from "@env";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
-  const { professionalId, date, startTime } = route.params;
+  const { professionalId, professionName, date, startTime } = route.params;
   const professional = ProfessionalMock.find(p => p.id === professionalId);
   const { toggleFavorite, isFavorite } = useFavorites();
   const [errorMessage, setErrorMessage] = useState("");
@@ -45,16 +46,16 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
     try {
       const data = {
         date: date,
-        startTime: startTime
+        startTime: startTime,
+        profession: professionName
       }
 
-      await axios.post("http://localhost:3000/api/scheduling", data, {
+      await axios.post(`${API_URL}/scheduling`, data, {
         headers: { "Content-Type": "application/json" }
       })
 
       setSucessMessage("Horário agendado com sucesso!")
       setTimeout(() => {
-        setErrorMessage("")
         setSucessMessage("")
       }, 1500)
 
@@ -63,7 +64,10 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
       }, 2000)
       
     } catch (error) {
-      console.error("Erro ao realizar o cadastro do Horário", error)
+      setErrorMessage("Erro ao realizar o cadastro do Horário " + error)
+      setTimeout(() => {
+        setErrorMessage("")
+      }, 1500)
     }
   }
 
