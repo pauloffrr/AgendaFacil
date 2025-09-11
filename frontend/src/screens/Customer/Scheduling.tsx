@@ -7,13 +7,13 @@ import { SelectDate } from "@/src/components/buttons/SelectDate";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { colors } from "@/src/styles/theme";
 import { Calendar } from "react-native-big-calendar";
-import { CustomerSchedulingPros } from "@/src/types/CustomerSchedulingType";
+import { SchedulingEventsPros } from "@/src/types/SchedulingEventsType";
 import { CancelAppoimentModal } from "@/src/components/modals/CancelAppoimentModal";
 import { SchedulingProps } from "@/src/types/Scheduling";
 import { API_URL } from '@env';
 
 export const CustomerScheduling: React.FC = () => {
-    const [scheduling, setScheduling] = useState<CustomerSchedulingPros[]>([]);
+    const [scheduling, setScheduling] = useState<SchedulingEventsPros[]>([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<SchedulingEventsPros | null>(null);
