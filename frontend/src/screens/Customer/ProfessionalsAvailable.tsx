@@ -10,7 +10,7 @@ import { ProfessionalsAvailableProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
 export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ navigation, route }) => {
-  const { id, name } = route.params;
+  const { id, name, date, startTime } = route.params;
 
   const filteredProfessionals = ProfessionalMock.filter(
     (prof) => prof.professionId === id
@@ -43,6 +43,8 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
                       professionalId: item.id,
                       professionId: id,
                       professionName: name,
+                      date: date,
+                      startTime: startTime
                     })
                   }
                 />

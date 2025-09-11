@@ -11,12 +11,22 @@ export type CustomerStackParamList = {
   "Customer Notifications": undefined;
   "Customer Scheduling": undefined;
   "Favorites": { professionalId: number };
-  "Customer Date": { id: number; name: string };
-  "Professionals Available": { id: number; name: string };
+  "Customer Date": { 
+    id: number; 
+    name: string;
+  };
+  "Professionals Available": { 
+    id: number; 
+    name: string; 
+    date: string; 
+    startTime: string 
+  };
   "Professional Profile": {
     professionalId: number;
     professionId: number;
     professionName: string;
+    date: string;
+    startTime: string;
   };
 };
 
