@@ -19,11 +19,11 @@ Scheduling.init(
         },
         customerId: { 
             type: DataTypes.INTEGER, 
-            allowNull: false 
+            allowNull: true 
         },
         professionalId: { 
             type: DataTypes.INTEGER, 
-            allowNull: false 
+            allowNull: true
         },
         date: { 
             type: DataTypes.DATEONLY, 
