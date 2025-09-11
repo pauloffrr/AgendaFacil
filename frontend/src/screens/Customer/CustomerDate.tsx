@@ -17,7 +17,7 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [date, setDate] = useState<Date | null>(null);
-  const [time, setTime] = useState<Date | null>(null);
+  const [startTime, setStartTime] = useState<Date | null>(null);
 
   const showDatePicker = () => setDatePickerVisibility(true);
   const hideDatePicker = () => setDatePickerVisibility(false);
@@ -30,21 +30,26 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
   };
 
   const handleConfirmTime = (selectedTime: Date) => {
-    setTime(selectedTime);
+    setStartTime(selectedTime);
     hideTimePicker();
   };
 
   const next = () => {
-    if (!date || !time) return;
+    if (!date || !startTime) return;
 
     console.log("Selecionado:", {
       data: date.toLocaleDateString(),
-      hora: time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      hora: startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       id: id,
       name: name
     });
 
-    navigation.navigate("Professionals Available", { id, name });
+    navigation.navigate("Professionals Available", { 
+      id, 
+      name, 
+      date: date.toISOString().split("T")[0], 
+      startTime: startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) 
+    });
   };
 
   return (
@@ -73,8 +78,8 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
             <DateTimeInput
               label="Horário"
               value={
-                time
-                  ? time.toLocaleTimeString([], {
+                startTime
+                  ? startTime.toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })

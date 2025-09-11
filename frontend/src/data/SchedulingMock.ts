@@ -1,6 +1,6 @@
-import { Scheduling } from "@/src/types/SchedulingType";
+import { CompanyScheduling } from "@/src/types/CompanySchedulingType";
 
-export const SchedulingMock: Scheduling[] = [
+export const SchedulingMock: CompanyScheduling[] = [
     {
         id: "1",
         time: "08:00",

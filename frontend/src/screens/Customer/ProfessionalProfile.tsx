@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { faLocationDot, faStar, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
@@ -15,11 +14,15 @@ import { ReviewsCustomerMock } from "@/src/data/ReviewsCustomerMock";
 import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 import { useFavorites } from "@/src/context/FavoritesContext";
+import axios from "axios";
+import { API_URL } from "@env";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
-  const { professionalId } = route.params;
+  const { professionalId, professionName, date, startTime } = route.params;
   const professional = ProfessionalMock.find(p => p.id === professionalId);
   const { toggleFavorite, isFavorite } = useFavorites();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [sucessMessage, setSucessMessage] = useState("");
 
   if (!professional) {
     return (
@@ -30,6 +33,43 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
   };
 
   const favorite = isFavorite(professional.id);
+
+  const submitForm = async() => {
+    if(!date && !startTime) {
+      setErrorMessage("Todos os campos são obrigatórios")
+
+      setTimeout(() => {
+        setErrorMessage("")
+      }, 1500)
+    }
+
+    try {
+      const data = {
+        date: date,
+        startTime: startTime,
+        profession: professionName
+      }
+
+      await axios.post(`${API_URL}/scheduling`, data, {
+        headers: { "Content-Type": "application/json" }
+      })
+
+      setSucessMessage("Horário agendado com sucesso!")
+      setTimeout(() => {
+        setSucessMessage("")
+      }, 1500)
+
+      setTimeout(() => {
+        navigation.navigate("Customer Home")
+      }, 2000)
+      
+    } catch (error) {
+      setErrorMessage("Erro ao realizar o cadastro do Horário " + error)
+      setTimeout(() => {
+        setErrorMessage("")
+      }, 1500)
+    }
+  }
 
   return (
     <View style={styles.screen}>
@@ -77,14 +117,20 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
             <Text style={styles.textFavorites}>Adicionar aos Favoritos</Text>
           </View>
 
-          <TouchableOpacity style={styles.buttonWpp}>
+          <TouchableOpacity style={styles.buttonSchedule} onPress={submitForm}>
             <FontAwesomeIcon
-              icon={faWhatsapp as IconProp}
+              icon={faCalendarDays as IconProp}
               size={38}
-              style={styles.iconWpp}
+              style={styles.iconSchedule}
             />
-            <Text style={styles.textWpp}>Entre em Contato</Text>
+            <Text style={styles.textSchedule}>Agendar Horário</Text>
           </TouchableOpacity>
+
+          {
+            errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : 
+            sucessMessage ? <Text style={styles.sucessMessage}>{sucessMessage}</Text> : 
+            null
+          }
 
           <CustomerReviews />
           <AverageRating reviews={ReviewsCustomerMock} />
@@ -160,9 +206,9 @@ const styles = StyleSheet.create({
   textFavorites: {
     fontSize: 18
   },
-  buttonWpp: {
+  buttonSchedule: {
     marginTop: "10%",
-    backgroundColor: colors.green,
+    backgroundColor: colors.blue,
     padding: "5%",
     borderRadius: 5,
     display: "flex",
@@ -171,12 +217,24 @@ const styles = StyleSheet.create({
     gap: "5%",
     width: "70%",
   },
-  iconWpp: {
+  iconSchedule: {
     color: colors.white,
   },
-  textWpp: {
+  textSchedule: {
     color: colors.white,
     fontSize: 18,
     fontWeight: "700",
+  },
+  sucessMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.green,
+    fontWeight: "bold"
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.red,
+    fontWeight: "bold"
   }
 });

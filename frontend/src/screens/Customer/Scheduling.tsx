@@ -1,21 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
+import axios from "axios";
 import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
 import { SelectDate } from "@/src/components/buttons/SelectDate";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { colors } from "@/src/styles/theme";
 import { Calendar } from "react-native-big-calendar";
-import { CustomerSchedulingMock } from "@/src/data/CustomerSchedulingMock";
-import { SchedulingEventsPros } from "@/src/types/SchedulingEventsType";
+import { CustomerSchedulingPros } from "@/src/types/CustomerSchedulingType";
 import { CancelAppoimentModal } from "@/src/components/modals/CancelAppoimentModal";
+import { SchedulingProps } from "@/src/types/Scheduling";
+import { API_URL } from '@env';
 
 export const CustomerScheduling: React.FC = () => {
+    const [scheduling, setScheduling] = useState<CustomerSchedulingPros[]>([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<SchedulingEventsPros | null>(null);
 
-    const filteredEvents = CustomerSchedulingMock.filter((event) =>
+    const getScheduling = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/scheduling`);
+            const events = response.data.map((item: SchedulingProps) => {
+            const [year, month, day] = item.date.split("-").map(Number);
+            const [startHour, startMinute] = item.startTime.split(":").map(Number);
+            const [endHour, endMinute] = item.endTime.split(":").map(Number);
+
+            return {
+                title: `${item.profession}`,
+                start: new Date(year, month - 1, day, startHour, startMinute),
+                end: new Date(year, month - 1, day, endHour, endMinute)
+            };
+        });
+            setScheduling(events);
+        } catch (error) {
+            console.error("Erro ao buscar Agendamentos", error);
+        }
+    };
+
+    useEffect(() => {
+        getScheduling();
+    }, []);
+
+    const filteredEvents = scheduling.filter(event =>
         event.start.getDate() === selectedDate.getDate() &&
         event.start.getMonth() === selectedDate.getMonth() &&
         event.start.getFullYear() === selectedDate.getFullYear()
