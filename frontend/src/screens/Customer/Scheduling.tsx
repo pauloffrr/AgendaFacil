@@ -16,7 +16,7 @@ export const CustomerScheduling: React.FC = () => {
     const [scheduling, setScheduling] = useState<CustomerSchedulingPros[]>([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState<CustomerSchedulingPros | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<SchedulingEventsPros | null>(null);
 
     const getScheduling = async () => {
         try {
@@ -48,7 +48,7 @@ export const CustomerScheduling: React.FC = () => {
         event.start.getFullYear() === selectedDate.getFullYear()
     );
 
-    const handleEventPress = (event: CustomerSchedulingPros) => {
+    const handleEventPress = (event: SchedulingEventsPros) => {
         setSelectedEvent(event);
         setModalVisible(true);
     }
