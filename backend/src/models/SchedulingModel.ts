@@ -5,6 +5,7 @@ class Scheduling extends Model {
   public idScheduling!: number;
   public customerId!: number;
   public professionalId!: number;
+  public profession!: string;
   public date!: Date;
   public startTime!: string;
   public endTime!: string;
@@ -23,6 +24,10 @@ Scheduling.init(
         },
         professionalId: { 
             type: DataTypes.INTEGER, 
+            allowNull: true
+        },
+        profession: { 
+            type: DataTypes.STRING, 
             allowNull: true
         },
         date: { 

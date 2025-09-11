@@ -3,13 +3,14 @@ import Scheduling from "../models/SchedulingModel";
 
 export const createScheduling = async (req: Request, res: Response) => {
   try {
-    const { customerId, professionalId, date, startTime } = req.body;
+    const { customerId, professionalId, profession, date, startTime } = req.body;
 
     const endTime = calculateEndTime(startTime, 2);
 
     const scheduling = await Scheduling.create({
       customerId,
       professionalId,
+      profession,
       date,
       startTime,
       endTime,
