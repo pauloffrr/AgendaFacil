@@ -1,4 +1,4 @@
-import app from "./app";
+import app from './app';
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server on http://localhost:${port}`));
+const PORT = Number(process.env.PORT || 3000);
+app.listen(PORT, () => console.log(`🚀 API mock rodando em http://localhost:${PORT}`));
