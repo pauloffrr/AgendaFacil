@@ -13,9 +13,7 @@ export type CustomerStackParamList = {
   "Favorites": { professionalId: number };
   "Customer Date": { 
     id: number; 
-    name: string; 
-    date: string; 
-    startTime: string 
+    name: string;
   };
   "Professionals Available": { 
     id: number; 

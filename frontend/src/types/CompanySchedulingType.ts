@@ -1,4 +1,4 @@
-export interface Scheduling {
+export interface CompanyScheduling {
     id: string;
     time: string;
     title: string;
