@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "verbatimModuleSyntax": false
+    /* Language and Environment */
+    "target": "ES2020",                     /* Versão do JS emitido */
+    "module": "commonjs",                   /* Tipo de módulo usado (Node.js usa commonjs por padrão) */
+    "moduleResolution": "node",             /* Como os módulos serão resolvidos */
+    "esModuleInterop": true,                /* Permite usar import default em libs CommonJS */
+    "forceConsistentCasingInFileNames": true, /* Evita problemas de case em imports */
+    "strict": true,                         /* Ativa verificações mais rígidas de tipos */
+    "skipLibCheck": true,                   /* Ignora verificação de arquivos .d.ts */
+    "outDir": "./dist",                     /* Saída dos arquivos compilados */
+    "rootDir": "./src",                     /* Raiz do código-fonte */
+    "verbatimModuleSyntax": false           /* Mantém import/export sem transformações desnecessárias */
   }
 }
