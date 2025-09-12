@@ -7,16 +7,16 @@ import { SelectDate } from "@/src/components/buttons/SelectDate";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { colors } from "@/src/styles/theme";
 import { Calendar } from "react-native-big-calendar";
-import { CustomerSchedulingPros } from "@/src/types/CustomerSchedulingType";
+import { SchedulingEventsProps } from "@/src/types/SchedulingEventsType";
 import { CancelAppoimentModal } from "@/src/components/modals/CancelAppoimentModal";
 import { SchedulingProps } from "@/src/types/Scheduling";
 import { API_URL } from '@env';
 
 export const CustomerScheduling: React.FC = () => {
-    const [scheduling, setScheduling] = useState<CustomerSchedulingPros[]>([]);
+    const [scheduling, setScheduling] = useState<SchedulingEventsProps[]>([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState<CustomerSchedulingPros | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<SchedulingEventsProps | null>(null);
 
     const getScheduling = async () => {
         try {
@@ -50,7 +50,7 @@ export const CustomerScheduling: React.FC = () => {
         event.start.getFullYear() === selectedDate.getFullYear()
     );
 
-    const handleEventPress = (event: CustomerSchedulingPros) => {
+    const handleEventPress = (event: SchedulingEventsProps) => {
         setSelectedEvent(event);
         setModalVisible(true);
     }

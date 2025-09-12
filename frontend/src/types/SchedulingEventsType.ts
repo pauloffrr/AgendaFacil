@@ -1,4 +1,4 @@
-export interface CustomerSchedulingPros {
+export interface SchedulingEventsProps {
     id: number;
     title: string;
     start: Date
