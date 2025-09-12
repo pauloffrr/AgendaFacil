@@ -1,14 +1,17 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/config";
 
+export type SchedulingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED';
+
 class Scheduling extends Model {
-  public idScheduling!: number;
-  public customerId!: number;
-  public professionalId!: number;
-  public profession!: string;
-  public date!: Date;
-  public startTime!: string;
-  public endTime!: string;
+    public idScheduling!: number;
+    public customerId!: number;
+    public professionalId!: number;
+    public profession!: string;
+    public date!: Date;
+    public startTime!: string;
+    public endTime!: string;
+    public status!: SchedulingStatus;
 }
 
 Scheduling.init(
@@ -41,6 +44,11 @@ Scheduling.init(
         endTime: { 
             type: DataTypes.TIME, 
             allowNull: false 
+        },
+        status: { 
+            type: DataTypes.STRING, 
+            allowNull: false,
+            defaultValue: "CONFIRMED" 
         }
     },
     {
