@@ -22,15 +22,17 @@ export const CustomerScheduling: React.FC = () => {
         try {
             const response = await axios.get(`${API_URL}/scheduling`);
             const events = response.data.map((item: SchedulingProps) => {
-            const [year, month, day] = item.date.split("-").map(Number);
-            const [startHour, startMinute] = item.startTime.split(":").map(Number);
-            const [endHour, endMinute] = item.endTime.split(":").map(Number);
+                const [year, month, day] = item.date.split("-").map(Number);
+                const [startHour, startMinute] = item.startTime.split(":").map(Number);
+                const [endHour, endMinute] = item.endTime.split(":").map(Number);
 
-            return {
-                title: `${item.profession}`,
-                start: new Date(year, month - 1, day, startHour, startMinute),
-                end: new Date(year, month - 1, day, endHour, endMinute)
-            };
+                return {
+                    id: item.idScheduling,
+                    title: `${item.profession}`,
+                    start: new Date(year, month - 1, day, startHour, startMinute),
+                    end: new Date(year, month - 1, day, endHour, endMinute),
+                    status: item.status
+                };
         });
             setScheduling(events);
         } catch (error) {
@@ -53,6 +55,20 @@ export const CustomerScheduling: React.FC = () => {
         setModalVisible(true);
     }
 
+    const cancelScheduling = async (eventId: number) => {
+        try {
+            await axios.put(`${API_URL}/scheduling/${eventId}`, { status: "CANCELLED" });
+
+            setScheduling(prev =>
+                prev.map(event =>
+                    event.id === eventId ? { ...event, status: "CANCELLED", color: colors.red } : event
+                )
+            );
+        } catch (error) {
+            console.error("Erro ao cancelar agendamento", error);
+        }
+    };
+
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
@@ -70,6 +86,12 @@ export const CustomerScheduling: React.FC = () => {
                     date={selectedDate}
                     renderHeader={() => null}
                     onPressEvent={handleEventPress}
+                    eventCellStyle={(event) => {
+                        if (event.status === "CANCELLED") {
+                            return { backgroundColor: colors.red };
+                        }
+                        return { backgroundColor: colors.blue };
+                    }}
                 />
             </View>
 
@@ -77,7 +99,9 @@ export const CustomerScheduling: React.FC = () => {
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}
                 onSubmit={() => {
-                    console.log("Evento:", selectedEvent);
+                    if (selectedEvent?.id) {
+                        cancelScheduling(selectedEvent.id);
+                    }
                     setModalVisible(false);
                 }}
             />

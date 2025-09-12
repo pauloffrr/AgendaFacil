@@ -34,6 +34,13 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
     hideTimePicker();
   };
 
+  const formatDate = (d: Date) => {
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
   const next = () => {
     if (!date || !startTime) return;
 
@@ -47,7 +54,7 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
     navigation.navigate("Professionals Available", { 
       id, 
       name, 
-      date: date.toISOString().split("T")[0], 
+      date: formatDate(date), 
       startTime: startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) 
     });
   };
