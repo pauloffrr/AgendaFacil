@@ -6,6 +6,7 @@ import { ExpandableSection } from "@/src/components/sections/ExpandableSection";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
+import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
 import { colors } from "@/src/styles/theme";
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ userType }) => {
@@ -28,7 +29,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ userType }) => {
                 </ScrollView>
             </View>
 
-            <CustomerNavigationBar />
+            {userType ? <CustomerNavigationBar /> : <CompanyNavigationBar />}
         </View>
     );
 };
