@@ -4,9 +4,6 @@ import { CustomerReviewModalProps } from "@/src/types/CustomerModalType";
 import { colors } from "@/src/styles/theme";
 
 export const CancelAppoimentModal: React.FC<CustomerReviewModalProps> = ({ visible, onClose, onSubmit }) => {
-    const handleSend = () => {
-        onClose();
-    };
 
     return (
         <Modal visible={visible} transparent animationType="slide">
@@ -20,7 +17,7 @@ export const CancelAppoimentModal: React.FC<CustomerReviewModalProps> = ({ visib
                                 <Text style={styles.buttonTextClose}>Voltar</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.buttonCancel} onPress={handleSend}>
+                            <TouchableOpacity style={styles.buttonCancel} onPress={onSubmit}>
                                 <Text style={styles.buttonTextCancel}>Cancelar</Text>
                             </TouchableOpacity>
                         </View>

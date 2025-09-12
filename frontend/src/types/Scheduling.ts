@@ -6,4 +6,6 @@ export interface SchedulingProps {
   date: string;
   startTime: string;
   endTime: string;
+  status: string;
+  color?: string;
 }

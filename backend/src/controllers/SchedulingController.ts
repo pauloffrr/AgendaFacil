@@ -14,6 +14,7 @@ export const createScheduling = async (req: Request, res: Response) => {
       date,
       startTime,
       endTime,
+      status: "CONFIRMED"
     });
 
     res.status(201).json(scheduling);
