@@ -85,7 +85,7 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                         keyboardType="numeric"
                     />
         
-                    <Button buttonText="Enviar" onPress={() => navigation.navigate("Company Scheduling", { id: id })} />
+                    <Button buttonText="Enviar" onPress={() => navigation.navigate("Company Scheduling", { id })} />
                 </View>
 
             </KeyboardAwareScrollView>

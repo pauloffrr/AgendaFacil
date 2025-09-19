@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,7 @@ import { colors } from "@/src/styles/theme";
 
 export const SelectDate: React.FC<SelectDateProps> = ({ selectedDate, onDateChange }) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [initialLoad, setInitialLoad] = useState(true);
     const [days, setDays] = useState(() => getWeekDays(selectedDate));
 
     const dayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
@@ -33,6 +34,20 @@ export const SelectDate: React.FC<SelectDateProps> = ({ selectedDate, onDateChan
         setDays(getWeekDays(date));
         hideDatePicker();
     };
+
+    useEffect(() => {
+        if (initialLoad) {
+            setDays(getWeekDays(selectedDate));
+            setInitialLoad(false);
+        } else {
+            const minDate = days[0];
+            const maxDate = days[days.length - 1];
+
+            if (selectedDate < minDate || selectedDate > maxDate) {
+                setDays(getWeekDays(selectedDate));
+            }
+        }
+    }, [selectedDate, days, initialLoad]);
 
     const handleSelectDay = (day: Date) => {
         onDateChange(day);
