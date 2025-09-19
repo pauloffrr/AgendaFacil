@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRoute } from "@react-navigation/native";
 import { View, StyleSheet } from "react-native";
 import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
@@ -10,7 +11,23 @@ import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
 import { CompanySchedulingProps } from "@/src/types/CompanyStackType";
 
 export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation }) => {
+    const route = useRoute();
+    const { id } = (route.params as { id?: number }) || {};
+
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [scrollOffsetMinutes, setScrollOffsetMinutes] = useState(0);
+
+    React.useEffect(() => {
+        if (id) {
+            const event = CompanySchedulingMock.find((ev) => ev.id === id);
+            if (event) {
+                setSelectedDate(event.start);
+
+                const minutes = event.start.getHours() * 60 + event.start.getMinutes();
+                setScrollOffsetMinutes(minutes);
+            }
+        }
+    }, [id]);
 
     const filteredEvents = CompanySchedulingMock.filter((event) =>
         event.start.getDate() === selectedDate.getDate() &&
@@ -34,6 +51,7 @@ export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation
                     mode="day"
                     date={selectedDate}
                     renderHeader={() => null}
+                    scrollOffsetMinutes={scrollOffsetMinutes}
                     onPressEvent={(event) => navigation.navigate("Edit Event", { id: event.id })}
                 />
             </View>
