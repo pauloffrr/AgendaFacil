@@ -13,6 +13,7 @@ import { RepeatScheduling } from "@/src/components/display/RepeatScheduling";
 import { Button } from "@/src/components/buttons/Button";
 import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
 import { CompanyEditScheduleProps } from "@/src/types/CompanyStackType";
+import { colors } from "@/src/styles/theme";
 
 export const EditSchedule: React.FC<CompanyEditScheduleProps> = ({ navigation }) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -97,7 +98,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        padding: "5%"
+        padding: "5%",
+        backgroundColor: colors.white
     },
     header: {
         display: "flex",
