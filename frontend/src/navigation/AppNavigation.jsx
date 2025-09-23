@@ -19,6 +19,7 @@ import { CompanyRegistrationProfession } from "../screens/Company/ProfessionRegi
 import { CompanyRegistrationPassword } from "../screens/Company/PasswordRegistration";
 import { CompanyScheduling } from "../screens/Company/CompanyScheduling";
 import { EditEvent } from "../screens/Company/EditEvent";
+import { EditSchedule } from "../screens/Company/EditSchedule";
 
 const Stack = createNativeStackNavigator();
 export function AppNavigation() {
@@ -130,6 +131,12 @@ export function AppNavigation() {
         <Stack.Screen
           name="Edit Event"
           component={EditEvent}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Edit Schedule"
+          component={EditSchedule}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
