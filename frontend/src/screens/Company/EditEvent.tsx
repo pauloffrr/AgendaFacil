@@ -11,12 +11,12 @@ import { TimeInput } from "@/src/components/inputs/TimeInput";
 import { Input } from "@/src/components/inputs/Input";
 import { Button } from "@/src/components/buttons/Button";
 import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
-import { CompanyEditEventProps } from "@/src/types/CompanyStackType";
+import { CompanyEditEventProps, CompanyEditEventRouteProp } from "@/src/types/CompanyStackType";
 import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
 
 export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
-    const route = useRoute();
-    const { id } = route.params as { id: number };
+    const route = useRoute<CompanyEditEventRouteProp>();
+    const { id } = route.params;
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [date, setDate] = useState<Date | null>(null);
     const [title, setTitle] = useState("");

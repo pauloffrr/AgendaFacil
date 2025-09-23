@@ -8,11 +8,11 @@ import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigation
 import { colors } from "@/src/styles/theme";
 import { Calendar } from "react-native-big-calendar";
 import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
-import { CompanySchedulingProps } from "@/src/types/CompanyStackType";
+import { CompanySchedulingProps, CompanySchedulingRouteProp } from "@/src/types/CompanyStackType";
 
 export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation }) => {
-    const route = useRoute();
-    const { id } = (route.params as { id?: number }) || {};
+    const route = useRoute<CompanySchedulingRouteProp>();
+    const { id } = route.params || {};
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [scrollOffsetMinutes, setScrollOffsetMinutes] = useState(0);
