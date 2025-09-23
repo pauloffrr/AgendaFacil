@@ -14,7 +14,7 @@ export const CompanyNavigationBar: React.FC = () => {
         <View style={styles.container}>
             <TouchableOpacity 
                 style={styles.button}
-                onPress={() => navigation.navigate("Company Scheduling")}
+                onPress={() => navigation.navigate("Company Scheduling", {})}
             >
                 <FontAwesomeIcon 
                     icon={faCalendarDays as IconProp} 

@@ -7,7 +7,7 @@ export type CompanyStackParamList = {
   "Company Registration Profession": undefined;
   "Company Registration Password": undefined;
   "Login": undefined;
-  "Company Scheduling": { id: number };
+  "Company Scheduling": { id?: number };
   "Edit Event": { id: number };
   "Edit Schedule": undefined;
   "Company Notifications": undefined;
@@ -84,4 +84,18 @@ export type CompanyEditEventRouteProp = RouteProp<
 export interface CompanyEditEventProps {
   navigation: CompanyEditEventNavigationProp;
   route: CompanyEditEventRouteProp;
+};
+
+// Edit Schedule
+export type CompanyEditScheduleNavigationProp = NativeStackNavigationProp<
+  CompanyStackParamList,
+  "Edit Schedule"
+>;
+export type CompanyEditScheduleRouteProp = RouteProp<
+  CompanyStackParamList,
+  "Edit Schedule"
+>;
+export interface CompanyEditScheduleProps {
+  navigation: CompanyEditScheduleNavigationProp;
+  route: CompanyEditScheduleRouteProp;
 };

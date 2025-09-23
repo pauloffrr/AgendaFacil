@@ -2,31 +2,23 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useRoute } from "@react-navigation/native";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
+import { NewSchedule } from "@/src/components/display/NewSchedule";
 import { DateTimeInput } from "@/src/components/inputs/DateTimeInput";
 import { TimeInput } from "@/src/components/inputs/TimeInput";
 import { Input } from "@/src/components/inputs/Input";
+import { RepeatScheduling } from "@/src/components/display/RepeatScheduling";
 import { Button } from "@/src/components/buttons/Button";
 import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
-import { CompanyEditEventProps, CompanyEditEventRouteProp } from "@/src/types/CompanyStackType";
-import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
+import { CompanyEditScheduleProps } from "@/src/types/CompanyStackType";
 
-export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
-    const route = useRoute<CompanyEditEventRouteProp>();
-    const { id } = route.params;
+export const EditSchedule: React.FC<CompanyEditScheduleProps> = ({ navigation }) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [date, setDate] = useState<Date | null>(null);
     const [title, setTitle] = useState("");
     const [budget, setBudget] = useState("");
-
-    const event = CompanySchedulingMock.find((event) => event.id === id);
-
-    const dayWeek = event?.start.toLocaleDateString("pt-BR", { weekday: "long" });
-    const fullDate = event?.start.toLocaleDateString("pt-BR");
-    const hour = event?.start.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
     
     const showDatePicker = () => setDatePickerVisibility(true);
     const hideDatePicker = () => setDatePickerVisibility(false);
@@ -50,9 +42,11 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                     <UserIcon />
                 </View>
 
-                <Text style={styles.title}>Editar o horário de { dayWeek } { fullDate } - { hour }</Text>
+                <Text style={styles.title}>O que deseja fazer?</Text>
 
                 <View style={styles.inputs}>
+                    <NewSchedule />
+
                     <DateTimeInput
                         label="Data"
                         value={date ? date.toLocaleDateString() : ""}
@@ -77,6 +71,8 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                         keyboardType="default"
                     />
 
+                    <RepeatScheduling />
+
                     <Input 
                         label="Orçamento"
                         placeholder="Digite o orçamento do serviço"
@@ -85,7 +81,7 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                         keyboardType="numeric"
                     />
         
-                    <Button buttonText="Enviar" onPress={() => navigation.navigate("Company Scheduling", { id })} />
+                    <Button buttonText="Enviar" onPress={() => navigation.navigate("Company Scheduling", {})} />
                 </View>
 
             </KeyboardAwareScrollView>
