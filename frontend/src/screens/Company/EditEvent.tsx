@@ -13,6 +13,7 @@ import { Button } from "@/src/components/buttons/Button";
 import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
 import { CompanyEditEventProps, CompanyEditEventRouteProp } from "@/src/types/CompanyStackType";
 import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
+import { colors } from "@/src/styles/theme";
 
 export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
     const route = useRoute<CompanyEditEventRouteProp>();
@@ -101,7 +102,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        padding: "5%"
+        padding: "5%",
+        backgroundColor: colors.white
     },
     header: {
         display: "flex",
