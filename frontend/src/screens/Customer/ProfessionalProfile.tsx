@@ -133,7 +133,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
           }
 
           <CustomerReviews />
-          <AverageRating reviews={ReviewsCustomerMock} />
+          <AverageRating reviews={ReviewsCustomerMock} style={styles.averageRating}/>
         </View>
       </ScrollView>
 
@@ -236,5 +236,8 @@ const styles = StyleSheet.create({
     marginTop: "3%",
     color: colors.red,
     fontWeight: "bold"
+  },
+  averageRating: {
+    marginBottom: "70%"
   }
 });
