@@ -20,7 +20,7 @@ export const createScheduling = async (req: Request, res: Response) => {
     res.status(201).json(scheduling);
   } catch (error) {
     console.error(error);  
-    res.status(500).json({ error: "Erro ao criar agendamento" });
+    res.status(500).json({ error: "Error creating appointment" });
   }
 };
 
@@ -29,7 +29,7 @@ export const getScheduling = async (req: Request, res: Response) => {
     const appointments = await Scheduling.findAll();
     res.json(appointments);
   } catch (error) {
-    res.status(500).json({ error: "Erro ao listar appointments" });
+    res.status(500).json({ error: "Error when listing appointments" });
   }
 };
 
@@ -40,13 +40,13 @@ export const updateScheduling = async (req: Request, res: Response) => {
 
     const scheduling = await Scheduling.findByPk(id);
     if (!scheduling) {
-        return res.status(404).json({ error: "Agendamento não encontrado" });
+        return res.status(404).json({ error: "Appointment not found" });
     }
 
     await scheduling.update(data);
     res.json(scheduling);
   } catch (error) {
-    res.status(500).json({ error: "Erro ao atualizar agendamento" });
+    res.status(500).json({ error: "Error updating schedule" });
   }
 };
 
@@ -55,12 +55,12 @@ export const deleteScheduling = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const scheduling = await Scheduling.findByPk(id);
-    if (!scheduling) return res.status(404).json({ error: "Agendamento não encontrado" });
+    if (!scheduling) return res.status(404).json({ error: "Appointment not found" });
 
     await scheduling.destroy();
-    res.json({ message: "Agendamento deletado com sucesso" });
+    res.json({ message: "Schedule deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Erro ao deletar agendamento" });
+    res.status(500).json({ error: "Error deleting appointment" });
   }
 };
 

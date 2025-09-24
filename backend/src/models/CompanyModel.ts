@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/config";
 import UserModel from "./UserModel";
 
-class Company extends Model {
+class CompanyModel extends Model {
   public idCompany!: number;
   public corporateReason!: string;
   public cnpj!: string;
@@ -12,7 +12,7 @@ class Company extends Model {
   public userId!: number;
 }
 
-Company.init(
+CompanyModel.init(
   {
     idCompany: { 
       type: DataTypes.INTEGER, 
@@ -50,7 +50,7 @@ Company.init(
   }
 );
 
-UserModel.hasOne(Company, { foreignKey: "userId" });
-Company.belongsTo(UserModel, { foreignKey: "userId" });
+UserModel.hasOne(CompanyModel, { foreignKey: "userId" });
+CompanyModel.belongsTo(UserModel, { foreignKey: "userId" });
 
-export default Company;
+export default CompanyModel;
