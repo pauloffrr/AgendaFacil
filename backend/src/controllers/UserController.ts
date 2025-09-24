@@ -3,7 +3,18 @@ import UserModel from "../models/UserModel";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const { name, cpf, phone, state, city, street, number, complement, email, password } = req.body;
+    const { 
+      name, 
+      cpf, 
+      phone, 
+      state, 
+      city, 
+      street, 
+      number, 
+      complement, 
+      email, 
+      password 
+    } = req.body;
 
     const user = await UserModel.create({
       name,
@@ -41,17 +52,75 @@ export const getUserById = async (req: Request<{ id: string }>, res: Response) =
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const data = req.body;
+    const loggedUser = req.body.user.idUser
+    const idUserUpdate = Number(req.params.id)
 
-    const user = await UserModel.findByPk(id);
-    if (!user) {
-        return res.status(404).json({ error: "User not found" });
+    if (Number(loggedUser) !== idUserUpdate) {
+      return res.status(403).json({ error: "You do not have permission to edit this user" })
     }
 
-    await user.update(data);
-    res.json(user);
+    const { 
+      name, 
+      cpf, 
+      phone, 
+      state, 
+      city, 
+      street, 
+      number, 
+      complement, 
+      email, 
+      currentPassword,
+      newPassword
+    } = req.body;
+
+    if( !name || !cpf || !phone || !state || !city || !street || !number || !complement ) {
+      return res.status(400)
+        .json({error: "All fields are mandatory"})
+    }
+
+    const user = await UserModel.findByPk(req.params.id)
+
+    if(!user) {
+      return res.status(404)
+        .json({error: "User not found"})
+    }
+
+    if (email && email !== user.email) {
+      return res.status(400).json({ message: "Changing email is not allowed." })
+    }
+
+    user.name = name
+    user.cpf = cpf
+    user.phone = phone
+    user.state = state
+    user.city = city
+    user.street = street
+    user.number = number
+    user.complement = complement
+
+    if (currentPassword && newPassword) {
+      const correctPassword = await user.validatePassword(currentPassword)
+
+      if (!correctPassword) {
+        return res.status(401).json({ error: "Incorrect current password" })
+      }
+
+      const validatePasswordLevel = UserModel.validatePasswordLevel(newPassword)
+
+      if (!validatePasswordLevel.validate) {
+        return res.status(400).json({ 
+          error: "Password too weak",
+          details: validatePasswordLevel.requirements
+        })
+      }
+
+      user.password = newPassword
+    }
+
+    await user.save()
+    return res.status(200).json(user)
+
   } catch (error) {
-    res.status(500).json({ error: "Error when updating user" });
+    return res.status(500).json("Internal server error " + error)
   }
 };

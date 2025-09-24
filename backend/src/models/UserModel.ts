@@ -103,4 +103,14 @@ UserModel.init(
   }
 );
 
+UserModel.beforeCreate(async (user: UserModel) => {
+    await user.hashPassword()
+})
+
+UserModel.beforeUpdate(async (user: UserModel) => {
+    if(user.changed('password')) {
+        await user.hashPassword()
+    }
+})
+
 export default UserModel;
