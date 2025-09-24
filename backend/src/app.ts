@@ -1,14 +1,17 @@
 import express from 'express';
 import sequelize from './config/config'
-import servicesRoutes from './routes/services.routes';
 import appointmentsRoutes from './routes/appointments.routes';
 import SchedulingRoutes from './routes/SchedulingRoutes';
+import UserRoutes from './routes/UserRoutes';
+import CompanyRoutes from './routes/CompanyRoutes';
 
 const app = express();
 app.use(express.json());
-app.use('/api/services', servicesRoutes);
+
 app.use('/api/appointments', appointmentsRoutes);
 app.use('/api/scheduling', SchedulingRoutes)
+app.use('/api/user', UserRoutes)
+app.use('/api/company', CompanyRoutes)
 
 
 app.get('/', (_req, res) => res.json({ ok: true, message: 'CRUD Serviços (mock)' }));
