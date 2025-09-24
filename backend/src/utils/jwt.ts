@@ -11,15 +11,7 @@ export const generateToken = (user: UserModel): string => {
     const payload = {
         idUser: user.idUser,
         name: user.name,
-        cpf: user.cpf,
-        phone: user.phone,
-        state: user.state,
-        city: user.city,
-        street: user.street,
-        number: user.number,
-        complement: user.complement,
         email: user.email,
-        password: user.password,
         type: user.type
     }
 

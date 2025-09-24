@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import UserModel from "../models/UserModel";
+import CompanyModel from "../models/CompanyModel";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -13,7 +14,9 @@ export const createUser = async (req: Request, res: Response) => {
       number, 
       complement, 
       email, 
-      password 
+      password,
+      type,
+      company 
     } = req.body;
 
     const user = await UserModel.create({
@@ -26,8 +29,20 @@ export const createUser = async (req: Request, res: Response) => {
       number,
       complement,
       email,
-      password
+      password,
+      type
     });
+
+    if(type === "COMPANY" && company) {
+      await CompanyModel.create({
+        corporateReason: company.corporateReason,
+        cnpj: company.cnpj,
+        rayKm: company.rayKm,
+        category: company.category,
+        profession: company.profession,
+        userId: user.idUser
+      })
+    }
 
     res.status(201).json(user);
   } catch (error) {
