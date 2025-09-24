@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { MonthsMock } from "@/src/data/MonthsMock";
 import { colors } from "@/src/styles/theme";
 
 export const MonthYearInput: React.FC = () => {
@@ -11,18 +12,13 @@ export const MonthYearInput: React.FC = () => {
     const [month, setMonth] = useState(currentMonth);
     const [year, setYear] = useState(currentYear);
 
-    const months = [
-        "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-        "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"
-    ];
-
     const years = Array.from({ length: 51 }, (_, i) => currentYear - i);
 
     const getSelectableMonths = () => {
         if (year === currentYear) {
-            return months.slice(0, currentMonth);
+            return MonthsMock.slice(0, currentMonth);
         }
-        return months;
+        return MonthsMock;
     };
 
     return (
@@ -42,7 +38,7 @@ export const MonthYearInput: React.FC = () => {
                 
                 <Picker selectedValue={month} onValueChange={(value) => setMonth(value)} style={styles.input}>
                     {getSelectableMonths().map((month, increment) => (
-                        <Picker.Item key={increment} label={month} value={increment + 1} />
+                        <Picker.Item key={increment} label={month.month} value={increment + 1} />
                     ))}
                 </Picker>
             </View>
