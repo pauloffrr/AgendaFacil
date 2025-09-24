@@ -30,7 +30,7 @@ export const listCompany = async (req: Request, res: Response) => {
   }
 };
 
-export const getComapanyById = async (req: Request<{ id: string }>, res: Response) => {
+export const getCompanyById = async (req: Request<{ id: string }>, res: Response) => {
   const company = await CompanyModel.findByPk(req.params.id)
   return res.status(200).json(company)
 };
