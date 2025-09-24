@@ -4,15 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import * as Progress from "react-native-progress";
-import { CalculateReviews } from "@/src/types/CalculateReviewsType";
+import { AverageRatingProps } from "@/src/types/AverageRatingType";
 import { calculateAverage, countRatings } from "@/src/utils/CalculateReviewsAverage";
 import { colors } from "@/src/styles/theme";
 
-interface AverageRatingProps {
-  reviews: CalculateReviews[];
-};
-
-export const AverageRating: React.FC<AverageRatingProps> = ({ reviews }) => {
+export const AverageRating: React.FC<AverageRatingProps> = ({ reviews, style }) => {
   const totalReviews = reviews.length;
   const average = calculateAverage(reviews);
   const ratingCounts = countRatings(reviews);
@@ -21,7 +17,7 @@ export const AverageRating: React.FC<AverageRatingProps> = ({ reviews }) => {
     <View>
       <Text style={styles.textAverage}>Média de Avaliações</Text>
 
-      <View style={styles.card}>
+      <View style={[styles.card, style]}>
         <View style={styles.first}>
           <View style={styles.totalAverage}>
             <Text style={styles.number}>{average.toFixed(1)}</Text>
@@ -81,7 +77,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: "row",
     paddingVertical: "5%",
-    marginBottom: "70%",
     marginTop: "5%",
   },
   first: {
