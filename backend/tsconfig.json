@@ -10,6 +10,8 @@
     "skipLibCheck": true,                   /* Ignora verificação de arquivos .d.ts */
     "outDir": "./dist",                     /* Saída dos arquivos compilados */
     "rootDir": "./src",                     /* Raiz do código-fonte */
-    "verbatimModuleSyntax": false           /* Mantém import/export sem transformações desnecessárias */
+    "verbatimModuleSyntax": false,           /* Mantém import/export sem transformações desnecessárias */
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "types": []
   }
 }

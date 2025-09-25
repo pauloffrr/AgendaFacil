@@ -12,12 +12,17 @@ export const generateToken = (user: UserModel): string => {
         idUser: user.idUser,
         name: user.name,
         email: user.email,
-        type: user.type
+        userType: user.type
     }
 
     return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
 }
 
 export const verifyToken = (token: string) => {
-    return jwt.verify(token, JWT_SECRET)
+    return jwt.verify(token, JWT_SECRET) as {
+        idUser: string;
+        name: string;
+        email: string;
+        userType: "CUSTOMER" | "COMPANY";
+    };
 }

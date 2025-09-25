@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const loadToken = async () => {
             const storedToken = await AsyncStorage.getItem("authToken");
+            console.log("Token armazenado no frontend:", storedToken);
             if (storedToken) setToken(storedToken);
             setLoadingAuth(false);
         };
@@ -24,8 +25,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const login = async (newToken: string) => {
-        await AsyncStorage.setItem("authToken", newToken);
-        setToken(newToken);
+        try {
+            await AsyncStorage.setItem("authToken", newToken);
+            setToken(newToken);
+            console.log("Token salvo:", newToken);
+        } catch (err) {
+            console.error("Error saving token:", err);
+        }
     };
 
     const logout = async () => {

@@ -4,7 +4,7 @@ import { authMiddleware } from "../middleware/authMiddleware"
 
 const router = express.Router()
 
-router.get("/user/profile", authMiddleware, userLogged)
+router.get("/profile", authMiddleware, userLogged)
 router.post("/", loginUser)
 
 export default router

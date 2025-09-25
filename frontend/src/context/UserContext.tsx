@@ -42,6 +42,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 const response = await api.get("/user/profile", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
+                console.log("Token enviado no header:", token);
 
                 setUser(response.data.user)
 

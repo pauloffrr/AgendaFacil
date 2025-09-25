@@ -43,7 +43,8 @@ export const loginUser = async (req: Request, res: Response) => {
             user: {
                 id: user.idUser,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                userType: user.type
             }
         })
 
@@ -63,7 +64,7 @@ export const userLogged = (req: Request, res: Response) => {
     const token = authHeader.split(" ")[1]
 
     try {
-        const secret = process.env.JWT_SECRETA as string
+        const secret = process.env.JWT_SECRET as string
 
         const decoded = jwt.verify(token, secret)
 

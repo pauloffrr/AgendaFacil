@@ -36,17 +36,12 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
       const { token, user } = response.data;
 
       await login(token);
-
       setUser(user);
-      setUserType(user.userType);
 
       setSucessMessage("Login successful!");
       setTimeout(() => {
         setSucessMessage("")
       }, 1500);
-
-      setEmail("");
-      setPassword("");
 
     } catch (error) {
       console.error("Login error:", error);
