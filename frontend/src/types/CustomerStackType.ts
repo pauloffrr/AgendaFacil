@@ -2,9 +2,22 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
 
 export type CustomerStackParamList = {
-  "Customer Registration Data": undefined;
-  "Customer Registration Address": undefined;
-  "Customer Registration Password": undefined;
+  "Customer Registration Data": undefined
+  "Customer Registration Address": {
+    name: string;
+    phone: string;
+    cpf: string;
+  };
+  "Customer Registration Password": {
+    name: string;
+    phone: string;
+    cpf: string;
+    selectedState: string;
+    selectedCity: string;
+    street: string;
+    number: string;
+    complement: string;
+  };
   "Login": undefined;
   "Profile": undefined;
   "Customer Home": undefined;
@@ -38,6 +51,7 @@ export type LoginNavigationProp = NativeStackNavigationProp<
 
 export interface LoginProps {
   navigation: LoginNavigationProp;
+  setUserType: (type: "CUSTOMER" | "COMPANY") => void;
 }
 
 //Customer Registration Data
@@ -56,9 +70,15 @@ export type CustomerRegistrationAddressNavigationProp = NativeStackNavigationPro
   "Customer Registration Address"
 >;
 
+export type CustomerRegistrationAddressRouteProp = RouteProp<
+  CustomerStackParamList,
+  "Customer Registration Address"
+>;
+
 export interface CustomerRegistrationAddressProps {
   navigation: CustomerRegistrationAddressNavigationProp;
-}
+  route: CustomerRegistrationAddressRouteProp;
+};
 
 //Customer Registration Password
 export type CustomerRegistrationPasswordNavigationProp = NativeStackNavigationProp<
@@ -66,9 +86,15 @@ export type CustomerRegistrationPasswordNavigationProp = NativeStackNavigationPr
   "Customer Registration Password"
 >;
 
+export type CustomerRegistrationPasswordRouteProp = RouteProp<
+  CustomerStackParamList,
+  "Customer Registration Password"
+>;
+
 export interface CustomerRegistrationPasswordProps {
   navigation: CustomerRegistrationPasswordNavigationProp;
-}
+  route: CustomerRegistrationPasswordRouteProp;
+};
 
 //Navigation Bar
 export type CustomerNavigationProp =

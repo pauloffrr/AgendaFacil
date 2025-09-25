@@ -1,13 +1,19 @@
 import React from "react";
 import { FavoritesProvider } from "./src/context/FavoritesContext";
+import { AuthProvider } from "./src/context/AuthContext";
+import { UserProvider } from "./src/context/UserContext";
 import { AppNavigation } from "./src/navigation/AppNavigation";
 
-const Home: React.FC = () => {
+const App: React.FC = () => {
   return (
-    <FavoritesProvider>
-      <AppNavigation />
-    </FavoritesProvider>
+    <AuthProvider>
+      <UserProvider>
+        <FavoritesProvider>
+          <AppNavigation />
+        </FavoritesProvider>
+      </UserProvider>
+    </AuthProvider>
   );
-}
+};
 
-export default Home;
+export default App;

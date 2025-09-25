@@ -7,14 +7,51 @@ import { PasswordInput } from "@/src/components/inputs/PasswordInput";
 import { Button } from "@/src/components/buttons/Button";
 import { LoginProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
+import { useAuth } from "../context/AuthContext";
+import { useUser } from "../context/UserContext";
+import api from "@/src/services/Api";
 
-export const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
+export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) => {
   const [email, setEmail] = useState<string>("");
-  const [senha, setSenha] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const { login } = useAuth();
+  const { setUser } = useUser();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [sucessMessage, setSucessMessage] = useState("");
 
-  const handleLogin = () => {
-    console.log("Login:", { email, senha });
-    navigation.navigate("Customer Home");
+  const handleLogin = async () => {
+    try {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+      if (!emailRegex.test(email)) {
+          setErrorMessage("Invalid email format")
+
+          setTimeout(() => {
+              setErrorMessage("")
+          }, 1500)
+          
+          return
+      };
+
+      const response = await api.post("/login", { email, password });
+      const { token, user } = response.data;
+
+      await login(token);
+      setUser(user);
+
+      setSucessMessage("Login successful!");
+      setTimeout(() => {
+        setSucessMessage("")
+      }, 1500);
+
+    } catch (error) {
+      console.error("Login error:", error);
+
+      setErrorMessage("An error occurred during login. Please try again.");
+
+      setTimeout(() => {
+        setErrorMessage("")
+      }, 1500);
+    }
   };
 
   return (
@@ -36,8 +73,8 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
       <PasswordInput
         label="Senha"
         placeholder={"Insira a sua senha"}
-        value={senha}
-        onChangeText={setSenha}
+        value={password}
+        onChangeText={setPassword}
       />
 
       <View style={styles.row}>
@@ -49,6 +86,12 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
 
         <Button buttonText="Entrar" onPress={handleLogin} />
       </View>
+
+      {
+        errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : 
+        sucessMessage ? <Text style={styles.sucessMessage}>{sucessMessage}</Text> : 
+        null
+      }
     </KeyboardAwareScrollView>
   );
 };
@@ -76,5 +119,17 @@ const styles = StyleSheet.create({
     color: colors.blue,
     fontWeight: "bold",
     fontSize: 16
+  },
+  sucessMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.green,
+    fontWeight: "bold"
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.red,
+    fontWeight: "bold"
   }
 });

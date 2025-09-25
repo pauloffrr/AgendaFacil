@@ -1,39 +1,141 @@
 import { Request, Response } from "express";
-import { UserService } from "../services/UserService";
-
-const service = new UserService();
-
-export const listUsers = async (_req: Request, res: Response) => {
-  const users = await service.list();
-  res.json({ message: "Lista de usuários carregada com sucesso", data: users });
-};
-
-export const getUser = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  const user = await service.get(id);
-  if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
-  res.json({ message: "Usuário encontrado com sucesso", data: user });
-};
+import UserModel from "../models/UserModel";
+import CompanyModel from "../models/CompanyModel";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const user = await service.create(req.body);
-    res.status(201).json({ message: "Usuário criado com sucesso", data: user });
-  } catch (e: any) {
-    res.status(400).json({ error: e.message });
+    const { 
+      name, 
+      cpf, 
+      phone, 
+      state, 
+      city, 
+      street, 
+      number, 
+      complement, 
+      email, 
+      password,
+      type,
+      company 
+    } = req.body;
+
+    const user = await UserModel.create({
+      name,
+      cpf,
+      phone,
+      state,
+      city,
+      street,
+      number,
+      complement,
+      email,
+      password,
+      type
+    });
+
+    if(type === "COMPANY" && company) {
+      await CompanyModel.create({
+        corporateReason: company.corporateReason,
+        cnpj: company.cnpj,
+        rayKm: company.rayKm,
+        category: company.category,
+        profession: company.profession,
+        userId: user.idUser
+      })
+    }
+
+    res.status(201).json(user);
+  } catch (error) {
+    console.error(error);  
+    res.status(500).json({ error: "Error creating user" });
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  const updated = await service.update(id, req.body);
-  if (!updated) return res.status(404).json({ error: "Usuário não encontrado" });
-  res.json({ message: "Usuário atualizado com sucesso", data: updated });
+export const listUser = async (req: Request, res: Response) => {
+  try {
+    const users = await UserModel.findAll();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Error listing users" });
+  }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  const ok = await service.delete(id);
-  if (!ok) return res.status(404).json({ error: "Usuário não encontrado" });
-  res.json({ message: "Usuário deletado com sucesso" });
+export const getUserById = async (req: Request<{ id: string }>, res: Response) => {
+  const user = await UserModel.findByPk(req.params.id)
+  return res.status(200).json(user)
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const loggedUser = req.body.user.idUser
+    const idUserUpdate = Number(req.params.id)
+
+    if (Number(loggedUser) !== idUserUpdate) {
+      return res.status(403).json({ error: "You do not have permission to edit this user" })
+    }
+
+    const { 
+      name, 
+      cpf, 
+      phone, 
+      state, 
+      city, 
+      street, 
+      number, 
+      complement, 
+      email, 
+      currentPassword,
+      newPassword
+    } = req.body;
+
+    if( !name || !cpf || !phone || !state || !city || !street || !number || !complement ) {
+      return res.status(400)
+        .json({error: "All fields are mandatory"})
+    }
+
+    const user = await UserModel.findByPk(req.params.id)
+
+    if(!user) {
+      return res.status(404)
+        .json({error: "User not found"})
+    }
+
+    if (email && email !== user.email) {
+      return res.status(400).json({ message: "Changing email is not allowed." })
+    }
+
+    user.name = name
+    user.cpf = cpf
+    user.phone = phone
+    user.state = state
+    user.city = city
+    user.street = street
+    user.number = number
+    user.complement = complement
+
+    if (currentPassword && newPassword) {
+      const correctPassword = await user.validatePassword(currentPassword)
+
+      if (!correctPassword) {
+        return res.status(401).json({ error: "Incorrect current password" })
+      }
+
+      const validatePasswordLevel = UserModel.validatePasswordLevel(newPassword)
+
+      if (!validatePasswordLevel.validate) {
+        return res.status(400).json({ 
+          error: "Password too weak",
+          details: validatePasswordLevel.requirements
+        })
+      }
+
+      user.password = newPassword
+    }
+
+    await user.save()
+    return res.status(200).json(user)
+
+  } catch (error) {
+    return res.status(500).json("Internal server error " + error)
+  }
 };

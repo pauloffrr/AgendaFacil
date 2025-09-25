@@ -1,16 +1,39 @@
-import React from "react";
-import { View, StyleSheet, Image, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import { profileSectionsForClient, profileSectionsForCompany } from "@/src/data/ProfileSectionMock";
-import { ProfileScreenProps } from "@/src/types/ProfileScreenType";
 import { ExpandableSection } from "@/src/components/sections/ExpandableSection";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
 import { colors } from "@/src/styles/theme";
+import { useUser } from "@/src/context/UserContext";
+import { useAuth } from "@/src/context/AuthContext";
+import { LogoutModal } from "../components/modals/LogoutModal";
 
-export const ProfileScreen: React.FC<ProfileScreenProps> = ({ userType }) => {
-    const sections = userType === "client" ? profileSectionsForClient : profileSectionsForCompany;
+export const ProfileScreen: React.FC = () => {
+    const [modalVisible, setModalVisible] = useState(false);
+    const { user } = useUser();
+    const { logout } = useAuth();
+
+    const getUserType = () => {
+        if (!user) return "CUSTOMER";
+        
+        if (user.userType === "CUSTOMER") {
+            return "CUSTOMER";
+        } else if (user.userType === "COMPANY") {
+            return "COMPANY";
+        }
+        
+        return "CUSTOMER";
+    };
+
+    const userType = getUserType();
+    const sections = userType === "CUSTOMER" ? profileSectionsForClient : profileSectionsForCompany;
+
+    const handleLogoutPress = () => {
+        setModalVisible(true);
+    }
 
     return (
         <View style={styles.screen}>
@@ -26,10 +49,22 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ userType }) => {
                             <Section key={key} label={label}/>
                         </ExpandableSection>
                     ))}
+
+                    <View style={styles.div}>
+                        <TouchableOpacity style={styles.button} onPress={() => handleLogoutPress()}>
+                            <Text style={styles.buttonText}>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
+
+                <LogoutModal
+                    visible={modalVisible}
+                    onClose={() => setModalVisible(false)}
+                    onSubmit={() => { logout() }}
+                />
             </View>
 
-            {userType ? <CustomerNavigationBar /> : <CompanyNavigationBar />}
+            {userType === "CUSTOMER" ? <CustomerNavigationBar /> : <CompanyNavigationBar />}
         </View>
     );
 };
@@ -50,4 +85,19 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         marginVertical: "10%"
     },
+    div: {
+        alignItems:"flex-end",
+    },
+    button: { 
+        backgroundColor: colors.red, 
+        paddingVertical: 10, 
+        paddingHorizontal: 20, 
+        borderRadius: 8, 
+        width: "30%"
+    }, 
+    buttonText: { 
+        color: colors.white, 
+        fontWeight: "bold", 
+        fontSize: 17
+    }
 })
