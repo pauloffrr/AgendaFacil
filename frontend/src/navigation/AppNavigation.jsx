@@ -1,6 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useUser } from "../context/UserContext";
 import { LoginScreen } from "../screens/LoginScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { CustomerRegistrationData } from "../screens/Customer/DataRegistration";
@@ -23,130 +24,64 @@ import { EditSchedule } from "../screens/Company/EditSchedule";
 import { Reports } from "../screens/Company/Reports";
 
 const Stack = createNativeStackNavigator();
+
+function PublicRoutes() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Customer Registration Data" component={CustomerRegistrationData} />
+      <Stack.Screen name="Customer Registration Address" component={CustomerRegistrationAddress} />
+      <Stack.Screen name="Customer Registration Password" component={CustomerRegistrationPassword} />
+      <Stack.Screen name="Company Registration Data" component={CompanyRegistrationData} />
+      <Stack.Screen name="Company Registration Address" component={CompanyRegistrationAddress} />
+      <Stack.Screen name="Company Registration Profession" component={CompanyRegistrationProfession} />
+      <Stack.Screen name="Company Registration Password" component={CompanyRegistrationPassword} />
+    </Stack.Navigator>
+  );
+};
+
+function CustomerRoutes() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Customer Home" component={CustomerHome} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Customer Date" component={CustomerDate} />
+      <Stack.Screen name="Professionals Available" component={ProfessionalsAvailable} />
+      <Stack.Screen name="Professional Profile" component={ProfessionalProfile} /> 
+      <Stack.Screen name="Customer Notifications" component={Notification} />
+      <Stack.Screen name="Customer Scheduling" component={CustomerScheduling} />
+      <Stack.Screen name="Favorites" component={Favorites} />
+    </Stack.Navigator>
+  );
+};
+
+function CompanyRoutes() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Company Scheduling" component={CompanyScheduling} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Edit Event" component={EditEvent} />
+      <Stack.Screen name="Edit Schedule" component={EditSchedule} />
+      <Stack.Screen name="Reports" component={Reports} />
+    </Stack.Navigator>
+  );
+};
+
+function Routes() {
+  const { user } = useUser();
+
+  if (!user) return <PublicRoutes />;
+
+  if (user.userType === "CUSTOMER") return <CustomerRoutes />;
+  if (user.userType === "COMPANY") return <CompanyRoutes />;
+
+  return <PublicRoutes />;
+};
+
 export function AppNavigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Customer Registration Data"
-          component={CustomerRegistrationData}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Customer Registration Address"
-          component={CustomerRegistrationAddress}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Customer Registration Password"
-          component={CustomerRegistrationPassword}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Customer Home"
-          component={CustomerHome}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Customer Date"
-          component={CustomerDate}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Professionals Available"
-          component={ProfessionalsAvailable}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Professional Profile"
-          component={ProfessionalProfile}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Customer Notifications"
-          component={Notification}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Customer Scheduling"
-          component={CustomerScheduling}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Favorites"
-          component={Favorites}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Company Registration Data"
-          component={CompanyRegistrationData}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Company Registration Address"
-          component={CompanyRegistrationAddress}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Company Registration Profession"
-          component={CompanyRegistrationProfession}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Company Registration Password"
-          component={CompanyRegistrationPassword}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Company Scheduling"
-          component={CompanyScheduling}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Edit Event"
-          component={EditEvent}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Edit Schedule"
-          component={EditSchedule}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Reports"
-          component={Reports}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
+      <Routes />
     </NavigationContainer>
   );
 };

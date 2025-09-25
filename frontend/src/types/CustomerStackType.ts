@@ -51,6 +51,7 @@ export type LoginNavigationProp = NativeStackNavigationProp<
 
 export interface LoginProps {
   navigation: LoginNavigationProp;
+  setUserType: (type: "CUSTOMER" | "COMPANY") => void;
 }
 
 //Customer Registration Data
