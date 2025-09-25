@@ -55,25 +55,17 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 export const userLogged = (req: Request, res: Response) => {
-    const authHeader = req.headers.authorization
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ error: "Token not provided or poorly formatted" })
-    }
-
-    const token = authHeader.split(" ")[1]
-
     try {
-        const secret = process.env.JWT_SECRET as string
-
-        const decoded = jwt.verify(token, secret)
+        if (!req.user) {
+            return res.status(401).json({ error: "User not authenticated" });
+        }
 
         return res.status(200).json({
             message: "User successfully authenticated",
-            user: decoded
-        })
+            user: req.user
+        });
     } catch (error) {
-        console.error("Error verifying token:", error)
-        return res.status(401).json({ error: "Invalid or expired token" })
+        console.error("Error in userLogged:", error);
+        return res.status(500).json({ error: "Internal server error" });
     }
 }
