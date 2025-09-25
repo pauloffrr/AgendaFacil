@@ -12,13 +12,12 @@ import { CustomerRegistrationDataProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
 export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> = ({ navigation }) => {
-  const [nome, setNome] = useState("");
-  const [telefone, setTelefone] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [cpf, setCpf] = useState("");
 
-  const next = () => {
-    console.log("Criar Conta:", { nome, telefone, cpf });
-    navigation.navigate("Customer Registration Address");
+  const next = async () => {
+    navigation.navigate("Customer Registration Address", { name, phone, cpf });
   };
 
   return (
@@ -35,16 +34,16 @@ export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> =
 
       <Input
         label="Nome"
-        value={nome}
-        onChangeText={setNome}
+        value={name}
+        onChangeText={setName}
         placeholder="Insira seu nome"
         keyboardType="default"
       />
 
       <Input
         label="Telefone"
-        value={telefone}
-        onChangeText={setTelefone}
+        value={phone}
+        onChangeText={setPhone}
         placeholder="Insira seu telefone"
         keyboardType="phone-pad"
       />

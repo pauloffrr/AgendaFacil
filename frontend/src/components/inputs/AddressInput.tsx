@@ -59,7 +59,7 @@ export const AddressInput: React.FC<AddressInputProps> = ({
               <Picker.Item
                 key={state.id}
                 label={state.sigla}
-                value={state.id.toString()}
+                value={state.sigla}
               />
             ))}
           </Picker>

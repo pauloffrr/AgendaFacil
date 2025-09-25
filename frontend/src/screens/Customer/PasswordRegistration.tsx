@@ -9,18 +9,44 @@ import { Button } from "@/src/components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
+import api from "@/src/services/Api";
 
-export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPasswordProps> = ({ navigation }) => {
+export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPasswordProps> = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [password, setPassword] = useState("");
+  const { name, phone, cpf, selectedState, selectedCity, street, number, complement } = route.params;
 
-  const next = () => {
-    console.log("Criar Conta:", { email, senha });
-    navigation.navigate("Login");
+  const next = async () => {
+    try {
+      const payload = {
+        name,
+        phone,
+        cpf,
+        state: selectedState,
+        city: selectedCity,
+        street,
+        number,
+        complement,
+        email,
+        password,
+        type: "CUSTOMER"
+      }
+
+      const response = await api.post("/user", payload);
+
+      console.log("Registration of personal data:", response.data);
+      navigation.navigate("Login");
+
+    } catch(error) {
+      console.error("Error registering", error)
+    }
   };
 
   return (
-    <KeyboardAwareScrollView enableOnAndroid style={styles.container}>
+    <KeyboardAwareScrollView
+      enableOnAndroid 
+      style={styles.container}
+      extraScrollHeight={84}>
       <View style={styles.space}>
         <BackButton />
 
@@ -39,8 +65,8 @@ export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPassword
           <PasswordInput
             label="Senha"
             placeholder={"Insira a sua senha"}
-            value={senha}
-            onChangeText={setSenha}
+            value={password}
+            onChangeText={setPassword}
           />
 
           <Button buttonText="Enviar" onPress={next} />

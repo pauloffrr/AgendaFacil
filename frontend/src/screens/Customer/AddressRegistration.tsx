@@ -10,16 +10,25 @@ import * as Progress from "react-native-progress";
 import { CustomerRegistrationAddressProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
-export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressProps> = ({ navigation }) => {
+export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressProps> = ({ navigation, route }) => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const [rua, setRua] = useState("");
-  const [numero, setNumero] = useState("");
-  const [complemento, setComplemento] = useState("");
+  const [street, setStreet] = useState("");
+  const [number, setNumber] = useState("");
+  const [complement, setComplement] = useState("");
+  const { name, phone, cpf } = route.params;
 
   const next = () => {
-    console.log("Criar Conta:", { rua });
-    navigation.navigate("Customer Registration Password");
+    navigation.navigate("Customer Registration Password", {  
+      name, 
+      phone, 
+      cpf, 
+      selectedState, 
+      selectedCity, 
+      street, 
+      number, 
+      complement
+    });
   };
 
   return (
@@ -43,24 +52,24 @@ export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressPr
 
         <Input
           label="Rua"
-          value={rua}
-          onChangeText={setRua}
+          value={street}
+          onChangeText={setStreet}
           placeholder="Insira o nome da sua rua"
           keyboardType="default"
         />
 
         <Input
           label="Número"
-          value={numero}
-          onChangeText={setNumero}
+          value={number}
+          onChangeText={setNumber}
           placeholder="Insira o número da sua casa"
           keyboardType="numeric"
         />
 
         <Input
           label="Complemento (opcional)"
-          value={complemento}
-          onChangeText={setComplemento}
+          value={complement}
+          onChangeText={setComplement}
           placeholder="Insira seu complemento"
           keyboardType="default"
         />
