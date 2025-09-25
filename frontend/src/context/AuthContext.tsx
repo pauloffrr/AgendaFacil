@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const loadToken = async () => {
             const storedToken = await AsyncStorage.getItem("authToken");
-            console.log("Token armazenado no frontend:", storedToken);
             if (storedToken) setToken(storedToken);
             setLoadingAuth(false);
         };
