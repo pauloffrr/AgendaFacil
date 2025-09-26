@@ -4,30 +4,62 @@ import { NotificationsCompanyMock } from "../../data/NotificationCompanyMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell, faCircleQuestion, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { CustomerReviewModal } from "@/src/components/modals/CustomerReviewModal";
+import { ModalConfirm } from "@/src/components/modals/ModalConfirm";
 import { Notification } from "@/src/types/NotificationType";
 import { colors } from "@/src/styles/theme";
+import { DuoButtons } from "../buttons/DuoButtons";
+import { ModalConfirmProps } from "@/src/types/ModalConfirmType";
 
 export const NotificationCompany: React.FC = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(NotificationsCompanyMock);
-  const [modalVisible, setModalVisible] = useState(false);
+    const [modalConfig, setModalConfig] = useState<ModalConfirmProps | null>(null);
 
-  const handleReview = (id: number) => {
-    setModalVisible(true);
+    const openConfirmModal = () => {
+        setModalConfig({
+            text: "Tem certeza que deseja confirmar este serviço?",
+            buttonProps: {
+                firstOnPress: () => setModalConfig(null),
+                secondOnPress: () => setModalConfig(null),
+                firstButtonText: "Confirmar",
+                secondButtonText: "Voltar",
+                firstButtonColor: colors.green,
+                secondButtonColor: colors.light_gray,
+                firstTextColor: colors.white,
+                secondTextColor: colors.black
+            }
+        });
+    };
 
-    setNotifications((prev) =>
-      prev.map((item) => {
-        if (item.id === id && item.typeCompany === "Serviço Finalizado?") {
-          return {
-            ...item,
-            type: "Concluído",
-            message: "Serviço concluído com sucesso.",
-          };
-        }
-        return item;
-      })
-    );
-  };
+     const openCancelModal = () => {
+        setModalConfig({
+            text: "Tem certeza que deseja cancelar este serviço?",
+            buttonProps: {
+                firstOnPress: () => setModalConfig(null),
+                secondOnPress: () => setModalConfig(null),
+                firstButtonText: "Cancelar",
+                secondButtonText: "Voltar",
+                firstButtonColor: colors.red,
+                secondButtonColor: colors.light_gray,
+                firstTextColor: colors.white,
+                secondTextColor: colors.black
+            }
+        });
+    };
+
+    const openFinalizeModal = () => {
+        setModalConfig({
+        text: "Tem certeza que deseja concluir este serviço?",
+            buttonProps: {
+                firstOnPress: () => setModalConfig(null),
+                secondOnPress: () => setModalConfig(null),
+                firstButtonText: "Concluir",
+                secondButtonText: "Voltar",
+                firstButtonColor: colors.blue,
+                secondButtonColor: colors.light_gray,
+                firstTextColor: colors.white,
+                secondTextColor: colors.black
+            }
+        });
+    };
 
     const renderIcon = (type: Notification["typeCompany"]) => {
         switch (type) {
@@ -84,7 +116,7 @@ export const NotificationCompany: React.FC = () => {
     <View style={styles.container}>
         <FlatList
             style={styles.list}
-            data={notifications}
+            data={NotificationsCompanyMock}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
                 <View style={styles.card}>
@@ -101,39 +133,28 @@ export const NotificationCompany: React.FC = () => {
                     </View>
 
                     {item.typeCompany === "À Definir" && (
-                        <View style={styles.buttons}>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => {}}
-                            >
-                                <Text style={styles.buttonText}>Confirmar</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => {}}
-                            >
-                                <Text style={styles.buttonText}>Cancelar</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <DuoButtons 
+                            firstOnPress={openConfirmModal}
+                            secondOnPress={openCancelModal}
+                            firstButtonText="Confirmar" 
+                            secondButtonText="Cancelar"
+                            firstButtonColor={colors.green}
+                            secondButtonColor={colors.red}
+                            firstTextColor={colors.white}
+                            secondTextColor={colors.white}
+                        />
                     )}
 
                     {item.typeCompany === "Serviço Finalizado?" && (
-                        <View style={styles.buttons}>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => {}}
-                            >
-                                <Text style={styles.buttonText}>Concluir</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={() => {}}
-                            >
-                                <Text style={styles.buttonText}>Estender</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <DuoButtons 
+                            firstOnPress={openFinalizeModal}
+                            firstButtonText="Concluir" 
+                            secondButtonText="Estender"
+                            firstButtonColor={colors.blue}
+                            secondButtonColor={colors.light_gray}
+                            firstTextColor={colors.white}
+                            secondTextColor={colors.black}
+                        />
                     )}
                     <View style={styles.date}>
                         <Text style={styles.textDate}>{item.date}</Text>
@@ -142,10 +163,14 @@ export const NotificationCompany: React.FC = () => {
             )}
         />
 
-      <CustomerReviewModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-      />
+        {modalConfig && (
+            <ModalConfirm 
+                visible={!!modalConfig}
+                text={modalConfig.text}
+                buttonProps={modalConfig.buttonProps}
+            />
+        )}
+
     </View>
   );
 };
