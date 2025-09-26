@@ -1,0 +1,57 @@
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Logo } from "@/src/components/display/Logo";
+import { UserIcon } from "@/src/components/buttons/UserIcon";
+import { NotificationCompany } from "@/src/components/display/NotificationCompany";
+import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
+import { colors } from "@/src/styles/theme";
+
+export const CompanyNotification: React.FC = () => {
+
+  return (
+    <View style={styles.screen}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Logo />
+          <UserIcon />
+        </View>
+
+        <Text style={styles.title}>Notificações</Text>
+        <View style={styles.separator} />
+
+        <NotificationCompany />
+      </View>
+
+      <CompanyNavigationBar />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: colors.white
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: "25%",
+    paddingHorizontal: "5%",
+  },
+  title: {
+    fontWeight: "700",
+    fontSize: 22,
+    marginBottom: "10%",
+    marginTop: "20%",
+    paddingHorizontal: "5%",
+  },
+  separator: {
+    borderWidth: 1,
+    borderColor: colors.light_gray,
+  }
+});

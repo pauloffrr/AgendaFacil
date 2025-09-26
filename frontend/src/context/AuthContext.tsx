@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             await AsyncStorage.setItem("authToken", newToken);
             setToken(newToken);
-            console.log("Token salvo:", newToken);
         } catch (err) {
             console.error("Error saving token:", err);
         }
