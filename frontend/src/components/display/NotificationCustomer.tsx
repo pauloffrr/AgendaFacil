@@ -1,27 +1,15 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { NotificationsCustomerMock } from "../../data/NotificationCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faCalendarCheck,
-  faCalendarXmark,
-  faBell,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { CustomerReviewModal } from "@/src/components/modals/CustomerReviewModal";
 import { Notification } from "@/src/types/NotificationType";
 import { colors } from "@/src/styles/theme";
 
 export const NotificationCustomer: React.FC = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(
-    NotificationsCustomerMock
-  );
+  const [notifications, setNotifications] = useState<Notification[]>(NotificationsCustomerMock);
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleReview = (id: number) => {
@@ -29,7 +17,7 @@ export const NotificationCustomer: React.FC = () => {
 
     setNotifications((prev) =>
       prev.map((item) => {
-        if (item.id === id && item.type === "Avaliação") {
+        if (item.id === id && item.typeCustomer === "Avaliação") {
           return {
             ...item,
             type: "Concluído",
@@ -41,7 +29,7 @@ export const NotificationCustomer: React.FC = () => {
     );
   };
 
-  const renderIcon = (type: Notification["type"]) => {
+  const renderIcon = (type: Notification["typeCustomer"]) => {
     switch (type) {
       case "Cancelamento":
         return (
@@ -91,11 +79,11 @@ export const NotificationCustomer: React.FC = () => {
           <View style={styles.card}>
             <View style={styles.header}>
               <Text style={styles.professionName}>{item.professionName}</Text>
-              {renderIcon(item.type)}
+              {renderIcon(item.typeCustomer)}
             </View>
             <Text style={styles.message}>{item.message}</Text>
 
-            {item.type === "Avaliação" && (
+            {item.typeCustomer === "Avaliação" && (
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => handleReview(item.id)}

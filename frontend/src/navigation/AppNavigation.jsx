@@ -21,6 +21,7 @@ import { CompanyRegistrationPassword } from "../screens/Company/PasswordRegistra
 import { CompanyScheduling } from "../screens/Company/CompanyScheduling";
 import { EditEvent } from "../screens/Company/EditEvent";
 import { EditSchedule } from "../screens/Company/EditSchedule";
+import { CompanyNotification } from "../screens/Company/Notification";
 import { Reports } from "../screens/Company/Reports";
 
 const Stack = createNativeStackNavigator();
@@ -62,6 +63,7 @@ function CompanyRoutes() {
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Edit Event" component={EditEvent} />
       <Stack.Screen name="Edit Schedule" component={EditSchedule} />
+      <Stack.Screen name="Company Notifications" component={CompanyNotification} />
       <Stack.Screen name="Reports" component={Reports} />
     </Stack.Navigator>
   );
