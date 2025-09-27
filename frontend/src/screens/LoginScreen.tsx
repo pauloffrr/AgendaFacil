@@ -23,7 +23,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
     try {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
       if (!emailRegex.test(email)) {
-          setErrorMessage("Invalid email format")
+          setErrorMessage("Formato de email inválido.");
 
           setTimeout(() => {
               setErrorMessage("")
