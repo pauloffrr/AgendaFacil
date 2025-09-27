@@ -38,7 +38,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
       await login(token);
       setUser(user);
 
-      setSucessMessage("Login successful!");
+      setSucessMessage("Login realizado com sucesso!");
       setTimeout(() => {
         setSucessMessage("")
       }, 1500);
@@ -46,7 +46,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
     } catch (error) {
       console.error("Login error:", error);
 
-      setErrorMessage("An error occurred during login. Please try again.");
+      setErrorMessage("Email ou senha inválidos. Tente novamente!");
 
       setTimeout(() => {
         setErrorMessage("")
