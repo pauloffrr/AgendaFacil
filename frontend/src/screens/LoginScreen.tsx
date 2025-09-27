@@ -44,8 +44,6 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
       }, 1500);
 
     } catch (error) {
-      console.error("Login error:", error);
-
       setErrorMessage("Email ou senha inválidos. Tente novamente!");
 
       setTimeout(() => {
