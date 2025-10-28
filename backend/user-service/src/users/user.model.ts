@@ -1,5 +1,5 @@
 import { Table, Column, Model, DataType, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 export enum UserType {
     CUSTOMER = 'CUSTOMER',
