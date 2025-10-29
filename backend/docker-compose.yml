@@ -11,7 +11,8 @@ services:
       DB_NAME: usersdb
       DB_PORT: 5432
     depends_on:
-      - users-db
+      users-db:
+        condition: service_healthy
     networks: [backend]
 
   users-db:
@@ -23,6 +24,11 @@ services:
       POSTGRES_DB: usersdb
     ports:
       - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d users_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - users_data:/var/lib/postgresql/data
     networks:
