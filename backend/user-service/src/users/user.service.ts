@@ -1,12 +1,16 @@
-import { Injectable, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, ForbiddenException, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './user.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CompanyService } from '../company/company.service';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel(User) private userModel: typeof User) {}
+    constructor(
+        @InjectModel(User) private userModel: typeof User,
+        private readonly companyService: CompanyService
+    ) {}
 
     async create(createUserDto: CreateUserDto) {
 
@@ -26,7 +30,10 @@ export class UsersService {
             const user = await this.userModel.create(createUserDto as any);
 
             if (createUserDto.type === 'COMPANY' && createUserDto.company) {
-                // await this.companyService.create({ ...createUserDto.company, userId: user.idUser });
+                await this.companyService.create({
+                    ...createUserDto.company,
+                    userId: user.idUser
+                });
             }
 
             return user;
@@ -41,7 +48,9 @@ export class UsersService {
     }
 
     async findById(id: number) {
-        const user = await this.userModel.findByPk(id);
+        const user = await this.userModel.findByPk(id, {
+            include: ['company']
+        });
         if (!user) throw new NotFoundException('User not found');
         return user;
     }
@@ -57,18 +66,18 @@ export class UsersService {
         throw new BadRequestException('Changing email is not allowed');
 
         if (dto.currentPassword && dto.newPassword) {
-        const correctPassword = await user.validatePassword(dto.currentPassword);
-        if (!correctPassword)
-            throw new BadRequestException('Incorrect current password');
+            const correctPassword = await user.validatePassword(dto.currentPassword);
+            if (!correctPassword)
+                throw new BadRequestException('Incorrect current password');
 
-        const validate = User.validatePasswordLevel(dto.newPassword);
-        if (!validate.validate)
-            throw new BadRequestException({
-                error: 'Password too weak',
-                details: validate.requirements,
-            });
+            const validate = User.validatePasswordLevel(dto.newPassword);
+            if (!validate.validate)
+                throw new BadRequestException({
+                    error: 'Password too weak',
+                    details: validate.requirements,
+                });
 
-            user.password = dto.newPassword;
+                user.password = dto.newPassword;
         }
 
         Object.assign(user, dto);

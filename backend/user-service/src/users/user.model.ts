@@ -1,5 +1,6 @@
-import { Table, Column, Model, DataType, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BeforeCreate, BeforeUpdate, HasOne } from 'sequelize-typescript';
 import * as bcrypt from 'bcrypt';
+import { Company } from '../company/company.model';
 
 export enum UserType {
     CUSTOMER = 'CUSTOMER',
@@ -81,6 +82,9 @@ export class User extends Model<User> {
         allowNull: false 
     })
     declare type: UserType;
+
+    @HasOne(() => Company)
+    company: Company;
 
     async validatePassword(password: string): Promise<boolean> {
         return await bcrypt.compare(password, this.password);
