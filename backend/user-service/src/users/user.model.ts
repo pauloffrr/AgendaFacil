@@ -1,12 +1,12 @@
 import { Table, Column, Model, DataType, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 export enum UserType {
     CUSTOMER = 'CUSTOMER',
     COMPANY = 'COMPANY'
 }
 
-@Table({ tableName: 'User', timestamps: false })
+@Table({ tableName: 'User', timestamps: false, modelName: 'User' })
 export class User extends Model<User> {
     @Column({
         type: DataType.INTEGER,
@@ -14,40 +14,73 @@ export class User extends Model<User> {
         primaryKey: true,
         field: 'idUser'
     })
-    idUser: number;
+    declare idUser: number;
 
-    @Column({ allowNull: false })
-    name: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: false 
+    })
+    declare name: string;
 
-    @Column({ allowNull: false })
-    cpf: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: false 
+    })
+    declare cpf: string;
 
-    @Column({ allowNull: false })
-    phone: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: false 
+    })
+    declare phone: string;
 
-    @Column({ allowNull: false })
-    state: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: false 
+    })
+    declare state: string;
 
-    @Column({ allowNull: false })
-    city: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: false 
+    })
+    declare city: string;
 
-    @Column({ allowNull: false })
-    street: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: false 
+    })
+    declare street: string;
 
-    @Column({ allowNull: false })
-    number: number;
+    @Column({ 
+        type: DataType.INTEGER,
+        allowNull: false 
+    })
+    declare number: number;
 
-    @Column({ allowNull: true })
-    complement: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: true 
+    })
+    declare complement: string;
 
-    @Column({ allowNull: false })
-    email: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: false 
+    })
+    declare email: string;
 
-    @Column({ allowNull: false })
-    password: string;
+    @Column({ 
+        type: DataType.STRING,
+        allowNull: false 
+    })
+    declare password: string;
 
-    @Column({ allowNull: false })
-    type: UserType;
+    @Column({ 
+        type: DataType.ENUM(...Object.values(UserType)),
+        allowNull: false 
+    })
+    declare type: UserType;
 
     async validatePassword(password: string): Promise<boolean> {
         return await bcrypt.compare(password, this.password);
@@ -74,13 +107,26 @@ export class User extends Model<User> {
 
     @BeforeCreate
     static async hashPassword(instance: User) {
-        instance.password = await bcrypt.hash(instance.password, 10);
+        const password = instance.getDataValue('password');
+        
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            instance.setDataValue('password', hashedPassword);
+        } else {
+            console.error('Password undefined');
+            throw new Error('Password is required');
+        }
     }
 
     @BeforeUpdate
     static async updatePassword(instance: User) {
         if (instance.changed('password')) {
-            instance.password = await bcrypt.hash(instance.password, 10);
+            const newPassword = instance.getDataValue('password');
+            
+            if (newPassword) {
+                const hashedPassword = await bcrypt.hash(newPassword, 10);
+                instance.setDataValue('password', hashedPassword);
+            }
         }
     }
 }

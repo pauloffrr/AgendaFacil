@@ -9,13 +9,31 @@ export class UsersService {
     constructor(@InjectModel(User) private userModel: typeof User) {}
 
     async create(createUserDto: CreateUserDto) {
-        const user = await this.userModel.create(createUserDto as any);
 
-        if (createUserDto.type === 'COMPANY' && createUserDto.company) {
-            // await this.companyService.create({ ...createUserDto.company, userId: user.idUser });
+        if (!createUserDto.password) {
+            throw new BadRequestException('Password is required');
         }
 
-        return user;
+        const passwordValidation = User.validatePasswordLevel(createUserDto.password);
+        if (!passwordValidation.validate) {
+            throw new BadRequestException({
+                error: 'Password too weak',
+                details: passwordValidation.requirements,
+            });
+        }
+
+        try {
+            const user = await this.userModel.create(createUserDto as any);
+
+            if (createUserDto.type === 'COMPANY' && createUserDto.company) {
+                // await this.companyService.create({ ...createUserDto.company, userId: user.idUser });
+            }
+
+            return user;
+        } catch (error) {
+            console.error('Erro ao criar usuário:', error);
+            throw error;
+        }
     }
 
     async findAll() {
