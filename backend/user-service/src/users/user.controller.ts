@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
+import type { AuthRequest } from '../auth/types/auth-request.interface';
 
 @Controller('users')
 export class UsersController {
@@ -21,18 +22,18 @@ export class UsersController {
 
     @Get(':id')
     @UseGuards(AuthGuard('jwt'))
-    async findById(@Param('id') id: number) {
+    async findById(@Param('id', ParseIntPipe) id: number) {
         return this.usersService.findById(id);
     }
 
     @Put(':id')
     @UseGuards(AuthGuard('jwt'))
     async update(
-        @Param('id') id: number,
+        @Param('id', ParseIntPipe) id: number,
         @Body() updateUserDto: UpdateUserDto,
-        @Req() req: any
+        @Req() req: AuthRequest
     ) {
-        const loggedUser = req.user?.idUser ?? id;
-        return this.usersService.update(Number(id), loggedUser, updateUserDto);
+        const loggedUser = req.user.idUser;
+        return this.usersService.update(id, loggedUser, updateUserDto);
     }
 }

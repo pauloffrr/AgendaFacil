@@ -1,6 +1,10 @@
 import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/user.service';
+import { User } from '../users/user.model';
+import { LoginDto } from './dto/login.dto';
+import { JwtPayload } from './types/jwt-payload.interface';
+import { LoginResponse, ProfileResponse } from './types/auth-response.interface';
 
 @Injectable()
 export class AuthService {
@@ -9,7 +13,7 @@ export class AuthService {
         private jwtService: JwtService,
     ) {}
 
-    async validateUser(email: string, password: string): Promise<any> {
+    async validateUser(email: string, password: string): Promise<User> {
         const user = await this.usersService.findByEmail(email);
         
         if (!user) {
@@ -24,7 +28,7 @@ export class AuthService {
         return user;
     }
 
-    async login(loginDto: { email: string; password: string }) {
+    async login(loginDto: LoginDto): Promise<LoginResponse> {
         const { email, password } = loginDto;
 
         if (!email || !password) {
@@ -38,7 +42,7 @@ export class AuthService {
 
         const user = await this.validateUser(email, password);
 
-        const payload = {
+        const payload: JwtPayload = {
             idUser: user.idUser,
             name: user.name,
             email: user.email,
@@ -49,7 +53,7 @@ export class AuthService {
             message: 'Login successfully',
             token: this.jwtService.sign(payload),
             user: {
-                id: user.idUser,
+                idUser: user.idUser,
                 name: user.name,
                 email: user.email,
                 userType: user.type,
@@ -57,7 +61,7 @@ export class AuthService {
         };
     }
 
-    async getProfile(userId: number) {
+    async getProfile(userId: number): Promise<ProfileResponse> {
         const user = await this.usersService.findById(userId);
         
         if (!user) {
@@ -67,7 +71,7 @@ export class AuthService {
         return {
             message: 'User successfully authenticated',
             user: {
-                id: user.idUser,
+                idUser: user.idUser,
                 name: user.name,
                 email: user.email,
                 userType: user.type
