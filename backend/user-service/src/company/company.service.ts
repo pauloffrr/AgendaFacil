@@ -25,7 +25,7 @@ export class CompanyService {
 
     async findAll(): Promise<Company[]> {
         return this.companyModel.findAll({
-            include: ['user']
+            include: [{ all: true }]
         });
     }
 
