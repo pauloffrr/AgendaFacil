@@ -55,6 +55,12 @@ export class UsersService {
         return user;
     }
 
+    async findByEmail(email: string): Promise<User | null> {
+        return this.userModel.findOne({
+            where: { email }
+        });
+    }
+
     async update(id: number, userId: number, dto: UpdateUserDto) {
         if (id !== userId)
         throw new ForbiddenException('You do not have permission to edit this user');

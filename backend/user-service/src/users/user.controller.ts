@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs
 import { UsersService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
@@ -13,16 +14,19 @@ export class UsersController {
     }
 
     @Get()
+    @UseGuards(AuthGuard('jwt'))
     async findAll() {
         return this.usersService.findAll();
     }
 
     @Get(':id')
+    @UseGuards(AuthGuard('jwt'))
     async findById(@Param('id') id: number) {
         return this.usersService.findById(id);
     }
 
     @Put(':id')
+    @UseGuards(AuthGuard('jwt'))
     async update(
         @Param('id') id: number,
         @Body() updateUserDto: UpdateUserDto,
