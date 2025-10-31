@@ -1,5 +1,14 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 import { UserType } from '../user.model';
+
+export class CompanyDto {
+    @IsNotEmpty() corporateReason: string;
+    @IsNotEmpty() cnpj: string;
+    @IsNumber() rayKm: number;
+    @IsNotEmpty() category: string;
+    @IsNotEmpty() profession: string;
+}
 
 export class CreateUserDto {
     @IsNotEmpty() name: string;
@@ -15,11 +24,7 @@ export class CreateUserDto {
     @IsEnum(UserType) @IsNotEmpty() type: UserType;
 
     @IsOptional()
-    company?: {
-        corporateReason: string;
-        cnpj: string;
-        rayKm: number;
-        category: string;
-        profession: string;
-    };
+    @ValidateNested()
+    @Type(() => CompanyDto)
+    company?: CompanyDto;
 }
