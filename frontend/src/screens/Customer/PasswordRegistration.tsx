@@ -32,7 +32,7 @@ export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPassword
         type: "CUSTOMER"
       }
 
-      const response = await api.post("/user", payload);
+      const response = await api.post("/users", payload);
 
       console.log("Registration of personal data:", response.data);
       navigation.navigate("Login");

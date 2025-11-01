@@ -32,7 +32,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
           return
       };
 
-      const response = await api.post("/login", { email, password });
+      const response = await api.post("/auth/login", { email, password });
       const { token, user } = response.data;
 
       await login(token);

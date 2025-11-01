@@ -39,7 +39,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             }
 
             try {
-                const response = await api.get("/login/profile", {
+                const response = await api.get("/auth/profile", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
