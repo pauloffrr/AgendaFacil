@@ -1,14 +1,18 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/user.service';
+import { Customer } from 'src/customer/customer.model';
+import { Company } from 'src/company/company.model';
+import { CustomerService } from '../customer/customer.service';
+import { CompanyService } from 'src/company/company.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload, AuthenticatedUser } from './types/jwt-payload.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(
-        private usersService: UsersService,
+        private customerService: CustomerService,
+        private companyService: CompanyService,
         private configService: ConfigService
     ) {
         const jwtSecret = configService.get<string>('JWT_SECRET');
@@ -25,17 +29,25 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: JwtPayload): Promise<AuthenticatedUser> {
-        const user = await this.usersService.findById(payload.idUser);
+        let user: Customer | Company | null = null;
+
+        if (payload.userType === 'CUSTOMER') {
+            user = await this.customerService.findById(payload.idUser);
+        } else if (payload.userType === 'COMPANY') {
+            user = await this.companyService.findById(payload.idUser);
+        }
         
         if (!user) {
             throw new UnauthorizedException('User not found');
         }
 
         return {
-            idUser: user.idUser,
+            idUser: payload.userType === 'CUSTOMER' 
+                ? (user as Customer).idCustomer 
+                : (user as Company).idCompany,
             name: user.name,
             email: user.email,
-            userType: user.type
+            userType: payload.userType
         };
     }
 }
