@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UsersModule } from './users/user.module';
+import { CustomerModule } from './customer/customer.module';
 import { CompanyModule } from './company/company.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -22,7 +22,7 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
       logging: false,
     }),
-    UsersModule,
+    CustomerModule,
     CompanyModule,
     AuthModule
   ],

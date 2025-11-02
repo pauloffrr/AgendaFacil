@@ -1,21 +1,20 @@
 import { Table, Column, Model, DataType, BeforeCreate, BeforeUpdate, HasOne } from 'sequelize-typescript';
 import * as bcrypt from 'bcrypt';
-import { Company } from '../company/company.model';
 
 export enum UserType {
     CUSTOMER = 'CUSTOMER',
     COMPANY = 'COMPANY'
 }
 
-@Table({ tableName: 'User', timestamps: false, modelName: 'User' })
-export class User extends Model<User> {
+@Table({ tableName: 'Customer', timestamps: false, modelName: 'Customer' })
+export class Customer extends Model<Customer> {
     @Column({
         type: DataType.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        field: 'idUser'
+        field: 'idCustomer'
     })
-    declare idUser: number;
+    declare idCustomer: number;
 
     @Column({ 
         type: DataType.STRING,
@@ -83,9 +82,6 @@ export class User extends Model<User> {
     })
     declare type: UserType;
 
-    @HasOne(() => Company)
-    company: Company;
-
     async validatePassword(password: string): Promise<boolean> {
         return await bcrypt.compare(password, this.password);
     }
@@ -110,7 +106,7 @@ export class User extends Model<User> {
     }
 
     @BeforeCreate
-    static async hashPassword(instance: User) {
+    static async hashPassword(instance: Customer) {
         const password = instance.getDataValue('password');
         
         if (password) {
@@ -123,7 +119,7 @@ export class User extends Model<User> {
     }
 
     @BeforeUpdate
-    static async updatePassword(instance: User) {
+    static async updatePassword(instance: Customer) {
         if (instance.changed('password')) {
             const newPassword = instance.getDataValue('password');
             
