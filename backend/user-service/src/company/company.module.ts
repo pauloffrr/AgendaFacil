@@ -3,10 +3,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Company } from './company.model';
 import { CompanyService } from './company.service';
 import { CompanyController } from './company.controller';
-import { User } from '../users/user.model';
+import { Customer } from '../customer/customer.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Company, User])],
+  imports: [SequelizeModule.forFeature([Company, Customer])],
   controllers: [CompanyController],
   providers: [CompanyService],
   exports: [CompanyService],

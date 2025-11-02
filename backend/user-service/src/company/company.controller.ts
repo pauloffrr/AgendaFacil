@@ -10,30 +10,30 @@ export class CompanyController {
     constructor(private readonly companyService: CompanyService) {}
 
     @Post()
-    create(@Body() dto: CreateCompanyDto) {
-        return this.companyService.create(dto);
+    async create(@Body() createCompanyDto: CreateCompanyDto) {
+        return this.companyService.create(createCompanyDto);
     }
 
     @Get()
     @UseGuards(AuthGuard('jwt'))
-    findAll() {
+    async findAll() {
         return this.companyService.findAll();
     }
 
     @Get(':id')
     @UseGuards(AuthGuard('jwt'))
-    findById(@Param('id', ParseIntPipe) id: number) {
+    async findById(@Param('id', ParseIntPipe) id: number) {
         return this.companyService.findById(id);
     }
 
     @Put(':id')
     @UseGuards(AuthGuard('jwt'))
-    update(
+    async update(
         @Param('id', ParseIntPipe) id: number,
-        @Body() dto: UpdateCompanyDto,
+        @Body() updateCompanyDto: UpdateCompanyDto,
         @Req() req: AuthRequest
     ) {
-        console.log('User making request:', req.user);
-        return this.companyService.update(id, dto);
+        const loggedCompany = req.user.idUser;
+        return this.companyService.update(id, loggedCompany, updateCompanyDto);
     }
 }
