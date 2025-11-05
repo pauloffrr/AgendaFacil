@@ -40,12 +40,13 @@ export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> =
         keyboardType="default"
       />
 
-      <Input
+      <MaskInput
         label="Telefone"
+        mask="(99) 99999-9999"
         value={phone}
-        onChangeText={setPhone}
-        placeholder="Insira seu telefone"
+        onChangeTextMask={(text) => setPhone(text)}
         keyboardType="phone-pad"
+        placeholder="(00) 00000-0000"
       />
 
       <MaskInput

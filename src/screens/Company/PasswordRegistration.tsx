@@ -9,14 +9,52 @@ import { Button } from "@/src/components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { CompanyRegistrationPasswordProps } from "@/src/types/CompanyStackType";
 import { colors } from "@/src/styles/theme";
+import api from "@/src/services/Api";
 
-export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordProps> = ({ navigation }) => {
+export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordProps> = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [password, setPassword] = useState("");
+  const { 
+    name, 
+    corporateReason, 
+    cnpj, 
+    rayKm, 
+    phone, 
+    selectedState, 
+    selectedCity,
+    street, 
+    number, 
+    complement, 
+    selectedCategory, 
+    selectedProfession 
+  } = route.params;
 
-  const next = () => {
-    console.log("Criar Conta:", { email, senha });
-    navigation.navigate("Login");
+  const next = async () => {
+    try {
+      const payload = {
+        name, 
+        corporateReason, 
+        cnpj, 
+        rayKm: Number(rayKm), 
+        phone, 
+        state: selectedState, 
+        city: selectedCity,
+        street, 
+        number: Number(number), 
+        complement, 
+        category: selectedCategory, 
+        profession: selectedProfession,
+        email,
+        password
+      }
+
+      await api.post("/company", payload);
+
+      navigation.navigate("Login");
+
+    } catch(error) {
+      console.error("Error registering", error)
+    }
   };
 
   return (
@@ -39,8 +77,8 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
           <PasswordInput
             label="Senha"
             placeholder={"Insira a sua senha"}
-            value={senha}
-            onChangeText={setSenha}
+            value={password}
+            onChangeText={setPassword}
           />
 
           <Button buttonText="Enviar" onPress={next} />

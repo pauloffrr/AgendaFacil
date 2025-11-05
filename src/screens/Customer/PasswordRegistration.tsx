@@ -20,21 +20,19 @@ export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPassword
     try {
       const payload = {
         name,
-        phone,
         cpf,
+        phone,
         state: selectedState,
         city: selectedCity,
         street,
-        number,
+        number: Number(number),
         complement,
         email,
-        password,
-        type: "CUSTOMER"
+        password
       }
 
-      const response = await api.post("/users", payload);
+      await api.post("/customer", payload);
 
-      console.log("Registration of personal data:", response.data);
       navigation.navigate("Login");
 
     } catch(error) {

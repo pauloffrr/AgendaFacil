@@ -3,9 +3,39 @@ import { RouteProp } from "@react-navigation/native";
 
 export type CompanyStackParamList = {
   "Company Registration Data": undefined;
-  "Company Registration Address": undefined;
-  "Company Registration Profession": undefined;
-  "Company Registration Password": undefined;
+  "Company Registration Address": {
+    name: string;
+    corporateReason: string;
+    cnpj: string;
+    rayKm: string;
+    phone: string;
+  };
+  "Company Registration Profession": {
+    name: string;
+    corporateReason: string;
+    cnpj: string;
+    rayKm: string;
+    phone: string;
+    selectedState: string;
+    selectedCity: string;
+    street: string;
+    number: string;
+    complement: string;
+  };
+  "Company Registration Password": {
+    name: string;
+    corporateReason: string;
+    cnpj: string;
+    rayKm: string;
+    phone: string;
+    selectedState: string;
+    selectedCity: string;
+    street: string;
+    number: string;
+    complement: string;
+    selectedCategory: string;
+    selectedProfession: string;
+  };
   "Login": undefined;
   "Company Scheduling": { id?: number };
   "Edit Event": { id: number };
@@ -30,8 +60,14 @@ export type CompanyRegistrationAddressNavigationProp = NativeStackNavigationProp
   "Company Registration Address"
 >;
 
+export type CompanyRegistrationAddressRouteProp = RouteProp<
+  CompanyStackParamList,
+  "Company Registration Address"
+>;
+
 export interface CompanyRegistrationAddressProps {
   navigation: CompanyRegistrationAddressNavigationProp;
+  route: CompanyRegistrationAddressRouteProp;
 };
 
 //Company Registration Profession
@@ -40,8 +76,14 @@ export type CompanyRegistrationProfessionNavigationProp = NativeStackNavigationP
   "Company Registration Profession"
 >;
 
+export type CompanyRegistrationProfessionRouteProp = RouteProp<
+  CompanyStackParamList,
+  "Company Registration Profession"
+>;
+
 export interface CompanyRegistrationProfessionProps {
   navigation: CompanyRegistrationProfessionNavigationProp;
+  route: CompanyRegistrationProfessionRouteProp;
 };
 
 //Company Registration Password
@@ -50,8 +92,14 @@ export type CompanyRegistrationPasswordNavigationProp = NativeStackNavigationPro
   "Company Registration Password"
 >;
 
+export type CompanyRegistrationPasswordRouteProp = RouteProp<
+  CompanyStackParamList,
+  "Company Registration Password"
+>;
+
 export interface CompanyRegistrationPasswordProps {
   navigation: CompanyRegistrationPasswordNavigationProp;
+  route: CompanyRegistrationPasswordRouteProp;
 };
 
 //Navigation Bar
