@@ -12,11 +12,23 @@ import { Category } from "@/src/types/CategoryType";
 import { Profession } from "@/src/types/ProfessionType";
 import { colors } from "@/src/styles/theme";
 
-export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessionProps> = ({ navigation }) => {
+export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessionProps> = ({ navigation, route }) => {
   const [category, setCategory] = useState<Category[]>([]);
   const [profession, setProfession] = useState<Profession[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<number | "">("");
-  const [selectedProfession, setSelectedProfession] = useState<number | "">("");
+  const [selectedCategory, setSelectedCategory] = useState<string | "">("");
+  const [selectedProfession, setSelectedProfession] = useState<string | "">("");
+  const { 
+    name, 
+    corporateReason, 
+    cnpj, 
+    rayKm, 
+    phone, 
+    selectedState, 
+    selectedCity, 
+    street, 
+    number, 
+    complement 
+  } = route.params;
 
   useEffect(() => {
     setCategory(CategoryMock as Category[]);
@@ -24,18 +36,36 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
 
   useEffect(() => {
     if (selectedCategory) {
-      const filteredProfessions = (ProfessionMock as Profession[]).filter(
-        (profession) => profession.categoryId === selectedCategory
+      const categoryObj = (CategoryMock as Category[]).find(
+        (cat) => cat.name === selectedCategory
       );
-      setProfession(filteredProfessions);
+
+      if (categoryObj) {
+        const filteredProfessions = (ProfessionMock as Profession[]).filter(
+          (profession) => profession.categoryId === categoryObj.id
+        );
+        setProfession(filteredProfessions);
+      }
     } else {
       setProfession([]);
     }
   }, [selectedCategory]);
 
   const next = () => {
-    console.log(selectedCategory, selectedProfession);
-    navigation.navigate("Company Registration Password");
+    navigation.navigate("Company Registration Password", {  
+      name, 
+      corporateReason, 
+      cnpj,
+      rayKm,
+      phone, 
+      selectedState, 
+      selectedCity, 
+      street, 
+      number, 
+      complement,
+      selectedCategory,
+      selectedProfession
+    });
   };
 
   return (
@@ -60,7 +90,7 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
               <Picker.Item
                 key={category.id}
                 label={category.name}
-                value={category.id}
+                value={category.name}
               />
             ))}
           </Picker>
@@ -81,7 +111,7 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
           >
             <Picker.Item label="Selecione uma profissão" value="" />
             {profession.map((prof) => (
-              <Picker.Item key={prof.id} label={prof.name} value={prof.id} />
+              <Picker.Item key={prof.id} label={prof.name} value={prof.name} />
             ))}
           </Picker>
         </View>

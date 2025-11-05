@@ -12,14 +12,14 @@ import { CompanyRegistrationDataProps } from "@/src/types/CompanyStackType";
 import { colors } from "@/src/styles/theme";
 
 export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = ({ navigation }) => {
-  const [nomeFantasia, setNomeFantasia] = useState("");
-  const [razaoSocial, setRazaoSocial] = useState("");
+  const [name, setName] = useState("");
+  const [corporateReason, setCorporateReason] = useState("");
   const [cnpj, setCnpj] = useState("");
-  const [raioKm, setRaioKm] = useState("");
+  const [rayKm, setRayKm] = useState("");
+  const [phone, setPhone] = useState("");
 
   const next = () => {
-    console.log("Criar Conta:", { nomeFantasia, razaoSocial, cnpj });
-    navigation.navigate("Company Registration Address");
+    navigation.navigate("Company Registration Address", { name, corporateReason, cnpj, rayKm, phone });
   };
 
   return (
@@ -36,18 +36,18 @@ export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = (
 
       <Input
         label="Nome"
-        value={nomeFantasia}
-        onChangeText={setNomeFantasia}
+        value={name}
+        onChangeText={setName}
         placeholder="Insira o nome da sua empresa"
         keyboardType="default"
       />
 
       <Input
         label="Razão Social"
-        value={razaoSocial}
-        onChangeText={setRazaoSocial}
+        value={corporateReason}
+        onChangeText={setCorporateReason}
         placeholder="Insira a razão social da sua empresa"
-        keyboardType="numeric"
+        keyboardType="default"
       />
 
       <MaskInput
@@ -61,10 +61,19 @@ export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = (
 
       <Input
         label="Raio de Atendimento"
-        value={raioKm}
-        onChangeText={setRaioKm}
+        value={rayKm}
+        onChangeText={setRayKm}
         placeholder="Distância máxima de deslocamento (km)"
         keyboardType="numeric"
+      />
+
+      <MaskInput
+        label="Telefone"
+        mask="(99) 99999-9999"
+        value={phone}
+        onChangeTextMask={(text) => setPhone(text)}
+        keyboardType="phone-pad"
+        placeholder="(00) 00000-0000"
       />
 
       <Button buttonText="Enviar" onPress={next} />
@@ -90,6 +99,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     marginTop: "5%",
+    marginBottom: "15%",
     width: "100%"
   }
 });

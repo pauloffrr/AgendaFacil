@@ -10,16 +10,27 @@ import * as Progress from "react-native-progress";
 import { CompanyRegistrationAddressProps } from "@/src/types/CompanyStackType";
 import { colors } from "@/src/styles/theme";
 
-export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProps> = ({ navigation }) => {
+export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProps> = ({ navigation, route }) => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const [rua, setRua] = useState("");
-  const [numero, setNumero] = useState("");
-  const [complemento, setComplemento] = useState("");
+  const [street, setStreet] = useState("");
+  const [number, setNumber] = useState("");
+  const [complement, setComplement] = useState("");
+  const { name, corporateReason, cnpj, rayKm, phone } = route.params;
 
   const next = () => {
-    console.log("Criar Conta:", { rua });
-    navigation.navigate("Company Registration Profession");
+    navigation.navigate("Company Registration Profession", {  
+      name, 
+      corporateReason, 
+      cnpj,
+      rayKm,
+      phone, 
+      selectedState, 
+      selectedCity, 
+      street, 
+      number, 
+      complement
+    });
   };
 
   return (
@@ -43,24 +54,24 @@ export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProp
 
         <Input
           label="Rua"
-          value={rua}
-          onChangeText={setRua}
+          value={street}
+          onChangeText={setStreet}
           placeholder="Insira o nome da sua rua"
           keyboardType="default"
         />
 
         <Input
           label="Número"
-          value={numero}
-          onChangeText={setNumero}
+          value={number}
+          onChangeText={setNumber}
           placeholder="Insira o número da sua casa"
           keyboardType="numeric"
         />
 
         <Input
           label="Complemento (opcional)"
-          value={complemento}
-          onChangeText={setComplemento}
+          value={complement}
+          onChangeText={setComplement}
           placeholder="Insira seu complemento"
           keyboardType="default"
         />
