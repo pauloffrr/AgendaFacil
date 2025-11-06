@@ -10,6 +10,7 @@ import { colors } from "@/src/styles/theme";
 import { useAuth } from "../context/AuthContext";
 import { useUser } from "../context/UserContext";
 import api from "@/src/services/Api";
+import { ApiError } from "../types/ApiErrorType";
 
 export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) => {
   const [email, setEmail] = useState<string>("");
@@ -19,32 +20,49 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
   const [errorMessage, setErrorMessage] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
 
+  const getErrorMessage = (error: ApiError): string => {
+    if (error.response?.data) {
+      const backendError = error.response.data;
+      
+      if (typeof backendError === 'object' && backendError.message) {
+        return backendError.message;
+      }
+      
+      if (typeof backendError === 'string') {
+        return backendError;
+      }
+    }
+
+    if (error.message?.includes('Network Error')) {
+      return "Erro de conexão. Verifique sua internet.";
+    }
+    
+    return "Email ou senha inválidos. Tente novamente!";
+  };
+
   const handleLogin = async () => {
     try {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-      if (!emailRegex.test(email)) {
-          setErrorMessage("Formato de email inválido.");
-
-          setTimeout(() => {
-              setErrorMessage("")
-          }, 1500)
-          
-          return
-      };
-
       const response = await api.post("/auth/login", { email, password });
-      const { token, user } = response.data;
+      const { token, user, message } = response.data;
 
       await login(token);
       setUser(user);
 
-      setSucessMessage("Login realizado com sucesso!");
+      setSucessMessage(message);
       setTimeout(() => {
         setSucessMessage("")
       }, 1500);
 
-    } catch (error) {
-      setErrorMessage("Email ou senha inválidos. Tente novamente!");
+    } catch (error: unknown) {
+      let errorMsg = "Email ou senha inválidos. Tente novamente!";
+      
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
 
       setTimeout(() => {
         setErrorMessage("")
