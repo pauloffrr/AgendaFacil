@@ -17,10 +17,11 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
   const [profession, setProfession] = useState<Profession[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | "">("");
   const [selectedProfession, setSelectedProfession] = useState<string | "">("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { 
     name, 
     corporateReason, 
-    cnpj, 
+    cnpjValue, 
     rayKm, 
     phone, 
     selectedState, 
@@ -52,10 +53,20 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
   }, [selectedCategory]);
 
   const next = () => {
+    if (!selectedCategory || !selectedProfession) {
+      setErrorMessage("Todos os campos são obrigatórios!");
+      
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1500);
+      
+      return;
+    }
+
     navigation.navigate("Company Registration Password", {  
       name, 
       corporateReason, 
-      cnpj,
+      cnpjValue,
       rayKm,
       phone, 
       selectedState, 
@@ -118,6 +129,9 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
       </View>
 
       <Button buttonText="Enviar" onPress={next} />
+
+      {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+
       <Progress.Bar style={styles.progressBar} progress={0.75} width={355} />
     </View>
   );
@@ -164,6 +178,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.disable_input_background,
     borderColor: colors.disable_input_border,
     opacity: 0.6,
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "5%",
+    color: colors.red,
+    fontWeight: "bold",
+    textAlign: "center"
   },
   progressBar: {
     marginTop: "30%",

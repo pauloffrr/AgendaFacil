@@ -21,7 +21,7 @@ export const CustomerRegistrationData: React.FC<CustomerRegistrationDataProps> =
   const next = async () => {
     setErrorMessage("");
 
-    if (!name || !phone || !cpf) {
+    if (!name || !phone || !cpfValue) {
       setErrorMessage("Todos os campos são obrigatórios!");
       
       setTimeout(() => {

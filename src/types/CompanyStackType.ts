@@ -6,14 +6,14 @@ export type CompanyStackParamList = {
   "Company Registration Address": {
     name: string;
     corporateReason: string;
-    cnpj: string;
+    cnpjValue: string;
     rayKm: string;
     phone: string;
   };
   "Company Registration Profession": {
     name: string;
     corporateReason: string;
-    cnpj: string;
+    cnpjValue: string;
     rayKm: string;
     phone: string;
     selectedState: string;
@@ -25,7 +25,7 @@ export type CompanyStackParamList = {
   "Company Registration Password": {
     name: string;
     corporateReason: string;
-    cnpj: string;
+    cnpjValue: string;
     rayKm: string;
     phone: string;
     selectedState: string;
