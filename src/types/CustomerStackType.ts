@@ -6,12 +6,12 @@ export type CustomerStackParamList = {
   "Customer Registration Address": {
     name: string;
     phone: string;
-    cpf: string;
+    cpfValue: string;
   };
   "Customer Registration Password": {
     name: string;
     phone: string;
-    cpf: string;
+    cpfValue: string;
     selectedState: string;
     selectedCity: string;
     street: string;

@@ -48,7 +48,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
       await login(token);
       setUser(user);
 
-      setSucessMessage(message);
+      setSucessMessage(message || "Login realizado com sucesso!");
       setTimeout(() => {
         setSucessMessage("")
       }, 1500);

@@ -16,13 +16,24 @@ export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressPr
   const [street, setStreet] = useState("");
   const [number, setNumber] = useState("");
   const [complement, setComplement] = useState("");
-  const { name, phone, cpf } = route.params;
+  const [errorMessage, setErrorMessage] = useState("");
+  const { name, phone, cpfValue } = route.params;
 
   const next = () => {
+    if (!selectedState || !selectedCity || !street || !number) {
+      setErrorMessage("Todos os campos são obrigatórios!");
+      
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1500);
+      
+      return;
+    }
+
     navigation.navigate("Customer Registration Password", {  
       name, 
       phone, 
-      cpf, 
+      cpfValue, 
       selectedState, 
       selectedCity, 
       street, 
@@ -76,6 +87,8 @@ export const CustomerRegistrationAddress: React.FC<CustomerRegistrationAddressPr
 
         <Button buttonText="Enviar" onPress={next} />
 
+        {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+
         <Progress.Bar style={styles.progressBar} progress={0.66} width={355} />
       </View>
     </KeyboardAwareScrollView>
@@ -96,6 +109,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: "5%",
     marginTop: "5%",
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "1%",
+    color: colors.red,
+    fontWeight: "bold",
+    textAlign: "center"
   },
   progressBar: {
     marginTop: "5%",
