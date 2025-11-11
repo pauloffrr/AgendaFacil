@@ -11,6 +11,7 @@ import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerStackType
 import { colors } from "@/src/styles/theme";
 import api from "@/src/services/Api";
 import { ApiError } from "@/src/types/ApiErrorType";
+import { getErrorMessage } from "@/src/utils/errorHandler";
 
 export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPasswordProps> = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
@@ -18,26 +19,6 @@ export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPassword
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const { name, phone, cpfValue, selectedState, selectedCity, street, number, complement } = route.params;
-
-  const getErrorMessage = (error: ApiError): string => {
-    if (error.response?.data) {
-      const backendError = error.response.data;
-      
-      if (typeof backendError === 'object' && backendError.message) {
-        return backendError.message;
-      }
-      
-      if (typeof backendError === 'string') {
-        return backendError;
-      }
-    }
-
-    if (error.message?.includes('Network Error')) {
-      return "Erro de conexão. Verifique sua internet.";
-    }
-    
-    return "Erro ao realizar cadastro. Tente novamente!";
-  };
 
   const next = async () => {
     try {

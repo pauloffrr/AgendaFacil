@@ -11,6 +11,8 @@ import { colors } from "@/src/styles/theme";
 import api from "@/src/services/Api";
 import { API_URL } from "@env";
 import { useUser } from "@/src/context/UserContext";
+import { ApiError } from "@/src/types/ApiErrorType";
+import { getErrorMessage } from "@/src/utils/errorHandler";
 
 export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ navigation, route }) => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
@@ -23,11 +25,20 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
 
     try {
       const response = await api.get(`${API_URL}/company/${user.state}/${user.city}/${nameCategory}/${nameProfession}/${date}/${startTime}`);
+      
       setProfessionals(response.data);
+      setErrorMessage("");
 
-    } catch (error) {
-      console.error("Erro:", error);
-      setErrorMessage("Erro ao buscar profissionais disponíveis!")
+    } catch (error: unknown) {
+      let errorMsg = "Erro ao buscar profissionais disponíveis. Tente novamente!";
+
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
     }
   }
 
@@ -78,13 +89,11 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
         ) : (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
-              Nenhum profissional cadastrado para a profissão {nameProfession} na sua região.
+              { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
             </Text>
           </View>
         )}
       </View>
-
-      { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
 
       <CustomerNavigationBar />
     </View>
