@@ -94,8 +94,9 @@ export const CustomerHome: React.FC<HomeProps> = ({ navigation }) => {
                       key={prof.id}
                       onPress={() =>
                         navigation.navigate("Customer Date", {
-                          id: prof.id,
-                          name: prof.name,
+                          nameCategory: item.name,
+                          idProfession: prof.id,
+                          nameProfession: prof.name,
                         })
                       }
                     >

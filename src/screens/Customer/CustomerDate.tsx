@@ -11,8 +11,7 @@ import { CustomerDateProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
 export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route }) => {
-  const { id } = route.params;
-  const { name } = route.params;
+  const { nameCategory, idProfession, nameProfession } = route.params;
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
@@ -44,16 +43,10 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
   const next = () => {
     if (!date || !startTime) return;
 
-    console.log("Selecionado:", {
-      data: date.toLocaleDateString(),
-      hora: startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      id: id,
-      name: name
-    });
-
     navigation.navigate("Professionals Available", { 
-      id, 
-      name, 
+      nameCategory,
+      idProfession,
+      nameProfession, 
       date: formatDate(date), 
       startTime: startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) 
     });
@@ -71,7 +64,7 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
           </View>
 
           <Text style={styles.title}>
-            Pra quando seria o serviço com o profissional {name}?
+            Pra quando seria o serviço com o profissional {nameProfession}?
           </Text>
 
           <View style={styles.inputs}>

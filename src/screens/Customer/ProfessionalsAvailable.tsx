@@ -1,20 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
 import { CardProfessional } from "@/src/components/display/CardProfessional";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
-import { ProfessionalMock } from "@/src/data/ProfessionalsMock";
 import { ProfessionalsAvailableProps } from "@/src/types/CustomerStackType";
+import { Professional } from "@/src/types/ProfessionalType";
 import { colors } from "@/src/styles/theme";
+import api from "@/src/services/Api";
+import { API_URL } from "@env";
+import { useUser } from "@/src/context/UserContext";
 
 export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ navigation, route }) => {
-  const { id, name, date, startTime } = route.params;
+  const [professionals, setProfessionals] = useState<Professional[]>([]);
+  const { nameCategory, idProfession, nameProfession, date, startTime } = route.params;
+  const [errorMessage, setErrorMessage] = useState("");
+  const { user } = useUser();
 
-  const filteredProfessionals = ProfessionalMock.filter(
-    (prof) => prof.professionId === id
-  );
+  const getProfessionalsAvailable = async () => {
+    if (!user?.state || !user?.city) return;
+
+    try {
+      const response = await api.get(`${API_URL}/company/${user.state}/${user.city}/${nameCategory}/${nameProfession}/${date}/${startTime}`);
+      setProfessionals(response.data);
+
+    } catch (error) {
+      console.error("Erro:", error);
+      setErrorMessage("Erro ao buscar profissionais disponíveis!")
+    }
+  }
+
+  useEffect(() => {
+    getProfessionalsAvailable();
+  }, []);
+
+  const filteredProfessionals = professionals;
+
 
   return (
     <View style={styles.screen}>
@@ -29,20 +51,20 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
         {filteredProfessionals.length > 0 ? (
           <>
             <Text style={styles.title}>
-              {name}(s) disponíveis na data desejada
+              {nameProfession}(s) disponíveis na data desejada
             </Text>
 
             <FlatList
-              data={filteredProfessionals}
-              keyExtractor={(item) => item.id.toString()}
+              data={professionals}
+              keyExtractor={(item) => item.idCompany.toString()}
               renderItem={({ item }) => (
                 <CardProfessional
                   professional={item}
                   onPress={() =>
                     navigation.navigate("Professional Profile", {
-                      professionalId: item.id,
-                      professionId: id,
-                      professionName: name,
+                      professionalId: item.idCompany,
+                      professionId: idProfession,
+                      professionName: nameProfession,
                       date: date,
                       startTime: startTime
                     })
@@ -56,11 +78,13 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
         ) : (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
-              Nenhum profissional cadastrado para a profissão {name} na sua região.
+              Nenhum profissional cadastrado para a profissão {nameProfession} na sua região.
             </Text>
           </View>
         )}
       </View>
+
+      { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
 
       <CustomerNavigationBar />
     </View>
@@ -113,5 +137,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.gray,
     textAlign: "center",
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.red,
+    fontWeight: "bold"
   }
 });

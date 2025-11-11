@@ -7,6 +7,8 @@ interface User {
     idUser: string;
     name: string;
     email: string;
+    state: string;
+    city: string;
     userType: "CUSTOMER" | "COMPANY";
 }
 
