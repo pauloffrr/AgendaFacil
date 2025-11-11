@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { Input } from "../inputs/Input";
 import { SectionProps } from "@/src/types/ProfileSectionType";
 import { CategoryMock } from "@/src/data/CategoriesMock";
 import { ProfessionMock } from "@/src/data/ProfessionMock";
@@ -14,6 +15,7 @@ export const ProfessionDataSection: React.FC<SectionProps> = () => {
     const [profession, setProfession] = useState<Profession[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<number | "">("");
     const [selectedProfession, setSelectedProfession] = useState<number | "">("");
+    const [averagePrice, setAveragePrice] = useState("");
 
     useEffect(() => {
     setCategory(CategoryMock as Category[]);
@@ -72,6 +74,14 @@ export const ProfessionDataSection: React.FC<SectionProps> = () => {
                     ))}
                 </Picker>
             </View>
+
+            <Input
+                label="Preço Médio"
+                value={averagePrice}
+                onChangeText={setAveragePrice}
+                placeholder="Preço médio dos seus serviços"
+                keyboardType="numeric"
+            />
 
             <Button buttonText="Salvar" onPress={() => console.log("salvo")} />
         </View>

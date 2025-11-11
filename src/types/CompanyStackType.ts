@@ -35,6 +35,7 @@ export type CompanyStackParamList = {
     complement: string;
     selectedCategory: string;
     selectedProfession: string;
+    averagePrice: string;
   };
   "Login": undefined;
   "Company Scheduling": { id?: number };

@@ -29,7 +29,8 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
     number, 
     complement, 
     selectedCategory, 
-    selectedProfession 
+    selectedProfession,
+    averagePrice
   } = route.params;
 
   const getErrorMessage = (error: ApiError): string => {
@@ -80,6 +81,7 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
         complement, 
         category: selectedCategory, 
         profession: selectedProfession,
+        averagePrice: Number(averagePrice),
         email,
         password
       }
@@ -109,7 +111,11 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
   };
 
   return (
-    <KeyboardAwareScrollView enableOnAndroid style={styles.container}>
+    <KeyboardAwareScrollView 
+      enableOnAndroid 
+      style={styles.container}
+      extraScrollHeight={64}
+    >
       <View style={styles.space}>
         <BackButton />
 
