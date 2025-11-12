@@ -9,7 +9,7 @@ import { colors } from "@/src/styles/theme";
 export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional, onPress }) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} key={professional.idCompany} >
-      <Image style={styles.img} source={professional.img} />
+      <Image style={styles.img} source={require("../../assets/profissional.webp")} />
 
       <View style={styles.info}>
         <Text style={styles.name}>{professional.name}</Text>

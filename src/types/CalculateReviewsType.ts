@@ -1,4 +1,4 @@
 export interface CalculateReviews {
-    id: number;
+    idReview: number;
     rating: number;
 };

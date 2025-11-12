@@ -1,28 +1,81 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faLocationDot, faStar, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { BackButton } from "@/src/components/buttons/BackButton";
-import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
-import { CustomerReviews } from "@/src/components/display/CustomerReviews";
 import { AverageRating } from "@/src/components/display/AverageRating";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
-import { ProfessionalMock } from "@/src/data/ProfessionalsMock";
-import { ReviewsCustomerMock } from "@/src/data/ReviewsCustomerMock";
-import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
-import { colors } from "@/src/styles/theme";
+import { Logo } from "@/src/components/display/Logo";
+import { CompanyReviews } from "@/src/components/display/Reviews";
 import { useFavorites } from "@/src/context/FavoritesContext";
-import axios from "axios";
+import api from "@/src/services/Api";
+import { colors } from "@/src/styles/theme";
+import { ApiError } from "@/src/types/ApiErrorType";
+import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
+import { Professional } from "@/src/types/ProfessionalType";
+import { Reviews } from "@/src/types/ReviewsType";
+import { getErrorMessage } from "@/src/utils/errorHandler";
 import { API_URL } from "@env";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faCalendarDays, faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import React, { useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
   const { professionalId, professionName, date, startTime } = route.params;
-  const professional = ProfessionalMock.find(p => p.id === professionalId);
   const { toggleFavorite, isFavorite } = useFavorites();
+  const [professional, setProfessional] = useState<Professional | null>(null);
+  const [reviews, setReviews] = useState<Reviews[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
+
+  const getProfessionalProfile = async () => {
+    try {
+      const response = await api.get(`${API_URL}/company/${professionalId}`);
+
+      setProfessional(response.data);
+      setErrorMessage("");
+
+    } catch (error: unknown) {
+      let errorMsg = "Erro ao abri perfil do profissional. Tente novamente!";
+
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+    }
+  }
+
+  useEffect(() => {
+    getProfessionalProfile();
+  }, []);
+
+  useEffect(() => {
+    if (professional && professional.idCompany) {
+      getReviews();
+    }
+  }, [professional]);
+
+  const getReviews = async () => {
+    try {
+      const response = await api.get(`${API_URL}/reviews/company/${professional?.idCompany}`);
+
+      setReviews(response.data);
+      setErrorMessage("");
+
+    } catch (error: unknown) {
+      let errorMsg = "Erro ao exibir avaliações. Tente novamente!";
+      
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+    }
+  };
 
   if (!professional) {
     return (
@@ -32,7 +85,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
     );
   };
 
-  const favorite = isFavorite(professional.id);
+  const favorite = isFavorite(professional.idCompany);
 
   const submitForm = async() => {
     if(!date && !startTime) {
@@ -44,17 +97,15 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
     }
 
     try {
-      const data = {
+      /*const data = {
         date: date,
         startTime: startTime,
         profession: professionName
       }
 
-      await axios.post(`${API_URL}/scheduling`, data, {
-        headers: { "Content-Type": "application/json" }
-      })
+      const response = await api.post(`${API_URL}/scheduling`, data)*/
 
-      setSucessMessage("Horário agendado com sucesso!")
+      setSucessMessage("Solicitação de agendamento enviada!")
       setTimeout(() => {
         setSucessMessage("")
       }, 1500)
@@ -81,8 +132,8 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
           <UserIcon />
         </View>
         
-        <View key={professional.id}>
-          <Image source={professional.img} style={styles.img} />
+        <View key={professional.idCompany}>
+          <Image source={require("../../assets/profissional.webp")} style={styles.img} />
           <Text style={styles.name}>{professional.name}</Text>
           <Text style={styles.cnpj}>{professional.cnpj}</Text>
 
@@ -94,17 +145,17 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
             />
             <View>
               <Text style={styles.textAddress}>
-                {professional.cidade} -{" "}
-                {professional.estado}
+                {professional.city} -{" "}
+                {professional.state}
               </Text>
               <Text style={styles.textAddress}>
-                {professional.rua}, N° {professional.numero}
+                {professional.street}, N° {professional.number}
               </Text>
             </View>
           </View>
 
           <Text style={styles.rayKm}>
-            • Atende em até {professional.raioKm}km
+            • Atende em até {professional.rayKm}km
           </Text>
           <View style={styles.favorites}>
             <TouchableOpacity onPress={() => toggleFavorite(professional)}>
@@ -132,8 +183,8 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
             null
           }
 
-          <CustomerReviews />
-          <AverageRating reviews={ReviewsCustomerMock} style={styles.averageRating}/>
+          <CompanyReviews companyId={professional.idCompany} />
+          <AverageRating reviews={reviews} style={styles.averageRating}/>
         </View>
       </ScrollView>
 
