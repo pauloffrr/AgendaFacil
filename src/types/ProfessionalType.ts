@@ -1,15 +1,20 @@
 export interface Professional {
   idCompany: number;
   name: string;
+  corporateReason: string;
+  cnpj: string;
+  rayKm: number;
+  phone: string;
+  state: string;
+  city: string;
+  street: string;
+  number: number;
+  complement: string;
+  category: string;
+  profession: string;
   professionId: number;
+  email: string;
   averagePrice: number;
   averageRating: number;
   img: any;
-  cnpj: string;
-  raioKm: number;
-  telefone: string;
-  estado: string;
-  cidade: string;
-  rua: string;
-  numero: number;
 };

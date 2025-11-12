@@ -1,4 +1,4 @@
-import { ReviewsCustomer } from "../types/ReviewsCustomerType";
+import { ReviewsCustomer } from "../types/ReviewsType";
 
 export const ReviewsCustomerMock: ReviewsCustomer[] = [
     {

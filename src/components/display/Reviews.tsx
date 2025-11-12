@@ -1,13 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { ReviewsCustomerMock } from "@/src/data/ReviewsCustomerMock";
-import { ReviewsCustomer } from "@/src/types/ReviewsCustomerType";
+import { Reviews } from "@/src/types/ReviewsType";
 import { colors } from "@/src/styles/theme";
+import { getErrorMessage } from "@/src/utils/errorHandler";
+import { ApiError } from "@/src/types/ApiErrorType";
+import api from "@/src/services/Api";
+import { API_URL } from "@env";
+import { ReviewsCompany } from "@/src/types/ReviewsCompanyType";
 
-export const CustomerReviews: React.FC = () => {
-  const recentReviews: ReviewsCustomer[] = [...ReviewsCustomerMock]
+export const CompanyReviews: React.FC<ReviewsCompany> = ({ companyId }) => {
+  const [reviews, setReviews] = useState<Reviews[]>([]);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const getReviews = async () => {
+    try {
+      const response = await api.get(`${API_URL}/reviews/company/${companyId}`);
+
+      setReviews(response.data);
+      setErrorMessage("");
+
+    } catch (error: unknown) {
+      let errorMsg = "Erro ao exibir avaliações. Tente novamente!";
+      
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+    }
+  }
+
+  useEffect(() => {
+    getReviews();
+  }, []);
+
+  const recentReviews: Reviews[] = [...reviews]
     .sort((a, b) => {
       const dateA = new Date(a.date.split("/").reverse().join("-")).getTime();
       const dateB = new Date(b.date.split("/").reverse().join("-")).getTime();
@@ -28,12 +59,12 @@ export const CustomerReviews: React.FC = () => {
 
       <FlatList
         data={recentReviews}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.idReview.toString()}
         scrollEnabled={false}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <View style={styles.customer}>
-              <Text style={styles.nameCustomer}>{item.name}</Text>
+              <Text style={styles.nameCustomer}>{item.customer.name}</Text>
               <View style={styles.reviewsNote}>
                 <Text style={styles.textReview}>{item.rating}</Text>
                 <FontAwesomeIcon
@@ -51,11 +82,13 @@ export const CustomerReviews: React.FC = () => {
             </View>
 
             <View style={styles.date}>
-              <Text style={styles.textDate}>{item.date}</Text>
+              <Text style={styles.textDate}>{item.date.split("-").reverse().join("/")}</Text>
             </View>
           </View>
         )}
       />
+
+      { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
     </View>
   );
 };
@@ -122,5 +155,11 @@ const styles = StyleSheet.create({
   textDate: {
     fontSize: 13,
     color: colors.gray,
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.red,
+    fontWeight: "bold"
   }
 });

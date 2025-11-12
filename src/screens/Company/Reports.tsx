@@ -1,16 +1,16 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Logo } from "@/src/components/display/Logo";
 import { UserIcon } from "@/src/components/buttons/UserIcon";
-import { MonthYearInput } from "@/src/components/inputs/MonthYearInput";
-import { ServiceReports } from "@/src/components/display/ServiceReports";
-import { EarningsServiceReports } from "@/src/components/display/EarningsServiceReport";
-import { CustomerReviews } from "@/src/components/display/CustomerReviews";
 import { AverageRating } from "@/src/components/display/AverageRating";
-import { ReviewsCustomerMock } from "@/src/data/ReviewsCustomerMock";
 import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
+import { EarningsServiceReports } from "@/src/components/display/EarningsServiceReport";
+import { Logo } from "@/src/components/display/Logo";
+import { CustomerReviews } from "@/src/components/display/Reviews";
+import { ServiceReports } from "@/src/components/display/ServiceReports";
+import { MonthYearInput } from "@/src/components/inputs/MonthYearInput";
+import { ReviewsCustomerMock } from "@/src/data/ReviewsCustomerMock";
 import { colors } from "@/src/styles/theme";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const Reports: React.FC = () => {
     return (
