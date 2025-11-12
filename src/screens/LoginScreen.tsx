@@ -11,6 +11,7 @@ import { useAuth } from "../context/AuthContext";
 import { useUser } from "../context/UserContext";
 import api from "@/src/services/Api";
 import { ApiError } from "../types/ApiErrorType";
+import { getErrorMessage } from "../utils/errorHandler";
 
 export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) => {
   const [email, setEmail] = useState<string>("");
@@ -20,26 +21,6 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
   const [errorMessage, setErrorMessage] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
 
-  const getErrorMessage = (error: ApiError): string => {
-    if (error.response?.data) {
-      const backendError = error.response.data;
-      
-      if (typeof backendError === 'object' && backendError.message) {
-        return backendError.message;
-      }
-      
-      if (typeof backendError === 'string') {
-        return backendError;
-      }
-    }
-
-    if (error.message?.includes('Network Error')) {
-      return "Erro de conexão. Verifique sua internet.";
-    }
-    
-    return "Email ou senha inválidos. Tente novamente!";
-  };
-
   const handleLogin = async () => {
     try {
       const response = await api.post("/auth/login", { email, password });
@@ -48,7 +29,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
       await login(token);
       setUser(user);
 
-      setSucessMessage(message);
+      setSucessMessage(message || "Login realizado com sucesso!");
       setTimeout(() => {
         setSucessMessage("")
       }, 1500);

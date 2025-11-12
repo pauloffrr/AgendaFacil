@@ -8,7 +8,7 @@ import { colors } from "@/src/styles/theme";
 
 export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional, onPress }) => {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress} key={professional.id} >
+    <TouchableOpacity style={styles.card} onPress={onPress} key={professional.idCompany} >
       <Image style={styles.img} source={professional.img} />
 
       <View style={styles.info}>
@@ -20,13 +20,13 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional
               size={13}
               style={styles.icon}
             />
-            <Text style={styles.assessment}>{professional.mediaAvaliacao}</Text>
+            <Text style={styles.assessment}>{professional.averageRating}</Text>
           </View>
 
           <View style={styles.spacing}>
             <Text style={styles.priceText}>Preço médio</Text>
             <Text style={styles.averagePrice}>
-              R$ {professional.precoMedio.toFixed(2)}
+              R$ {professional.averagePrice.toFixed(2)}
             </Text>
           </View>
         </View>

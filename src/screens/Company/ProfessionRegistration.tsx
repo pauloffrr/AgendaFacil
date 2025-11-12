@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
 import { Picker } from "@react-native-picker/picker";
+import { Input } from "@/src/components/inputs/Input";
 import { Button } from "@/src/components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { CategoryMock } from "@/src/data/CategoriesMock";
@@ -17,10 +19,12 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
   const [profession, setProfession] = useState<Profession[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | "">("");
   const [selectedProfession, setSelectedProfession] = useState<string | "">("");
+  const [averagePrice, setAveragePrice] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { 
     name, 
     corporateReason, 
-    cnpj, 
+    cnpjValue, 
     rayKm, 
     phone, 
     selectedState, 
@@ -52,10 +56,20 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
   }, [selectedCategory]);
 
   const next = () => {
+    if (!selectedCategory || !selectedProfession || !averagePrice) {
+      setErrorMessage("Todos os campos são obrigatórios!");
+      
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1500);
+      
+      return;
+    }
+
     navigation.navigate("Company Registration Password", {  
       name, 
       corporateReason, 
-      cnpj,
+      cnpjValue,
       rayKm,
       phone, 
       selectedState, 
@@ -64,12 +78,17 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
       number, 
       complement,
       selectedCategory,
-      selectedProfession
+      selectedProfession,
+      averagePrice
     });
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView
+      style={styles.container}
+      enableOnAndroid
+      extraScrollHeight={24}
+    >
       <BackButton />
       <Logo />
       <Text style={styles.title}>Informe a sua área de atuação</Text>
@@ -115,11 +134,22 @@ export const CompanyRegistrationProfession: React.FC<CompanyRegistrationProfessi
             ))}
           </Picker>
         </View>
+
+        <Input
+          label="Preço Médio"
+          value={averagePrice}
+          onChangeText={setAveragePrice}
+          placeholder="Preço médio dos seus serviços"
+          keyboardType="numeric"
+        />
       </View>
 
       <Button buttonText="Enviar" onPress={next} />
+
+      {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+
       <Progress.Bar style={styles.progressBar} progress={0.75} width={355} />
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -164,6 +194,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.disable_input_background,
     borderColor: colors.disable_input_border,
     opacity: 0.6,
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "5%",
+    color: colors.red,
+    fontWeight: "bold",
+    textAlign: "center"
   },
   progressBar: {
     marginTop: "30%",

@@ -1,9 +1,9 @@
 export interface Professional {
-  id: number;
+  idCompany: number;
   name: string;
   professionId: number;
-  mediaAvaliacao: number;
-  precoMedio: number;
+  averagePrice: number;
+  averageRating: number;
   img: any;
   cnpj: string;
   raioKm: number;

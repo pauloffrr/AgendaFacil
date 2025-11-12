@@ -16,13 +16,24 @@ export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProp
   const [street, setStreet] = useState("");
   const [number, setNumber] = useState("");
   const [complement, setComplement] = useState("");
-  const { name, corporateReason, cnpj, rayKm, phone } = route.params;
+  const [errorMessage, setErrorMessage] = useState("");
+  const { name, corporateReason, cnpjValue, rayKm, phone } = route.params;
 
   const next = () => {
+    if (!selectedState || !selectedCity || !street || !number) {
+      setErrorMessage("Todos os campos são obrigatórios!");
+      
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1500);
+      
+      return;
+    }
+
     navigation.navigate("Company Registration Profession", {  
       name, 
       corporateReason, 
-      cnpj,
+      cnpjValue,
       rayKm,
       phone, 
       selectedState, 
@@ -78,6 +89,8 @@ export const CompanyRegistrationAddress: React.FC<CompanyRegistrationAddressProp
 
         <Button buttonText="Enviar" onPress={next} />
 
+        {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+
         <Progress.Bar style={styles.progressBar} progress={0.5} width={355} />
       </View>
     </KeyboardAwareScrollView>
@@ -98,6 +111,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: "5%",
     marginTop: "5%",
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "1%",
+    color: colors.red,
+    fontWeight: "bold",
+    textAlign: "center"
   },
   progressBar: {
     marginTop: 15,

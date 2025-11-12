@@ -10,17 +10,34 @@ import * as Progress from "react-native-progress";
 import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 import api from "@/src/services/Api";
+import { ApiError } from "@/src/types/ApiErrorType";
+import { getErrorMessage } from "@/src/utils/errorHandler";
 
 export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPasswordProps> = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { name, phone, cpf, selectedState, selectedCity, street, number, complement } = route.params;
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const { name, phone, cpfValue, selectedState, selectedCity, street, number, complement } = route.params;
 
   const next = async () => {
     try {
+      setErrorMessage("");
+      setSuccessMessage("");
+
+      if (!email || !password) {
+      setErrorMessage("Email e Senha são obrigatórios!");
+      
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1500);
+      
+      return;
+    }
+
       const payload = {
         name,
-        cpf,
+        cpf: cpfValue,
         phone,
         state: selectedState,
         city: selectedCity,
@@ -31,12 +48,27 @@ export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPassword
         password
       }
 
-      await api.post("/customer", payload);
+      const response = await api.post("/customer", payload);
+      setSuccessMessage(response.data.message || "Cadastro realizado com sucesso!");
 
-      navigation.navigate("Login");
+      setTimeout(() => {
+        navigation.navigate("Login");
+      }, 1500);
 
-    } catch(error) {
-      console.error("Error registering", error)
+    } catch (error: unknown) {
+      let errorMsg = "Erro ao realizar cadastro. Tente novamente!";
+      
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+
+      setTimeout(() => {
+        setErrorMessage("")
+      }, 1500);
     }
   };
 
@@ -69,6 +101,12 @@ export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPassword
 
           <Button buttonText="Enviar" onPress={next} />
 
+          {
+            errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : 
+            successMessage ? <Text style={styles.successMessage}>{successMessage}</Text> : 
+            null
+          }
+
           <Progress.Bar style={styles.progressBar} progress={1} width={355} />
         </View>
       </View>
@@ -93,6 +131,20 @@ const styles = StyleSheet.create({
   },
   inputs: {
     gap: "5%",
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.red,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  successMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.green,
+    fontWeight: "bold",
+    textAlign: "center"
   },
   progressBar: {
     marginTop: "30%",

@@ -10,14 +10,18 @@ import * as Progress from "react-native-progress";
 import { CompanyRegistrationPasswordProps } from "@/src/types/CompanyStackType";
 import { colors } from "@/src/styles/theme";
 import api from "@/src/services/Api";
+import { ApiError } from "@/src/types/ApiErrorType";
+import { getErrorMessage } from "@/src/utils/errorHandler";
 
 export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordProps> = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const { 
     name, 
     corporateReason, 
-    cnpj, 
+    cnpjValue, 
     rayKm, 
     phone, 
     selectedState, 
@@ -26,15 +30,29 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
     number, 
     complement, 
     selectedCategory, 
-    selectedProfession 
+    selectedProfession,
+    averagePrice
   } = route.params;
 
   const next = async () => {
     try {
+      setErrorMessage("");
+      setSuccessMessage("");
+
+      if (!email || !password) {
+        setErrorMessage("Email e Senha são obrigatórios!");
+        
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 1500);
+        
+        return;
+      }
+
       const payload = {
         name, 
         corporateReason, 
-        cnpj, 
+        cnpj: cnpjValue, 
         rayKm: Number(rayKm), 
         phone, 
         state: selectedState, 
@@ -44,21 +62,41 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
         complement, 
         category: selectedCategory, 
         profession: selectedProfession,
+        averagePrice: Number(averagePrice),
         email,
         password
       }
 
-      await api.post("/company", payload);
+      const response = await api.post("/company", payload);
+      setSuccessMessage(response.data.message || "Cadastro realizado com sucesso!");
 
-      navigation.navigate("Login");
+      setTimeout(() => {
+        navigation.navigate("Login");
+      }, 1500);
 
-    } catch(error) {
-      console.error("Error registering", error)
+    } catch (error: unknown) {
+      let errorMsg = "Erro ao realizar cadastro. Tente novamente!";
+      
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+
+      setTimeout(() => {
+        setErrorMessage("")
+      }, 1500);
     }
   };
 
   return (
-    <KeyboardAwareScrollView enableOnAndroid style={styles.container}>
+    <KeyboardAwareScrollView 
+      enableOnAndroid 
+      style={styles.container}
+      extraScrollHeight={64}
+    >
       <View style={styles.space}>
         <BackButton />
 
@@ -82,6 +120,12 @@ export const CompanyRegistrationPassword: React.FC<CompanyRegistrationPasswordPr
           />
 
           <Button buttonText="Enviar" onPress={next} />
+
+          {
+            errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : 
+            successMessage ? <Text style={styles.successMessage}>{successMessage}</Text> : 
+            null
+          }
 
           <Progress.Bar style={styles.progressBar} progress={1} width={355} />
         </View>
@@ -107,6 +151,20 @@ const styles = StyleSheet.create({
   },
   inputs: {
     gap: "5%",
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.red,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  successMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.green,
+    fontWeight: "bold",
+    textAlign: "center"
   },
   progressBar: {
     marginTop: "30%",

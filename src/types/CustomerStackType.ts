@@ -6,12 +6,12 @@ export type CustomerStackParamList = {
   "Customer Registration Address": {
     name: string;
     phone: string;
-    cpf: string;
+    cpfValue: string;
   };
   "Customer Registration Password": {
     name: string;
     phone: string;
-    cpf: string;
+    cpfValue: string;
     selectedState: string;
     selectedCity: string;
     street: string;
@@ -25,12 +25,14 @@ export type CustomerStackParamList = {
   "Customer Scheduling": undefined;
   "Favorites": { professionalId: number; };
   "Customer Date": { 
-    id: number; 
-    name: string;
+    nameCategory: string;
+    idProfession: number; 
+    nameProfession: string;
   };
   "Professionals Available": { 
-    id: number; 
-    name: string; 
+    nameCategory: string;
+    idProfession: number; 
+    nameProfession: string; 
     date: string; 
     startTime: string 
   };

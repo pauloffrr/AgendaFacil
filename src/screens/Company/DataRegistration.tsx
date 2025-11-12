@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { cnpj } from "cpf-cnpj-validator";
 import { BackButton } from "@/src/components/buttons/BackButton";
 import { Logo } from "@/src/components/display/Logo";
 import { SelectAccount } from "@/src/components/buttons/SelectAccount";
@@ -14,12 +15,37 @@ import { colors } from "@/src/styles/theme";
 export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = ({ navigation }) => {
   const [name, setName] = useState("");
   const [corporateReason, setCorporateReason] = useState("");
-  const [cnpj, setCnpj] = useState("");
+  const [cnpjValue, setCnpjValue] = useState("");
   const [rayKm, setRayKm] = useState("");
   const [phone, setPhone] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const next = () => {
-    navigation.navigate("Company Registration Address", { name, corporateReason, cnpj, rayKm, phone });
+    setErrorMessage("");
+
+    if (!name || !corporateReason || !cnpjValue || !rayKm || !phone) {
+      setErrorMessage("Todos os campos são obrigatórios!");
+      
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1500);
+      
+      return;
+    }
+
+    const cleanCnpj = cnpjValue.replace(/\D/g, '');
+
+    if (!cnpj.isValid(cleanCnpj)) {
+      setErrorMessage("CNPJ inválido ou inexistente!");
+
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1500);
+      
+      return;
+    }
+
+    navigation.navigate("Company Registration Address", { name, corporateReason, cnpjValue, rayKm, phone });
   };
 
   return (
@@ -53,8 +79,8 @@ export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = (
       <MaskInput
         label="CNPJ"
         mask="99.999.999/9999-99"
-        value={cnpj}
-        onChangeTextMask={(text) => setCnpj(text)}
+        value={cnpjValue}
+        onChangeTextMask={(text) => setCnpjValue(text)}
         keyboardType="numeric"
         placeholder="00.000.000/0000-00"
       />
@@ -78,6 +104,8 @@ export const CompanyRegistrationData: React.FC<CompanyRegistrationDataProps> = (
 
       <Button buttonText="Enviar" onPress={next} />
 
+      {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+
       <Progress.Bar style={styles.progressBar} progress={0.25} width={355} />
 
       <Text />
@@ -96,6 +124,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: "5%",
     marginTop: "5%",
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "5%",
+    color: colors.red,
+    fontWeight: "bold",
+    textAlign: "center"
   },
   progressBar: {
     marginTop: "5%",
