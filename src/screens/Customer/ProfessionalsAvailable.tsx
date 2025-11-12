@@ -48,7 +48,6 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
 
   const filteredProfessionals = professionals;
 
-
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
