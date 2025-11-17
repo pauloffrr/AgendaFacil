@@ -41,10 +41,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             }
 
             try {
-                const response = await api.get("/auth/profile", {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-
+                const response = await api.get("/auth/profile");
                 setUser(response.data.user)
 
             } catch (error: any) {
