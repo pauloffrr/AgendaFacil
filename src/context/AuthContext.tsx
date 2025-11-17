@@ -17,7 +17,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const loadToken = async () => {
             const storedToken = await AsyncStorage.getItem("authToken");
-            if (storedToken) setToken(storedToken);
+
+            if (storedToken) {
+                setToken(storedToken);
+            } else {
+                await AsyncStorage.removeItem("authToken");
+            }
+
             setLoadingAuth(false);
         };
         loadToken();

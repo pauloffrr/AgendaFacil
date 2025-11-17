@@ -10,10 +10,12 @@ api.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem("authToken");
 
   if (token) {
-    config.headers.set("Authorization", `Bearer ${token}`);
+    config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    delete config.headers.Authorization;
   }
 
-  config.headers.set("Content-Type", "application/json");
+  config.headers["Content-Type"] = "application/json";
 
   return config;
 });
