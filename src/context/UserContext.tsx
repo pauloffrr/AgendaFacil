@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import Toast from 'react-native-toast-message';
 import { useAuth } from "./AuthContext"
-import api from "@/src/services/Api";
+import { apiUsers } from "../services/Api";
 
 interface User {
     idUser: string;
@@ -9,6 +9,8 @@ interface User {
     email: string;
     state: string;
     city: string;
+    street: string;
+    number: number;
     userType: "CUSTOMER" | "COMPANY";
 }
 
@@ -41,7 +43,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             }
 
             try {
-                const response = await api.get("/auth/profile");
+                const response = await apiUsers.get("/auth/profile");
                 setUser(response.data.user)
 
             } catch (error: any) {
@@ -71,7 +73,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     const updateUser = async (updateUser: UpdateUserPayload) => {
         try {
-            const response = await api.put(`/user/${user?.idUser}`, updateUser, {
+            const response = await apiUsers.put(`/user/${user?.idUser}`, updateUser, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

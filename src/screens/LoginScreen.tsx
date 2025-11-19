@@ -9,7 +9,7 @@ import { LoginProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 import { useAuth } from "../context/AuthContext";
 import { useUser } from "../context/UserContext";
-import api from "@/src/services/Api";
+import { apiUsers } from "../services/Api";
 import { ApiError } from "../types/ApiErrorType";
 import { getErrorMessage } from "../utils/errorHandler";
 
@@ -23,7 +23,7 @@ export const LoginScreen: React.FC<LoginProps> = ({ navigation, setUserType }) =
 
   const handleLogin = async () => {
     try {
-      const response = await api.post("/auth/login", { email, password });
+      const response = await apiUsers.post("/auth/login", { email, password });
       const { token, user, message } = response.data;
 
       await login(token);

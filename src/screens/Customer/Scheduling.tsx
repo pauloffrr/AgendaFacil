@@ -10,7 +10,7 @@ import { Calendar } from "react-native-big-calendar";
 import { SchedulingEventsProps } from "@/src/types/SchedulingEventsType";
 import { CancelAppoimentModal } from "@/src/components/modals/CancelAppoimentModal";
 import { SchedulingProps } from "@/src/types/Scheduling";
-import { API_URL } from '@env';
+import { API_URL_USERS } from '@env';
 
 export const CustomerScheduling: React.FC = () => {
     const [scheduling, setScheduling] = useState<SchedulingEventsProps[]>([]);
@@ -20,7 +20,7 @@ export const CustomerScheduling: React.FC = () => {
 
     const getScheduling = async () => {
         try {
-            const response = await axios.get(`${API_URL}/scheduling`);
+            const response = await axios.get(`${API_URL_USERS}/scheduling`);
             const events = response.data.map((item: SchedulingProps) => {
                 const [year, month, day] = item.date.split("-").map(Number);
                 const [startHour, startMinute] = item.startTime.split(":").map(Number);
@@ -57,7 +57,7 @@ export const CustomerScheduling: React.FC = () => {
 
     const cancelScheduling = async (eventId: number) => {
         try {
-            await axios.put(`${API_URL}/scheduling/${eventId}`, { status: "CANCELLED" });
+            await axios.put(`${API_URL_USERS}/scheduling/${eventId}`, { status: "CANCELLED" });
 
             setScheduling(prev =>
                 prev.map(event =>
