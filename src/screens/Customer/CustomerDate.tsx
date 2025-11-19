@@ -24,11 +24,36 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
   const hideTimePicker = () => setTimePickerVisibility(false);
 
   const handleConfirmDate = (selectedDate: Date) => {
+    const now = new Date();
+
+    const selected = new Date(selectedDate);
+    selected.setHours(0,0,0,0);
+    now.setHours(0,0,0,0);
+
+    if (selected < now) {
+      alert("Você não pode selecionar uma data anterior à data atual.");
+      hideDatePicker();
+      return;
+    }
+
     setDate(selectedDate);
     hideDatePicker();
   };
 
   const handleConfirmTime = (selectedTime: Date) => {
+    const now = new Date();
+
+    if (date) {
+      const combined = new Date(date);
+      combined.setHours(selectedTime.getHours(), selectedTime.getMinutes(), 0, 0);
+
+      if (combined < now) {
+        alert("Você não pode selecionar um horário anterior ao atual.");
+        hideTimePicker();
+        return;
+      }
+    }
+
     setStartTime(selectedTime);
     hideTimePicker();
   };
@@ -42,6 +67,16 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
 
   const next = () => {
     if (!date || !startTime) return;
+
+    const now = new Date();
+
+    const combined = new Date(date);
+    combined.setHours(startTime.getHours(), startTime.getMinutes(), 0, 0);
+
+    if (combined < now) {
+      alert("A data e horário selecionados já passaram.");
+      return;
+    }
 
     navigation.navigate("Professionals Available", { 
       nameCategory,
