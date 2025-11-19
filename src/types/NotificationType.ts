@@ -1,25 +1,33 @@
-export type NotificationCustomerType =
-  | "Cancelamento"
-  | "Confirmação"
-  | "Avaliação"
-  | "Concluído"
-  | "Lembrete";
-
-  export type NotificationCompanyType =
-  | "À Definir"
+export type NotificationType =
+  | "Pendente"
   | "Confirmado"
   | "Cancelado"
   | "Serviço Finalizado?"
+  | "Lembrete"
   | "Concluído"
-  | "Lembrete";
+  | "Avaliação";
 
 export interface Notification {
-  id: number;
-  typeCustomer?: NotificationCustomerType;
-  typeCompany?: NotificationCompanyType;
-  message: string;
+  idNotificationCustomer: number;
+  customerId: number;
+  companyId: number;
+  type: NotificationType;
+  text: string;
   date: string;
-  professionId?: number;
-  professionName?: string;
-  address?: string;
+  profession?: string;
+  company?: {
+    idCompany: number;
+    name: string;
+    profession: string;
+    street: string;
+    number: number;
+    phone: string;
+  };
+  customer?: {
+    idCustomer: number;
+    name: string;
+    street: string;
+    number: number;
+    phone: string;
+  }
 };
