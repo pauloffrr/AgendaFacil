@@ -89,6 +89,11 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
 
   const favorite = isFavorite(professional.idCompany);
 
+  const formatDate = (isoString: string) => {
+      const date = new Date(isoString);
+      return date.toLocaleDateString("pt-BR");
+  };
+
   const submitForm = async() => {
     if(!date && !startTime) {
       setErrorMessage("Todos os campos são obrigatórios")

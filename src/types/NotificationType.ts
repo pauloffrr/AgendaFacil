@@ -9,6 +9,7 @@ export type NotificationType =
 
 export interface Notification {
   idNotificationCustomer: number;
+  idNotificationCompany: number;
   customerId: number;
   companyId: number;
   type: NotificationType;

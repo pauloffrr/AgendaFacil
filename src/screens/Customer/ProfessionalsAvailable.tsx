@@ -48,6 +48,11 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
 
   const filteredProfessionals = professionals;
 
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("pt-BR");
+  };
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
@@ -75,7 +80,7 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
                       professionalId: item.idCompany,
                       professionId: idProfession,
                       professionName: nameProfession,
-                      date: date,
+                      date: formatDate(date),
                       startTime: startTime
                     })
                   }

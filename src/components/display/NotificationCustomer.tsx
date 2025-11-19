@@ -22,7 +22,6 @@ export const NotificationCustomer: React.FC = () => {
     try {
       const response = await apiNotifications.get(`${API_URL_NOTIFICATIONS}/notifications-customer/customer/${user?.idUser}`);
 
-      console.log(response.data);
       setNotifications(response.data);
       setErrorMessage("");
       
@@ -147,6 +146,7 @@ export const NotificationCustomer: React.FC = () => {
       ) : (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>
+            <Text style={styles.emptyMessage}>Nenhuma notificação disponível!</Text>
             { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
           </Text>
         </View>
@@ -216,6 +216,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.gray,
     textAlign: "center",
+  },
+  emptyMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.gray,
+    fontWeight: "bold"
   },
   errorMessage: {
     fontSize: 18,
