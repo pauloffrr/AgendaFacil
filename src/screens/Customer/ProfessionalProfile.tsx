@@ -5,19 +5,20 @@ import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigati
 import { Logo } from "@/src/components/display/Logo";
 import { CompanyReviews } from "@/src/components/display/Reviews";
 import { useFavorites } from "@/src/context/FavoritesContext";
-import api from "@/src/services/Api";
+import { apiNotifications, apiUsers } from "@/src/services/Api";
 import { colors } from "@/src/styles/theme";
 import { ApiError } from "@/src/types/ApiErrorType";
 import { ProfessionalProfileProps } from "@/src/types/CustomerStackType";
 import { Professional } from "@/src/types/ProfessionalType";
 import { Reviews } from "@/src/types/ReviewsType";
 import { getErrorMessage } from "@/src/utils/errorHandler";
-import { API_URL } from "@env";
+import { API_URL_NOTIFICATIONS, API_URL_USERS } from "@env";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCalendarDays, faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useUser } from "@/src/context/UserContext";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
   const { professionalId, professionName, date, startTime } = route.params;
@@ -26,16 +27,17 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
+  const { user } = useUser()
 
   const getProfessionalProfile = async () => {
     try {
-      const response = await api.get(`${API_URL}/company/${professionalId}`);
+      const response = await apiUsers.get(`${API_URL_USERS}/company/${professionalId}`);
 
       setProfessional(response.data);
       setErrorMessage("");
 
     } catch (error: unknown) {
-      let errorMsg = "Erro ao abri perfil do profissional. Tente novamente!";
+      let errorMsg = "Erro ao abrir perfil do profissional. Tente novamente!";
 
       if (typeof error === 'object' && error !== null) {
         errorMsg = getErrorMessage(error as ApiError);
@@ -59,7 +61,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
 
   const getReviews = async () => {
     try {
-      const response = await api.get(`${API_URL}/reviews/company/${professional?.idCompany}`);
+      const response = await apiUsers.get(`${API_URL_USERS}/reviews/company/${professional?.idCompany}`);
 
       setReviews(response.data);
       setErrorMessage("");
@@ -97,21 +99,36 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
     }
 
     try {
-      /*const data = {
-        date: date,
-        startTime: startTime,
-        profession: professionName
+      const payloadCompany = {
+        companyId: professionalId,
+        customerId: user?.idUser,
+        type: 'Pendente',
+        text: `${user?.name} gostaria de um agendamento para o dia ${date} às ${startTime}`,
+        street: user?.street,
+        number: user?.number,
+        date: new Date()
       }
 
-      const response = await api.post(`${API_URL}/scheduling`, data)*/
+      await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-company`, payloadCompany);
 
-      setSucessMessage("Solicitação de agendamento enviada!")
+      const payloadCustomer = {
+        customerId: user?.idUser,
+        companyId: professionalId,
+        type: "Pendente",
+        text: `A empresa tem até 24 horas para confirmar ou cancelar a sua solicitação de agendamento.`,
+        profession: professionName,
+        date: new Date()
+      };
+
+      await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadCustomer);
+
+      setSucessMessage("Solicitação de agendamento enviada! Acompanhe no menu de notificações.")
       setTimeout(() => {
         setSucessMessage("")
       }, 1500)
 
       setTimeout(() => {
-        navigation.navigate("Customer Home")
+        navigation.navigate("Customer Notifications")
       }, 2000)
       
     } catch (error) {

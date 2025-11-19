@@ -8,8 +8,8 @@ import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigati
 import { ProfessionalsAvailableProps } from "@/src/types/CustomerStackType";
 import { Professional } from "@/src/types/ProfessionalType";
 import { colors } from "@/src/styles/theme";
-import api from "@/src/services/Api";
-import { API_URL } from "@env";
+import { apiUsers } from "@/src/services/Api";
+import { API_URL_USERS } from "@env";
 import { useUser } from "@/src/context/UserContext";
 import { ApiError } from "@/src/types/ApiErrorType";
 import { getErrorMessage } from "@/src/utils/errorHandler";
@@ -24,7 +24,7 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
     if (!user?.state || !user?.city) return;
 
     try {
-      const response = await api.get(`${API_URL}/company/${user.state}/${user.city}/${nameCategory}/${nameProfession}/${date}/${startTime}`);
+      const response = await apiUsers.get(`${API_URL_USERS}/company/${user.state}/${user.city}/${nameCategory}/${nameProfession}/${date}/${startTime}`);
       
       setProfessionals(response.data);
       setErrorMessage("");
