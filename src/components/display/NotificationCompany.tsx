@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { NotificationsCompanyMock } from "../../data/NotificationCompanyMock";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell, faCircleQuestion, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -9,8 +8,8 @@ import { Notification } from "@/src/types/NotificationType";
 import { colors } from "@/src/styles/theme";
 import { DuoButtons } from "../buttons/DuoButtons";
 import { ModalConfirmProps } from "@/src/types/ModalConfirmType";
-import { apiNotifications } from "@/src/services/Api";
-import { API_URL_NOTIFICATIONS } from "@env";
+import { apiNotifications, apiScheduling } from "@/src/services/Api";
+import { API_URL_NOTIFICATIONS, API_URL_SCHEDULING } from "@env";
 import { useUser } from "@/src/context/UserContext";
 import { getErrorMessage } from "@/src/utils/errorHandler";
 import { ApiError } from "@/src/types/ApiErrorType";
@@ -44,11 +43,81 @@ export const NotificationCompany: React.FC = () => {
         getNotificationsCompany();
     }, []);
 
-    const openConfirmModal = () => {
+    const confirmNotification = async (notification: Notification) => {
+        try {
+            const customer = notification.customer;
+
+            const payloadNotification = {
+                type: 'Confirmado',
+                text: `Você confirmou o atendimento com ${customer?.name} no dia ${notification.schedulingDate} às ${notification.schedulingStartTime} até ${notification.schedulingEndTime}`,
+                street: customer?.street,
+                number: customer?.number,
+                schedulingDate: notification.schedulingDate,
+                schedulingStartTime: notification.schedulingStartTime,
+                schedulingEndTime: notification.schedulingEndTime,
+                date: new Date()
+            };
+
+            await apiNotifications.put(
+                `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
+                payloadNotification
+            );
+
+            const payloadScheduling = {
+                companyId: user?.idUser,
+                customerId: customer?.idCustomer,
+                title: `${customer?.name} - ${customer?.street}, N° ${customer?.number}`,
+                startDate: notification.schedulingDate,
+                endDate: notification.schedulingDate,
+                startHour: notification.schedulingStartTime,
+                endHour: notification.schedulingEndTime
+            }
+
+            await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-company`, payloadScheduling);
+            await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-customer`, payloadScheduling);
+
+            setModalConfig(null);
+            await getNotificationsCompany();
+
+        } catch (error) {
+            setErrorMessage("Erro ao confirmar agendamento!");
+            setModalConfig(null);
+        }
+    };
+
+    const cancelNotification = async (notification: Notification) => {
+        try {
+            const customer = notification.customer;
+
+            const payload = {
+                type: 'Cancelado',
+                text: `Você cancelou o atendimento com ${customer?.name} no dia ${notification.schedulingDate} às ${notification.schedulingStartTime}`,
+                street: customer?.street,
+                number: customer?.number,
+                schedulingDate: notification.schedulingDate,
+                schedulingStartTime: notification.schedulingStartTime,
+                date: new Date()
+            };
+
+            await apiNotifications.put(
+                `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
+                payload
+            );
+
+            setModalConfig(null);
+            await getNotificationsCompany();
+
+        } catch (error) {
+            setErrorMessage("Erro ao cancelar agendamento!");
+            setModalConfig(null);
+        }
+    };
+
+    const openConfirmModal = (notification: Notification) => {
         setModalConfig({
             text: "Tem certeza que deseja confirmar este serviço?",
             buttonProps: {
-                firstOnPress: () => setModalConfig(null),
+                firstOnPress: () => confirmNotification(notification),
                 secondOnPress: () => setModalConfig(null),
                 firstButtonText: "Confirmar",
                 secondButtonText: "Voltar",
@@ -60,11 +129,11 @@ export const NotificationCompany: React.FC = () => {
         });
     };
 
-     const openCancelModal = () => {
+     const openCancelModal = (notification: Notification) => {
         setModalConfig({
             text: "Tem certeza que deseja cancelar este serviço?",
             buttonProps: {
-                firstOnPress: () => setModalConfig(null),
+                firstOnPress: () => cancelNotification(notification),
                 secondOnPress: () => setModalConfig(null),
                 firstButtonText: "Cancelar",
                 secondButtonText: "Voltar",
@@ -173,8 +242,8 @@ export const NotificationCompany: React.FC = () => {
 
                         {item.type === "Pendente" && (
                             <DuoButtons 
-                                firstOnPress={openConfirmModal}
-                                secondOnPress={openCancelModal}
+                                firstOnPress={() => openConfirmModal(item)}
+                                secondOnPress={() => openCancelModal(item)}
                                 firstButtonText="Confirmar" 
                                 secondButtonText="Cancelar"
                                 firstButtonColor={colors.green}

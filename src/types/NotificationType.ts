@@ -14,6 +14,9 @@ export interface Notification {
   companyId: number;
   type: NotificationType;
   text: string;
+  schedulingDate: string;
+  schedulingStartTime: string;
+  schedulingEndTime: string;
   date: string;
   profession?: string;
   company?: {

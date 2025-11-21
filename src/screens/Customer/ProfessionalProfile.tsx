@@ -111,6 +111,8 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
         text: `${user?.name} gostaria de um agendamento para o dia ${date} às ${startTime}`,
         street: user?.street,
         number: user?.number,
+        schedulingDate: date,
+        schedulingStartTime: startTime,
         date: new Date()
       }
 
@@ -122,6 +124,8 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
         type: "Pendente",
         text: `A empresa tem até 24 horas para confirmar ou cancelar a sua solicitação de agendamento.`,
         profession: professionName,
+        schedulingDate: date,
+        schedulingStartTime: startTime,
         date: new Date()
       };
 
