@@ -90,8 +90,10 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
   const favorite = isFavorite(professional.idCompany);
 
   const formatDate = (isoString: string) => {
-      const date = new Date(isoString);
-      return date.toLocaleDateString("pt-BR");
+    const onlyDate = isoString.split("T")[0];
+    const [year, month, day] = onlyDate.split("-");
+
+    return `${day}/${month}/${year}`;
   };
 
   const submitForm = async() => {
@@ -108,7 +110,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
         companyId: professionalId,
         customerId: user?.idUser,
         type: 'Pendente',
-        text: `${user?.name} gostaria de um agendamento para o dia ${date} às ${startTime}`,
+        text: `${user?.name} gostaria de um agendamento para o dia ${date ? formatDate(date) : ""} às ${startTime}`,
         street: user?.street,
         number: user?.number,
         schedulingDate: date,
