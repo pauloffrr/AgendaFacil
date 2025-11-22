@@ -4,13 +4,13 @@ import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigati
 import { Logo } from "@/src/components/display/Logo";
 import { CancelAppoimentModal } from "@/src/components/modals/CancelAppoimentModal";
 import { useUser } from "@/src/context/UserContext";
-import { apiScheduling } from "@/src/services/Api";
+import { apiNotifications, apiScheduling } from "@/src/services/Api";
 import { colors } from "@/src/styles/theme";
 import { ApiError } from "@/src/types/ApiErrorType";
 import { SchedulingEventsProps } from "@/src/types/SchedulingEventsType";
 import { SchedulingProps } from "@/src/types/SchedulingType";
 import { getErrorMessage } from "@/src/utils/errorHandler";
-import { API_URL_SCHEDULING } from '@env';
+import { API_URL_NOTIFICATIONS, API_URL_SCHEDULING } from '@env';
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Calendar } from "react-native-big-calendar";
@@ -26,13 +26,15 @@ export const CustomerScheduling: React.FC = () => {
     const getSchedulingCustomer = async () => {
         try {
             const response = await apiScheduling.get(`${API_URL_SCHEDULING}/scheduling-customer/customer/${user?.idUser}`);
-            
+
             const mapped = response.data.map((item: SchedulingProps) => {
                 const start = new Date(`${item.startDate}T${item.startHour}`);
                 const end = new Date(`${item.endDate}T${item.endHour}`);
 
                 return {
                     id: item.idScheduling,
+                    companyId: item.company.idCompany,
+                    customerId: item.customer.idCustomer,
                     title: item.title,
                     start,
                     end,
@@ -72,6 +74,31 @@ export const CustomerScheduling: React.FC = () => {
 
     const cancelScheduling = async (id: number) => {
         try {
+            const event = scheduling.find(item => item.id === id);
+
+            if (!event) {
+                setErrorMessage("Agendamento não encontrado");
+                return;
+            }
+
+            const day = event.start.toLocaleDateString('pt-BR');
+            const startHour = event.start.toLocaleTimeString('pt-BR', { hour: "2-digit", minute: "2-digit" });
+            const endHour = event.end.toLocaleTimeString('pt-BR', { hour: "2-digit", minute: "2-digit" });
+
+            const payloadNotification = {
+                companyId: event.companyId,
+                customerId: user?.idUser,
+                type: 'Cancelado',
+                text: `${user?.name} cancelou o agendamento com você no dia ${day} das ${startHour} às ${endHour}`,
+                street: user?.street,
+                number: user?.number,
+                schedulingDate: event.start.toISOString(),
+                schedulingStartTime: startHour,
+                schedulingEndTime: endHour,
+                date: new Date()
+            };
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-company`, payloadNotification);
+
             await apiScheduling.put(`${API_URL_SCHEDULING}/scheduling-customer/${id}`, { status: "CANCELLED" });
 
             setScheduling(prev =>

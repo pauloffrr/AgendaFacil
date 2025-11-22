@@ -7,4 +7,17 @@ export interface SchedulingProps {
     endHour: string;
     status: string;
     color?: string;
+
+    company: {
+        idCompany: number;
+        name: string;
+        street: string;
+        number: number;
+        phone: string;
+    };
+
+    customer: {
+        idCustomer: number;
+        name: string;
+    };
 }

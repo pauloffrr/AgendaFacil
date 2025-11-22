@@ -97,7 +97,17 @@ export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation
                     date={selectedDate}
                     renderHeader={() => null}
                     scrollOffsetMinutes={scrollOffsetMinutes}
-                    onPressEvent={(event) => navigation.navigate("Edit Event", { id: event.id })}
+                    onPressEvent={(event) => {
+                        if(event.status === "CONFIRMED") {
+                            navigation.navigate("Edit Event", { id: event.id })}
+                        }
+                    }
+                    eventCellStyle={(event) => {
+                        if (event.status === "CANCELLED") {
+                            return { backgroundColor: colors.red };
+                        }
+                        return { backgroundColor: colors.blue };
+                    }}
                 />
             </View>
 
