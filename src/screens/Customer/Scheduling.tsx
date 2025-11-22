@@ -127,7 +127,11 @@ export const CustomerScheduling: React.FC = () => {
                     mode="day"
                     date={selectedDate}
                     renderHeader={() => null}
-                    onPressEvent={handleEventPress}
+                    onPressEvent={(event) => {
+                        if(event.status === "CONFIRMED") {
+                            handleEventPress
+                        }
+                    }}
                     eventCellStyle={(event) => {
                         if (event.status === "CANCELLED") {
                             return { backgroundColor: colors.red };
