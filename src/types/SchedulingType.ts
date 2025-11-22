@@ -11,6 +11,7 @@ export interface SchedulingProps {
     company: {
         idCompany: number;
         name: string;
+        profession: string;
         street: string;
         number: number;
         phone: string;

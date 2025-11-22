@@ -34,7 +34,9 @@ export const CustomerScheduling: React.FC = () => {
                 return {
                     id: item.idScheduling,
                     companyId: item.company.idCompany,
+                    name: item.company.name,
                     customerId: item.customer.idCustomer,
+                    profession: item.company.profession,
                     title: item.title,
                     start,
                     end,
@@ -85,7 +87,7 @@ export const CustomerScheduling: React.FC = () => {
             const startHour = event.start.toLocaleTimeString('pt-BR', { hour: "2-digit", minute: "2-digit" });
             const endHour = event.end.toLocaleTimeString('pt-BR', { hour: "2-digit", minute: "2-digit" });
 
-            const payloadNotification = {
+            const payloadNotificationCompany = {
                 companyId: event.companyId,
                 customerId: user?.idUser,
                 type: 'Cancelado',
@@ -97,7 +99,20 @@ export const CustomerScheduling: React.FC = () => {
                 schedulingEndTime: endHour,
                 date: new Date()
             };
-            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-company`, payloadNotification);
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-company`, payloadNotificationCompany);
+
+            const payloadNotificationCustomer = {
+                companyId: event.companyId,
+                customerId: user?.idUser,
+                type: 'Cancelado',
+                text: `Você cancelou o agendamento com ${event.name} no dia ${day} das ${startHour} às ${endHour}`,
+                profession: event.profession,
+                schedulingDate: event.start.toISOString(),
+                schedulingStartTime: startHour,
+                schedulingEndTime: endHour,
+                date: new Date()
+            };
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadNotificationCustomer);
 
             await apiScheduling.put(`${API_URL_SCHEDULING}/scheduling-customer/${id}`, { status: "CANCELLED" });
 
@@ -129,7 +144,7 @@ export const CustomerScheduling: React.FC = () => {
                     renderHeader={() => null}
                     onPressEvent={(event) => {
                         if(event.status === "CONFIRMED") {
-                            handleEventPress
+                            handleEventPress(event)
                         }
                     }}
                     eventCellStyle={(event) => {
