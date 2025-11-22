@@ -8,25 +8,29 @@
 
 ---
 
-## 1. Visão do Produto
+## Visão do Produto
 
-Ser a plataforma que **aproxima pessoas**. Queremos transformar a maneira como clientes encontram e contratam profissionais autônomos no Brasil, oferecendo uma experiência simples, rápida e segura.
-
-Nossa visão é criar um ambiente onde a **confiança seja natural**, o agendamento seja fácil e cada serviço gere mais tranquilidade, oportunidades e relações de valor para todos.
+Ser a plataforma que aproxima pessoas. Queremos transformar a maneira como clientes encontram e contratam profissionais autônomos no Brasil, oferecendo uma experiência simples, rápida e segura. Nossa visão é criar um ambiente onde a confiança seja natural, o agendamento seja fácil e cada serviço gere mais tranquilidade, oportunidades e relações de valor para todos.
 
 ---
 
-## 2. Métricas de Sucesso
+## Métricas de Sucesso
 
-| Métrica       | Objetivo                                                                  | Descrição                                                                                                                                 |
-| :------------ | :------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------- |
-| **Métrica 1** | Taxa de agendamentos concluídos com sucesso (>75% em 30 dias)             | Indica o nível de aderência entre a demanda dos clientes e a disponibilidade dos prestadores, além da eficiência no fluxo de agendamento. |
-| **Métrica 2** | Tempo médio para um prestador aceitar um serviço (<1h após a solicitação) | Mede a agilidade da plataforma e a atratividade das oportunidades para os profissionais cadastrados.                                      |
-| **Métrica 3** | Percentual de avaliações positivas após o serviço (>90%)                  | Reflete a qualidade das prestações de serviço, a confiança entre usuários e prestadores e a solidez da experiência na plataforma.         |
+**Métrica 1 – Taxa de agendamentos concluídos com sucesso (>75% em 30 dias)**
+
+Indica o nível de aderência entre a demanda dos clientes e a disponibilidade dos prestadores, além da eficiência no fluxo de agendamento.
+
+**Métrica 2 – Tempo médio para um prestador aceitar um serviço (<1h após a solicitação)**
+
+Mede a agilidade da plataforma e a atratividade das oportunidades para os profissionais cadastrados.
+
+**Métrica 3 – Percentual de avaliações positivas após o serviço (>90%)**
+
+Reflete a qualidade das prestações de serviço, a confiança entre usuários e prestadores e a solidez da experiência na plataforma.
 
 ---
 
-## 3. Antiobjetivos (Fora do Escopo Inicial/MVP)
+## Antiobjetivos (fora do escopo inicial/MVP)
 
 - Automação de faturamento e emissão de NF-e dentro do aplicativo.
 - Integração com rastreamento e telemetria em tempo real para empresas privadas.
@@ -34,283 +38,637 @@ Nossa visão é criar um ambiente onde a **confiança seja natural**, o agendame
 
 ---
 
-## 4. Stakeholders
+## Stakeholders
 
-| Stakeholder                                             | Tipo       | Função/Interesse                                                                |
-| :------------------------------------------------------ | :--------- | :------------------------------------------------------------------------------ |
-| **Cliente (Usuário Final Mobile)**                      | Primário   | Utiliza o app para buscar, comparar, agendar e acompanhar serviços.             |
-| **Prestador de Serviço (Eletricista, Encanador, etc.)** | Primário   | Profissional autônomo que aceita, executa serviços e mantém seu perfil.         |
-| **Administrador da Plataforma**                         | Secundário | Gerencia cadastros, denúncias, avaliações, categorias e políticas operacionais. |
-| **Equipe Técnica (Dev / QA / UX)**                      | Secundário | Responsável por desenvolvimento, testes, design, manutenção do app e API.       |
-| **Suporte / Atendimento ao Usuário**                    | Secundário | Resolve dúvidas, auxilia em problemas de acesso e intermedia questões.          |
-| **Patrocinador / Dono do Produto**                      | Decisor    | Financia o projeto, define metas estratégicas e acompanha indicadores.          |
-| **Parceiros Comerciais (Indiretos)**                    | Indireto   | Empresas que futuramente podem oferecer descontos e benefícios dentro do app.   |
-| **Órgãos Reguladores / Legislação (Indireto)**          | Indireto   | Envolve normas como segurança do consumidor e proteção de dados (LGPD).         |
+### 4.1 – Cliente (Usuário Final Mobile)
 
----
+Utiliza o aplicativo para buscar profissionais, comparar opções, agendar serviços e acompanhar o atendimento.
 
-## 5. Personas
+### 4.2 – Prestador de Serviço (Eletricista, Encanador, Mecânico, etc.)
 
-### 5.1. Cliente Usuário
+Profissional autônomo que recebe solicitações, aceita agendamentos, executa os serviços e mantém seu perfil atualizado.
 
-- **Objetivo:** Buscar um jeito rápido e confiável de agendar serviços com profissionais autônomos.
-- **Responsabilidades:** Buscar prestadores, visualizar agenda, agendar e avaliar após o atendimento.
-- **Interface:** App Mobile (lista de serviços, perfil do prestador, calendário).
-- **Dores:** Dificuldade em encontrar profissionais confiáveis; demora no retorno; necessidade de organizar horários sem complicação.
+### 4.3 – Administrador da Plataforma
 
-### 5.2. Prestador de Serviços (Autônomo)
+Gerência cadastros, denúncias, avaliações, categorias de serviços, políticas e parâmetros operacionais do aplicativo.
 
-- **Objetivo:** Aumentar a base de clientes e organizar a agenda de forma simples.
-- **Responsabilidades:** Disponibilizar horários, responder solicitações, confirmar serviços, manter perfil atualizado.
-- **Interface:** App Mobile (agenda, perfil, histórico de atendimentos).
-- **Dores:** Falta de visibilidade; dificuldades em administrar agenda; cancelamentos inesperados; comunicação dispersa.
+### 4.4 – Equipe Técnica (Dev / QA / UX)
 
-### 5.3. Equipe Técnica (Dev / QA)
+Responsável pelo desenvolvimento, testes, design, melhorias contínuas, publicação e manutenção do app e da API.
 
-- **Objetivo:** Desenvolver, testar e manter o backend, app e integração.
-- **Responsabilidades:** Criar funcionalidades, corrigir bugs, manter API, garantir segurança e estabilidade.
-- **Interface:** Repositório de código, documentação técnica, logs, Swagger.
-- **Dores:** Requisitos pouco definidos; necessidade de padronização; retrabalho por falta de clareza em regras de negócio.
+### 4.5 – Suporte / Atendimento ao Usuário
 
-### 5.4. Suporte / Atendimento
+Resolve dúvidas, auxilia em problemas de acesso, corrige incidentes e intermedia questões entre cliente e prestador.
 
-- **Objetivo:** Resolver dúvidas e problemas simples dos usuários.
-- **Responsabilidades:** Ajudar com login, agendamentos, inconsistências na agenda, orientações gerais.
-- **Interface:** Painel de suporte, scripts de atendimento, logs.
-- **Dores:** Falta de ferramentas de diagnóstico; repetição de problemas comuns; ausência de histórico consolidado.
+### 4.6 – Patrocinador / Dono do Produto
+
+Financia o projeto, define metas estratégicas, prioridades do roadmap e acompanha indicadores de valor do negócio.
+
+### 4.7 – Parceiros Comerciais (Indiretos)
+
+Empresas de ferramentas, lojas de materiais ou parceiros que futuramente podem oferecer descontos e benefícios dentro do app.
+
+### 4.8 – Órgãos Reguladores / Legislação (Indireto)
+
+Envolve normas relacionadas a segurança do consumidor, proteção de dados (LGPD) e regulamentações de prestação de serviços.
 
 ---
 
-## 6. Diagramas C4
+## Personas
 
-### 6.1. Diagrama de Contexto
+### 5.1 – Persona: Cliente Usuário
 
-| Entidade                                  | Função                                                                                                                                   |
-| :---------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
-| **Cliente/Usuário**                       | Busca serviços, faz agendamentos e avalia empresas.                                                                                      |
-| **Prestador/Empresa**                     | Profissional/empresa que oferece serviços e recebe agendamentos.                                                                         |
-| **Plataforma de Agendamento de Serviços** | App web/móvel que intermedia clientes e empresas, permitindo cadastro, autenticação, agendamentos, favoritos, avaliações e notificações. |
+- **Descrição / Objetivo**: Pessoa que busca um jeito rápido e confiável de agendar serviços com profissionais autônomos.
+- **Responsabilidades**: Buscar prestadores, visualizar agenda disponível, agendar serviços, avaliar após atendimento.
+- **Interface**: App Mobile (lista de serviços, perfil do prestador, calendário).
+- **Dores**: Dificuldade em encontrar profissionais confiáveis; demora para obter retorno; necessidade de organizar horários sem complicação.
+
+### 5.2 – Persona: Prestador de Serviços (Autônomo)
+
+- **Descrição / Objetivo**: Profissional que deseja aumentar sua base de clientes e organizar sua agenda de forma simples.
+- **Responsabilidades**: Disponibilizar horários, responder solicitações, confirmar serviços, manter perfil atualizado.
+- **Interface**: App Mobile (agenda, perfil, histórico de atendimentos).
+- **Dores**: Falta de visibilidade; dificuldades em administrar agenda; cancelamentos inesperados; comunicação dispersa.
+
+### 5.3 – Persona: Equipe Técnica (Dev / QA)
+
+- **Descrição / Objetivo**: Desenvolver, testar e manter o backend, app e integração.
+- **Responsabilidades**: Criar funcionalidades, corrigir bugs, manter API, garantir segurança e estabilidade.
+- **Interface**: Repositório de código, documentação técnica, logs, Swagger.
+- **Dores**: Requisitos pouco definidos; necessidade de padronização; retrabalho por falta de clareza em regras de negócio.
+
+### 5.4 – Persona: Suporte / Atendimento
+
+- **Descrição / Objetivo**: Resolver dúvidas e problemas simples dos usuários.
+- **Responsabilidades**: Ajudar com login, agendamentos, inconsistências na agenda, orientações gerais.
+- **Interface**: Painel de suporte, scripts de atendimento, logs.
+- **Dores**: Falta de ferramentas de diagnóstico; repetição de problemas comuns; ausência de histórico consolidado.
+
+---
+
+## Diagramas C4:
+
+### 6.1 - Diagrama de contexto:
+
+- Pessoa: Cliente/Usuário que busca serviços, faz agendamentos e avalia empresas.
+- Pessoa: Prestador / Empresa/Profissional ou empresa que oferece serviços e recebe agendamentos.
+- Sistema: Plataforma de Agendamento de Serviços App web/móvel que intermedia clientes e empresas, permitindo cadastro, autenticação, agendamentos, favoritos, avaliações e notificações.
 
 ![Diagrama de Contexto](assets/DiagramaContexto.jpeg)
 
-### 6.2. Diagrama de Container
+### 6.2 - Diagrama de container:
 
-- **Diagrama de Container Visual**: O Container Service (Search) e o Container Service (Scheduling) interagem com o Container Service (Notifications) e com o Container Service (Backend/DB) que armazena avaliações, favoritos, agendamentos e notificações.
+- O Container Service (Search) e o Container Service (Scheduling) interagem com o Container Service (Notifications) e com o Container Service (Backend/DB) que armazena avaliações, favoritos, agendamentos e notificações.
 
 ![Diagrama de Container](assets/DiagramaContainer.jpeg)
 
 ---
 
-## 7. Domínios da Aplicação
+## Domínios da aplicação:
 
-### 7.1. Domínio Principal
+### Domínio Principal:
 
-A conexão digital entre clientes e prestadores de serviços autônomos, oferecendo uma forma prática, organizada e confiável de agendar atendimentos. Seu núcleo funcional é eliminar barreiras entre quem precisa e quem oferece o serviço.
+O domínio principal do Agenda Fácil é a conexão digital entre clientes e prestadores de serviços autônomos, oferecendo uma forma prática, organizada e confiável de agendar atendimentos. Esse domínio representa o núcleo funcional da aplicação e concentra todas as regras de negócio essenciais para que o usuário consiga encontrar o profissional ideal, marcar um horário disponível e acompanhar seu atendimento com simplicidade. Sua função central é eliminar barreiras entre quem precisa de um serviço e quem está disponível para oferecê-lo, criando um ecossistema eficiente, transparente e acessível.
 
-### 7.2. Subdomínios
+### Subdomínios:
 
-| Tipo          | Subdomínio                              | Função                                                                                                          |
-| :------------ | :-------------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
-| **Principal** | Agendamento de Serviços                 | Controla o fluxo de marcação de horários, verifica disponibilidade, gerencia conflitos e confirma atendimentos. |
-| **Principal** | Gestão de Profissionais e Serviços      | Permite que prestadores configurem perfil, serviços, duração, preços e horários.                                |
-| **Principal** | Busca e Conexão Cliente Prestador       | Realiza a busca por profissionais com base em localização, categoria, avaliações e disponibilidade.             |
-| **Suporte**   | Notificações e Alertas                  | Enviar notificações push, e-mail ou mensagens para lembretes, avisos de alteração ou confirmação.               |
-| **Suporte**   | Avaliações e Feedback                   | Permite que clientes avaliem profissionais e deixem comentários, criando reputação e confiança.                 |
-| **Suporte**   | Histórico e Registro de Atendimentos    | Armazena atendimentos concluídos, cancelados ou reagendados para análises futuras e transparência.              |
-| **Genérico**  | Autenticação e Perfis de Usuário        | Gerencia login, cadastro, autenticação via token, perfis (cliente e prestador) e permissões.                    |
-| **Genérico**  | Pagamentos e Confirmações (futuro)      | No futuro, permitirá integrar meios de pagamento para confirmar serviços.                                       |
-| **Genérico**  | Configurações e Preferências do Usuário | Gerência de idiomas, notificações, dados pessoais e personalizações gerais da conta.                            |
-
----
-
-## 8. Bounded Contexts (BCs)
-
-### 8.1. Visão Empresa (Prestadores)
-
-Focado nas funcionalidades para prestadores de serviço.
-
-- **Responsabilidades:** Cadastro de prestadores e serviços, gestão de agenda, configuração de duração/preço/categoria, controle de visibilidade e recebimento de avaliações.
-
-### 8.2. Visão Usuário (Clientes)
-
-Focado na experiência do cliente final.
-
-- **Responsabilidades:** Buscar profissionais, verificar disponibilidade, realizar reservas/confirmações, receber notificações e avaliar profissionais.
-
-### 8.3. Gerenciamento de Dados de Usuário (Contexto de Usuário e Autenticação)
-
-Dedicado ao perfil principal (Cadastro e Autenticação).
-
-- **Responsabilidades:** Cadastro e autenticação (clientes e prestadores), atualização de dados pessoais, gestão de permissões (futuro), segurança de credenciais e recuperação de senha.
-
-### 8.4. Comunicação e Notificações (Microsserviço)
-
-Gerencia toda a comunicação automatizada (notificações, lembretes, confirmações).
-
-- **Funções:** Enviar notificações de confirmação/alteração, lembretes ao cliente (ex: 1h antes), notificar prestadores sobre novos agendamentos, avisar sobre cancelamentos/atrasos, e enviar avisos por canais integrados (Push, E-mail, SMS, WhatsApp).
-
-### 8.5. Contexto de Agendamentos (Microsserviço)
-
-- **Lógica:** horários, disponibilidade, criação, edição e cancelamento.
-
-### 8.6. Contexto Administrativo
-
-- **Gerencia:** profissionais, regras de negócio internas e configurações do sistema.
-
-### 8.7. Contexto de Dados Operacionais
-
-- **Abrange:** logs de operação, dados de acesso e registros de erros.
+| Tipo      | Subdomínio                              | Função                                                                                                                                                                  |
+| :-------- | :-------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Principal | Agendamento de Serviços                 | Controla todo o fluxo de marcação de horários entre clientes e prestadores; verificar disponibilidade, reservar horários, gerenciar conflitos e confirmar atendimentos. |
+| Principal | Gestão de Profissionais e Serviços      | Permite que os prestadores configurem seu perfil, seus serviços, duração, preços e horários, controla visibilidade e categorias de atuação.                             |
+| Principal | Busca e Conexão Cliente – Prestador     | Realiza a busca por profissionais com base em localização, categoria, avaliações e disponibilidade, conectando clientes ao prestador ideal.                             |
+| Suporte   | Notificações e Alertas                  | Enviar notificações push, e-mail ou mensagens para lembrar compromissos, avisar alterações, confirmar reservas ou comunicar cancelamentos.                              |
+| Suporte   | Avaliações e Feedback                   | Permite que clientes avaliem profissionais e deixem comentários após o atendimento, ajudando a criar reputação e confiança no app.                                      |
+| Suporte   | Histórico e Registro de Atendimentos    | Armazena os atendimentos concluídos, cancelados ou reagendados, permitindo análises futuras e transparência para o cliente e profissional.                              |
+| Genérico  | Autenticação e Perfis de Usuário        | Gerencia login, cadastro, autenticação via token, perfis (cliente e prestador), permissões e gerenciamento de informações pessoais.                                     |
+| Genérico  | Pagamentos e Confirmações (futuro)      | No futuro, permitirá integrar meios de pagamento para confirmar serviços, sinalizar agendamentos e processar valores com segurança.                                     |
+| Genérico  | Configurações e Preferências do Usuário | Gerência de idiomas, notificações, dados pessoais, políticas de uso e personalizações gerais da conta.                                                                  |
 
 ---
 
-## 9. Entities, Values e Aggregates (DDD)
+## Bounded Contexts:
 
-### 9.1. Entities (Entidades)
+### Visão Empresa (Prestadores)
+
+Abrange todas as funcionalidades relacionadas aos prestadores de serviço que utilizam o app para divulgar seu trabalho.
+
+**Responsabilidades:**
+
+- Cadastro de prestadores e seus serviços.
+- Gestão de agenda e horários disponíveis.
+- Configuração de duração, preço e categorias de serviços.
+- Controle de visibilidade do perfil.
+- Recebimento de avaliações e feedbacks.
+
+### Visão Usuário (Clientes)
+
+Focado na experiência do cliente final que utiliza o app para agendar serviços.
+
+**Responsabilidades:**
+
+- Buscar profissionais por categoria, localização ou especialidade.
+- Verificar disponibilidade e horários livres.
+- Realizar reservas e confirmar agendamentos.
+- Receber notificações, lembretes e atualizações.
+- Avaliar profissionais após atendimento.
+
+### Gerenciamento de Dados de Usuário
+
+Contexto dedicado ao perfil principal:
+
+**Responsabilidades:**
+
+- Cadastro e autenticação (clientes e prestadores).
+- Atualização de dados pessoais.
+- Gestão de permissões e níveis de acesso (Implementação pro futuro).
+- Segurança de credenciais.
+
+### Comunicação e Notificações
+
+**Descrição**: Gerencia toda a comunicação automatizada entre plataforma, prestadores e clientes. Inclui notificações, lembretes e confirmações de ações do sistema.
+
+**Principais Funções:**
+
+- Enviar notificações de confirmação ou alteração de agendamentos.
+- Lembrar o cliente sobre o atendimento (ex: 1 hora antes).
+- Notificar prestadores sobre novos agendamentos.
+- Notificar clientes sobre cancelamentos e atrasos.
+- Enviar avisos por canais integrados (Push, E-mail, SMS, WhatsApp).
+
+---
+
+## Entities, Values e Aggregates:
+
+### Entities (Entidades)
 
 - Usuário
 - Prestador
 - Serviço
 - Agendamento
 
-### 9.2. Value Objects (Objetos de Valor)
+### Value Objects (Objetos de Valor)
 
 - Endereço
 - Slot de horário (10h às 11h)
 - Preço (R$ 80,00)
 - Categoria de Serviço
 
-### 9.3. Aggregates (Agregados)
+### Aggregates (Agregados)
 
-| Agregado        | Entidade Raiz | Conteúdo                                                                                     |
-| :-------------- | :------------ | :------------------------------------------------------------------------------------------- |
-| **Agendamento** | Agendamento   | Entidades internas: Serviço, Prestador, Cliente. Value Objects: Data/Horário, Status, Notas. |
-| **Prestador**   | Prestador     | Entidades internas: Lista de serviços. Value Objects: Endereço, Disponibilidade, Preço.      |
-| **Usuário**     | Usuário       | Value Objects: E-mail, SenhaHash, Telefone.                                                  |
+**Agregado: Agendamento**
 
----
+- Entidade Raiz: Agendamento
+- Entidades internas: Serviço, Prestador, Cliente
+- Value Objects: Data/Horário, Status, Notas
 
-## 10. Decisões Arquiteturais (ADR)
+**Agregado: Prestador**
 
-### 10.1. ADR 8.1 - Escolha de Arquitetura (Monolito + Microsserviços)
+- Entidade Raiz: Prestador
+- Entidades internas: Lista de serviços
+- Value Objects: Endereço, Disponibilidade, Preço
 
-**Decisão:** Adotar arquitetura híbrida.
+**Agregado: Usuário**
 
-| Componente          | Conteúdo                                                                                 | Justificativa                                                               |
-| :------------------ | :--------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------- |
-| **Monolito (Core)** | Gestão de profissionais, serviços, preferências, agenda interna e painel administrativo. | Núcleo permanece monolítico para reduzir a complexidade e por simplicidade. |
-| **Microsserviços**  | 1. Agendamento                                                                           | Carga variável, escalabilidade, performance alta.                           |
-| **Microsserviços**  | 2. Notificações                                                                          | Carga variável, escalabilidade, performance alta.                           |
-| **Microsserviços**  | 3. Cadastro de Cliente (Usuário)                                                         | Carga variável, escalabilidade, performance alta.                           |
-
-**Consequências Positivas:** Escalabilidade sob demanda, menos acoplamento, evolução independente e simplificação do _core_.
-**Consequências Negativas:** Introdução de complexidade operacional (monitoramento, logs distribuídos), necessidade de integração via APIs/mensageria, gestão de versão de contratos.
-
-### 10.2. ADR 8.2 - Escolha do Banco de Dados (PostgreSQL)
-
-**Decisão:** Utilizar PostgreSQL como banco principal para todo o sistema.
-
-- **Motivação:** Suporte robusto a transações, excelente escalabilidade e **consistência forte** (essencial para horários e agendamentos), possui extensões geoespaciais (PostGIS), aceita JSON e semiestruturados, maturidade e comunidade forte.
-
-**Consequências Positivas:** Alta confiabilidade, flexibilidade entre dados estruturados e semiestruturados, ótimo suporte a consultas complexas (ideal para agenda).
-**Consequências Negativas:** Pode exigir _tuning_ avançado, operações distribuídas (microsserviços) exigem sincronização via eventos ou mensageria.
+- Entidade Raiz: Usuário
+- Value Objects: E-mail, SenhaHash, Telefone
 
 ---
 
-## 11. Cenários de Qualidade
+## Decisões Arquiteturais (ADR):
 
-### 11.1. Tempo de Resposta e Disponibilidade
+### ADR 8.1 – Escolha de Arquitetura (Monolito + Microsserviços)
 
-- **Requisito:** Sistema deve responder em **menos de 300 ms** para buscas e ações simples.
-- **Disponibilidade Alvo:** **99,5%**.
-- **SLO/SLI:** SLI é o tempo médio de resposta da API. SLO é **400 ms** para operações principais.
+O app Agenda Fácil precisa suportar:
 
-### 11.2. Estratégia de Resiliência
+- agendamentos em tempo real,
+- comunicação por notificações,
+- cadastro e gerenciamento de usuários,
+- além de outras funcionalidades internas simples.
 
-- **Técnicas Aplicadas:** Retry automático com _backoff_, Circuit Breaker para serviços externos, Cache para consultas repetitivas/dados estáticos, Replicação do banco de dados, Timeouts curtos e Dead-letter queue para notificações falhas.
+**Monolito completo**
 
-### 11.3. Observabilidade (Plano Simples)
+- Simples de criar e manter.
+- Difícil de escalar partes específicas.
+- Deploy único e acoplado.
 
-- **Logs:** Toda ação relevante (login, erro, agendamento criado). Armazenados em serviço centralizado (ELK / CloudWatch). Inclui logs de requisição/resposta, erros de API, falhas de autenticação e eventos de agendamento.
-- **Métricas:** Taxa de sucesso por _endpoint_, tempo de resposta percentil 95, fila de notificações e uso de CPU/memória.
-- **Alertas:** Avisos para falhas críticas. Notificação por e-mail/Slack para equipe técnica. Inclui: serviço de agendamento fora do ar, fila de notificações acima do limite e número anormal de erros 500.
+**Arquitetura 100% microsserviços**
+
+- Maior escalabilidade e resiliência.
+- Maior complexidade operacional (infra, DevOps, mensageria).
+- Exige maturidade técnica e orquestração (K8s, observabilidade etc.).
+
+**Arquitetura híbrida (Monolito + Microsserviços) – opção escolhida**
+
+- O núcleo permanece monolítico para reduzir a complexidade.
+- Serviços críticos isolados como microsserviços independentes.
+- Balanceia simplicidade e escalabilidade.
+
+**Decisão**
+
+Adotar arquitetura híbrida, onde:
+
+- **Monolito contém**:
+  - gestão de profissionais,
+  - serviços,
+  - preferências,
+- **Microsserviços independentes**:
+  - Agendamento
+  - Notificações
+  - Cadastro de Cliente (Usuário)
+
+Estes microsserviços têm requisitos diferentes, maior variabilidade de carga e justificam isolamento.
+
+**Consequências**
+
+- **Positivas**:
+  - Escalabilidade sob demanda dos serviços críticos (agendamento e notificações).
+  - Menos acoplamento entre componentes sensíveis.
+  - Evolução independente dos microsserviços.
+  - Simplificação do core monolítico.
+- **Negativas**:
+  - Introdução de complexidade operacional (monitoramento, logs distribuídos, filas).
+  - Necessidade de integração via APIs ou mensageria.
+  - Gestão de versão entre contratos de comunicação.
+
+### ADR 8.2 – Escolha do Banco de Dados (PostgreSQL)
+
+O sistema demanda:
+
+- consultas rápidas,
+- consistência forte (especialmente para horários e disponibilidade),
+- estrutura relacional clara,
+- extensibilidade.
+
+**PostgreSQL – opção escolhida**
+
+- Suporte robusto a transações.
+- Excelente escalabilidade e consistência.
+- Possui extensões geoespaciais (PostGIS).
+- Aceita JSON e semiestruturados.
+- Amplamente usado em arquiteturas híbridas.
+
+**Decisão**
+
+Utilizar PostgreSQL como banco principal para todo o sistema, incluindo microsserviços, seguindo princípios de _database-per-service_ onde for necessário.
+
+**Consequências**
+
+- **Positivas**:
+  - Alta confiabilidade e maturidade.
+  - Flexibilidade entre dados estruturados e semiestruturados.
+  - Ótimo suporte a consultas complexas, ideal para agenda e disponibilidade.
+  - Segurança e ferramentas robustas.
+- **Negativas**:
+  - Pode exigir _tuning_ avançado para _workloads_ massivos.
+  - Operações distribuídas entre microsserviços exigem sincronização via eventos ou mensageria.
 
 ---
 
-## 12. Segurança e DevSecOps
+## Cenários de qualidade:
 
-### 12.1. Vulnerabilidades e Tratativas (Threat Model)
+### 9.1 – Tempo de Resposta e Disponibilidade:
 
-| Vulnerabilidade/Ameaça                              | Tratativas                                                                                                                                             |
-| :-------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Burlar login**                                    | JWT com expiração + senha criptografada (bcrypt) + Bloqueio após tentativas falhas (Rate limiting)                                                     |
-| **Acesso indevido a API**                           | Roles + permissões por usuário/função                                                                                                                  |
-| **SQL Injection**                                   | Uso de ORM (Prisma, TypeORM) + validação e sanitização de dados                                                                                        |
-| **Vazamento de Dados/Exposição de dados sensíveis** | Variáveis de ambiente (ENV) + HTTPS obrigatório/criptografia TLS + Nunca versionar segredos/Credenciais no repositório + Logs sem informações pessoais |
-| **Tentativas de força bruta**                       | Rate limiting                                                                                                                                          |
+O sistema deve responder em menos de 300 ms para buscas e ações simples.
+Disponibilidade alvo: 99,5%.
 
-### 12.2. Autenticação
+### 9.2 – Estratégia de Resiliência:
 
-- **Mecanismo:** JWT (JSON Web Token).
-  - Armazena token assinado.
-  - Expira automaticamente.
-  - Permite login seguro sem armazenar sessão.
-- **Método de Envio:** Bearer Token (Authorization: Bearer `<token>`).
+- Retry automático para falhas temporárias.
+- Circuit Breaker para serviços externos.
+- Cache para consultas repetitivas.
+- Replicação do banco de dados.
 
-### 12.3. Estado Atual da Segurança do Código
+### 9.3 – Observabilidade:
 
-- Autenticação via JWT implementada.
-- Rotas protegidas com Bearer Token.
-- Logs básicos funcionando.
-- Sanitização parcial dos dados.
-- Ainda não implementado: _rate limiting_, monitoramento avançado.
+**Logs:**
+
+- Toda ação relevante: login, erro, agendamento criado.
+- Armazenados em serviço centralizado (ELK / CloudWatch).
+
+**Avisos:**
+
+- Alertas para falhas críticas.
+- Notificação por e-mail/Slack para equipe técnica.
 
 ---
 
-## 13. Integração, APIs e Dados
+## Segurança:
 
-### 13.1. Documentação de API (Swagger/OpenAPI)
+### 10.1 - Vulnerabilidades e tratativas:
 
-O projeto utiliza **Swagger/OpenAPI** para documentar as APIs REST, permitindo:
+| Vulnerabilidade           | Tratativas                                        |
+| :------------------------ | :------------------------------------------------ |
+| Burlar login              | JWT com expiração + senha criptografada (bcrypt). |
+| Acesso indevido a API     | Roles + permissões por usuário.                   |
+| SQL Injection             | Uso de ORM (Prisma, TypeORM).                     |
+| Vazamento de Dados        | Variáveis de ambiente + HTTPS.                    |
+| Tentativas de força bruta | Rate limiting.                                    |
 
-- visualização de _endpoints_,
+### 10.2 – Autenticação:
+
+**JWT**
+
+- Armazena token assinado.
+- Expira automaticamente.
+- Permite login seguro sem armazenar sessão.
+
+**Bearer**
+
+- Forma de enviar o token no header:
+  - Authorization: Bearer `<token>`
+
+### 10.3 – Checklist de Segurança
+
+**Login**
+
+- Senha criptografada
+- MFA (futuro)
+- Bloqueio após tentativas falhas
+
+**API**
+
+- HTTPS obrigatório
+- Rate limiting
+- Permissões por função
+
+**Banco**
+
+- Usuário com permissões mínimas
+- Backups automáticos
+
+**Credenciais / ENVs**
+
+- Nunca no repositório
+- Somente em variáveis de ambiente
+- Rotação a cada 90 dias
+
+---
+
+## Decisão Arquitetural (Microsserviços) + Quality Scenarios
+
+### 1.1 — Decisão Arquitetural
+
+O Agenda Fácil utiliza uma arquitetura híbrida, combinando:
+
+**Monolito (Core da aplicação)**
+Responsável por:
+
+- gestão de profissionais,
+- agenda interna,
+- veículos (se aplicável),
+- telemetria e dados adicionais,
+- painel administrativo.
+
+**Microsserviços isolados**:
+
+- **Serviço de Agendamentos**
+  - Responsável pelo fluxo crítico: criar, alterar e cancelar agendamentos.
+- **Serviço de Notificações**
+  - Envio de push, e-mail e alertas automáticos.
+- **Serviço de Cadastro de Usuários**
+  - Cadastro, autenticação, perfis e permissões.
+
+**Justificativa**
+Esses três domínios possuem:
+
+- carga variável,
+- necessidade de escalabilidade,
+- requisitos de performance mais altos,
+- isolamento natural do restante do sistema.
+
+O restante permanece no monólito por simplicidade e redução de complexidade.
+
+### 1.2 — Quality Scenarios
+
+**Disponibilidade**
+
+- Cenário: o serviço de agendamentos recebe alto volume de requisições.
+- Resposta esperada: disponibilidade mínima de 99%, mantendo o serviço online mesmo sob picos.
+- Técnicas aplicadas:
+  - health-check endpoints,
+  - replicação da API quando necessário,
+  - tolerância a falhas no microsserviço.
+
+**Desempenho**
+
+- Cenário: usuário consulta a agenda ou cria um agendamento.
+- Requisito esperado:
+  - Tempo de resposta < 400 ms para as principais operações.
+  - Notificações enviadas em até 2 segundos após o evento.
+- Ações aplicadas:
+  - caches leves,
+  - consultas otimizadas,
+  - indexação no PostgreSQL,
+  - redução de carga no monolito com processamento assíncrono.
+
+---
+
+## Bounded Contexts:
+
+A aplicação Agenda Fácil é dividida nos seguintes BCs:
+
+### 1. Contexto de Usuário e Autenticação
+
+Responsável por:
+
+- cadastro,
+- login,
+- recuperação de senha,
+- perfis (cliente, profissional).
+
+### 2. Contexto de Agendamentos (Microsserviço)
+
+Contém:
+
+- lógica de horários,
+- disponibilidade,
+- criação, edição e cancelamento.
+
+### 3. Contexto de Notificações (Microssserviço)
+
+Trata:
+
+- push notifications,
+- aviso de agendamento confirmado/cancelado,
+- lembretes.
+
+### 4. Contexto Administrativo
+
+Inclui:
+
+- gerenciamento de profissionais,
+- regras de negócio internas,
+- configurações do sistema.
+
+### 5. Contexto de Dados Operacionais
+
+Abrange:
+
+- logs de operação,
+- dados de acesso,
+- registros de erros.
+
+---
+
+## Swagger + Justificativa do Banco de Dados
+
+### 3.1 — Documentação de API (Swagger)
+
+O projeto utiliza Swagger/OpenAPI para documentar as APIs REST, permitindo:
+
+- visualização de endpoints,
 - testes diretos pelo navegador,
 - geração automática de cliente HTTP,
 - padronização das requisições.
-- **Vantagens:** reduz dúvidas entre desenvolvedores, garante contrato claro entre monolito e microsserviços, melhora a comunicação com o _front-end_.
 
-### 13.2. Justificativa do PostgreSQL (ADR 8.2)
+**Vantagens**:
+
+- reduz dúvidas entre desenvolvedores,
+- garante contrato claro entre monolito e microsserviços,
+- melhora a comunicação com o front-end.
+
+### 3.2 — Justificativa do PostgreSQL
 
 A escolha do PostgreSQL foi motivada por:
 
-- Consistência forte (ideal para agendamentos).
-- Suporte avançado.
-- JSONB para dados flexíveis.
-- Excelente _performance_ para consultas complexas.
-- Maturidade e comunidade forte.
-- É _open-source_ e robusto para produção.
-- Sua aderência ao modelo relacional facilita: horários, intervalos e regras sobre choques de agenda.
+- Consistência forte (ideal para agendamentos)
+- Suporte avançado
+- JSONB para dados flexíveis
+- Excelente performance para consultas complexas
+- Maturidade e comunidade forte
+- Open-source e robusto para produção
+
+Sua aderência ao modelo relacional facilita:
+
+- horários,
+- intervalos,
+- regras sobre choques de agenda.
 
 ---
 
-## 14. CI/CD + Estratégia de Deploy + Runbook
+## Atributos de Qualidade, Resiliência e Observabilidade
 
-### 14.1. Pipeline CI/CD (Esqueleto - Não Implementado)
+### 4.1 — SLO / SLI (Tempo de resposta)
 
-1.  **Pull Request (`branch feature/`)**: rodar testes, rodar _lint_, _build_ do projeto.
-2.  **Merge na `main` (GitHub Actions)**: _build_ automático, testes completos, gerar imagem docker, preparar ambiente para _deploy_.
+- SLI: tempo médio de resposta da API.
+- SLO: 400 ms para operações principais.
+- Error Budget: até 5% de requisições podem ultrapassar o limite.
 
-### 14.2. Estratégia de Deploy
+### 4.2 — Estratégias de Resiliência
 
-- **Empacotamento:** Monolito e microsserviços empacotados em **imagens Docker** (containers independentes).
-- **Execução:** Subida manual ou automatizada em servidor Linux.
-- **Ambientes:** Dev (local), Homolog e Produção.
+Aplicadas no projeto:
 
-### 14.3. Runbook de Incidentes (Como Agir se o Sistema Cair)
+- Retry com backoff para comunicação com microsserviços
+- Circuit Breaker para evitar cascatas de falhas
+- Timeouts curtos para impedir travamentos
+- Dead-letter queue para notificações falhas
+- Cache local para dados estáticos
+- Monitoramento via health-checks
 
-1.  Verificar _health-check_ dos serviços.
-2.  Conferir logs do Agendamento e Notificações.
-3.  Reiniciar _containers_ individualmente.
-4.  Verificar fila de eventos (se existir).
-5.  Caso persista:
-    - Restaurar versão anterior.
-    - Abrir incidente e documentar causa raiz.
+### 4.3 — Plano de Observabilidade
+
+O sistema coleta:
+
+**Logs**
+
+- logs de requisição/resposta,
+- erros de API,
+- falhas de autenticação,
+- eventos de agendamento.
+
+**Métricas**
+
+- taxa de sucesso por endpoint,
+- tempo de resposta percentil 95,
+- fila de notificações,
+- uso de CPU e memória dos serviços.
+
+**Alertas**
+
+- serviço de agendamento fora do ar,
+- fila de notificações acima do limite,
+- número anormal de erros 500.
+
+---
+
+## Mapa de ameaças e vulnerabilidades:
+
+### Ameaça 1: Tentativa de burlar login
+
+**Tratativa**:
+
+- uso de JWT
+- senhas com hash + salt
+- expiração de tokens
+- bloqueio após tentativas consecutivas
+
+### Ameaça 2: Exposição de dados sensíveis
+
+**Tratativa**:
+
+- variáveis de ambiente (ENV)
+- criptografia TLS
+- não-versionar segredos no GitHub
+- logs sem informações pessoais
+
+### Ameaça 3: Injeção SQL
+
+**Tratativa**:
+
+- ORM e query parametrizada
+- validação de entrada
+- sanitização de dados
+
+### Estado atual da segurança do código
+
+- autenticação via JWT implementada
+- rotas protegidas com Bearer Token
+- logs básicos funcionando
+- sanitização parcial dos dados
+- ainda não implementado: rate limiting, monitoramento avançado
+
+---
+
+## CI/CD + Estratégia de Deploy + Runbook
+
+### 6.1 — Pipeline CI/CD (Esqueleto)
+
+(explicado, mas não implementado por ser projeto acadêmico)
+
+**Fluxo esperado**:
+
+- **Pull Request → branch feature/**
+  - rodar testes
+  - rodar lint
+  - build do projeto
+- **Merge na main → GitHub Actions**
+  - build automático
+  - testes completos
+  - gerar imagem docker
+  - preparar ambiente para deploy
+
+### 6.2 — Estratégia de Deploy
+
+O deploy segue o modelo:
+
+- monolito é empacotado em imagem Docker
+- microsserviços também são containers independentes
+- subida manual ou automatizada em servidor linux
+- **ambientes**:
+  - Dev (local)
+  - Homolog
+  - Produção
+
+JWT/Bearer usado apenas para autenticação, não relacionado ao deploy.
+
+### 6.3 — Runbook de Incidentes
+
+Se o sistema cair:
+
+- Verificar health-check dos serviços
+- Conferir logs do Agendamento e Notificações
+- Reiniciar containers individualmente
+- Verificar fila de eventos (se existir)
+- Caso persista:
+  - restaurar versão anterior
+  - abrir incidente e documentar causa raiz
