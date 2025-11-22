@@ -73,6 +73,7 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
                   onPress={() =>
                     navigation.navigate("Professional Profile", {
                       professionalId: item.idCompany,
+                      professionalName: item.name,
                       professionId: idProfession,
                       professionName: nameProfession,
                       date: date,

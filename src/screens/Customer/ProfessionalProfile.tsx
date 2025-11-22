@@ -21,7 +21,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "rea
 import { useUser } from "@/src/context/UserContext";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
-  const { professionalId, professionName, date, startTime } = route.params;
+  const { professionalId, professionalName, professionName, date, startTime } = route.params;
   const { toggleFavorite, isFavorite } = useFavorites();
   const [professional, setProfessional] = useState<Professional | null>(null);
   const [reviews, setReviews] = useState<Reviews[]>([]);
@@ -124,7 +124,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
         customerId: user?.idUser,
         companyId: professionalId,
         type: "Pendente",
-        text: `A empresa tem até 24 horas para confirmar ou cancelar a sua solicitação de agendamento.`,
+        text: `A empresa ${professionalName} tem até 24 horas para confirmar ou cancelar a sua solicitação de agendamento.`,
         profession: professionName,
         schedulingDate: date,
         schedulingStartTime: startTime,

@@ -38,6 +38,7 @@ export type CustomerStackParamList = {
   };
   "Professional Profile": {
     professionalId: number;
+    professionalName: string;
     professionId: number;
     professionName: string;
     date?: string;
