@@ -1,20 +1,19 @@
 # TECH ACADEMY 8 - Agenda Fácil
 
 **Membros do Grupo:**
-
-- Samuel Ernandes dos Santos
-- Paulo Eduardo Fernandes Rodrigues
-- Milena Santos
-
----
-
-## Visão do Produto
-
-Ser a plataforma que aproxima pessoas. Queremos transformar a maneira como clientes encontram e contratam profissionais autônomos no Brasil, oferecendo uma experiência simples, rápida e segura. Nossa visão é criar um ambiente onde a confiança seja natural, o agendamento seja fácil e cada serviço gere mais tranquilidade, oportunidades e relações de valor para todos.
+Samuel Ernandes dos Santos
+Paulo Eduardo Fernandes Rodrigues
+Milena Santos
 
 ---
 
-## Métricas de Sucesso
+## 1. Visão do Produto
+
+Ser a plataforma que **aproxima pessoas**. Queremos transformar a maneira como clientes encontram e contratam profissionais autônomos no Brasil, oferecendo uma experiência simples, rápida e segura. Nossa visão é criar um ambiente onde a **confiança seja natural**, o agendamento seja fácil e cada serviço gere mais tranquilidade, oportunidades e relações de valor para todos.
+
+---
+
+## 2. Métricas de Sucesso
 
 **Métrica 1 – Taxa de agendamentos concluídos com sucesso (>75% em 30 dias)**
 
@@ -30,15 +29,15 @@ Reflete a qualidade das prestações de serviço, a confiança entre usuários e
 
 ---
 
-## Antiobjetivos (fora do escopo inicial/MVP)
+## 3. Antiobjetivos (fora do escopo inicial/MVP)
 
-- Automação de faturamento e emissão de NF-e dentro do aplicativo.
-- Integração com rastreamento e telemetria em tempo real para empresas privadas.
-- O sistema de busca e agendamento funciona sem falhas.
+- Automação de faturamento e emissão de NF-e dentro do aplicativo
+- Integração com rastreamento e telemetria em tempo real para empresas privadas
+- O sistema de busca e agendamento funciona sem falhas
 
 ---
 
-## Stakeholders
+## 4. Stakeholders
 
 ### 4.1 – Cliente (Usuário Final Mobile)
 
@@ -74,7 +73,7 @@ Envolve normas relacionadas a segurança do consumidor, proteção de dados (LGP
 
 ---
 
-## Personas
+## 5. Personas
 
 ### 5.1 – Persona: Cliente Usuário
 
@@ -106,19 +105,21 @@ Envolve normas relacionadas a segurança do consumidor, proteção de dados (LGP
 
 ---
 
-## Diagramas C4:
+## 6. Diagramas C4:
 
 ### 6.1 - Diagrama de contexto:
 
-- Pessoa: Cliente/Usuário que busca serviços, faz agendamentos e avalia empresas.
-- Pessoa: Prestador / Empresa/Profissional ou empresa que oferece serviços e recebe agendamentos.
-- Sistema: Plataforma de Agendamento de Serviços App web/móvel que intermedia clientes e empresas, permitindo cadastro, autenticação, agendamentos, favoritos, avaliações e notificações.
+| Entidade                                           | Descrição                                                                                                                                |
+| :------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| **Pessoa: Cliente/Usuário**                        | busca serviços, faz agendamentos e avalia empresas.                                                                                      |
+| **Pessoa: Prestador / Empresa**                    | Profissional ou empresa que oferece serviços e recebe agendamentos.                                                                      |
+| **Sistema: Plataforma de Agendamento de Serviços** | App web/móvel que intermedia clientes e empresas, permitindo cadastro, autenticação, agendamentos, favoritos, avaliações e notificações. |
 
 ![Diagrama de Contexto](assets/DiagramaContexto.jpeg)
 
 ### 6.2 - Diagrama de container:
 
-- O Container Service (Search) e o Container Service (Scheduling) interagem com o Container Service (Notifications) e com o Container Service (Backend/DB) que armazena avaliações, favoritos, agendamentos e notificações.
+O Container Service (Search) e o Container Service (Scheduling) interagem com o Container Service (Notifications) e com o Container Service (Backend/DB) que armazena avaliações, favoritos, agendamentos e notificações.
 
 ![Diagrama de Container](assets/DiagramaContainer.jpeg)
 
@@ -215,22 +216,11 @@ Contexto dedicado ao perfil principal:
 
 ### Aggregates (Agregados)
 
-**Agregado: Agendamento**
-
-- Entidade Raiz: Agendamento
-- Entidades internas: Serviço, Prestador, Cliente
-- Value Objects: Data/Horário, Status, Notas
-
-**Agregado: Prestador**
-
-- Entidade Raiz: Prestador
-- Entidades internas: Lista de serviços
-- Value Objects: Endereço, Disponibilidade, Preço
-
-**Agregado: Usuário**
-
-- Entidade Raiz: Usuário
-- Value Objects: E-mail, SenhaHash, Telefone
+| Agregado        | Entidade Raiz | Entidades Internas              | Value Objects                    |
+| :-------------- | :------------ | :------------------------------ | :------------------------------- |
+| **Agendamento** | Agendamento   | Serviço, Prestador, Cliente     | Data/Horário, Status, Notas      |
+| **Prestador**   | Prestador     | Lista de serviços               | Endereço, Disponibilidade, Preço |
+| **Usuário**     | Usuário       | Nenhuma (somente Value Objects) | E-mail, SenhaHash, Telefone      |
 
 ---
 
@@ -264,7 +254,6 @@ O app Agenda Fácil precisa suportar:
 - Balanceia simplicidade e escalabilidade.
 
 **Decisão**
-
 Adotar arquitetura híbrida, onde:
 
 - **Monolito contém**:
@@ -308,7 +297,6 @@ O sistema demanda:
 - Amplamente usado em arquiteturas híbridas.
 
 **Decisão**
-
 Utilizar PostgreSQL como banco principal para todo o sistema, incluindo microsserviços, seguindo princípios de _database-per-service_ onde for necessário.
 
 **Consequências**
@@ -444,7 +432,7 @@ O restante permanece no monólito por simplicidade e redução de complexidade.
 
 - Cenário: o serviço de agendamentos recebe alto volume de requisições.
 - Resposta esperada: disponibilidade mínima de 99%, mantendo o serviço online mesmo sob picos.
-- Técnicas aplicadas:
+- **Técnicas aplicadas**:
   - health-check endpoints,
   - replicação da API quando necessário,
   - tolerância a falhas no microsserviço.
@@ -452,10 +440,10 @@ O restante permanece no monólito por simplicidade e redução de complexidade.
 **Desempenho**
 
 - Cenário: usuário consulta a agenda ou cria um agendamento.
-- Requisito esperado:
+- **Requisito esperado**:
   - Tempo de resposta < 400 ms para as principais operações.
   - Notificações enviadas em até 2 segundos após o evento.
-- Ações aplicadas:
+- **Ações aplicadas**:
   - caches leves,
   - consultas otimizadas,
   - indexação no PostgreSQL,
