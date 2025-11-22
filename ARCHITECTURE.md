@@ -1,8 +1,8 @@
 # TECH ACADEMY 8 - Agenda Fácil
 
 **Membros do Grupo:**
-Samuel Ernandes dos Santos
-Paulo Eduardo Fernandes Rodrigues
+Samuel Ernandes dos Santos,
+Paulo Eduardo Fernandes Rodrigues,
 Milena Santos
 
 ---
