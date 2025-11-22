@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell, faCircleQuestion, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ModalConfirm } from "@/src/components/modals/ModalConfirm";
 import { Notification } from "@/src/types/NotificationType";
@@ -13,11 +14,16 @@ import { API_URL_NOTIFICATIONS, API_URL_SCHEDULING } from "@env";
 import { useUser } from "@/src/context/UserContext";
 import { getErrorMessage } from "@/src/utils/errorHandler";
 import { ApiError } from "@/src/types/ApiErrorType";
+import { DateTimeInput } from "@/src/components/inputs/DateTimeInput";
 
 export const NotificationCompany: React.FC = () => {
     const [modalConfig, setModalConfig] = useState<ModalConfirmProps | null>(null);
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
+    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const [endTime, setEndTime] = useState<Date | null>(null);
+    const showTimePicker = () => setTimePickerVisibility(true);
+    const hideTimePicker = () => setTimePickerVisibility(false);
     const { user } = useUser();
 
     const getNotificationsCompany = async () => {
@@ -54,7 +60,7 @@ export const NotificationCompany: React.FC = () => {
                 number: customer?.number,
                 schedulingDate: notification.schedulingDate,
                 schedulingStartTime: notification.schedulingStartTime,
-                schedulingEndTime: notification.schedulingEndTime,
+                schedulingEndTime: endTime,
                 date: new Date()
             };
 
@@ -70,7 +76,7 @@ export const NotificationCompany: React.FC = () => {
                 startDate: notification.schedulingDate,
                 endDate: notification.schedulingDate,
                 startHour: notification.schedulingStartTime,
-                endHour: notification.schedulingEndTime
+                endHour: endTime
             }
 
             await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-company`, payloadScheduling);
@@ -88,8 +94,9 @@ export const NotificationCompany: React.FC = () => {
     const cancelNotification = async (notification: Notification) => {
         try {
             const customer = notification.customer;
+            const company = notification.company;
 
-            const payload = {
+            const payloadCompany = {
                 type: 'Cancelado',
                 text: `Você cancelou o atendimento com ${customer?.name} no dia ${notification.schedulingDate} às ${notification.schedulingStartTime}`,
                 street: customer?.street,
@@ -101,8 +108,19 @@ export const NotificationCompany: React.FC = () => {
 
             await apiNotifications.put(
                 `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
-                payload
+                payloadCompany
             );
+
+            const payloadCustomer = {
+                customerId: customer?.idCustomer,
+                companyId: user?.idUser,
+                type: 'Cancelado',
+                text: `${company?.name} cancelou seu agendamento para o dia ${notification.schedulingDate} às ${notification.schedulingStartTime}.`,
+                profession: company?.profession,
+                date: new Date()
+            }
+
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer/`, payloadCustomer);
 
             setModalConfig(null);
             await getNotificationsCompany();
@@ -113,9 +131,42 @@ export const NotificationCompany: React.FC = () => {
         }
     };
 
+    const handleConfirmTime = (selectedTime: Date) => {
+        const now = new Date();
+
+        if (endTime) {
+            const combined = new Date(endTime);
+            combined.setHours(selectedTime.getHours(), selectedTime.getMinutes(), 0, 0);
+
+            if (combined < now) {
+                alert("Você não pode selecionar um horário anterior ao atual.");
+                hideTimePicker();
+                return;
+            }
+        }
+
+        setEndTime(selectedTime);
+        hideTimePicker();
+    };
+
     const openConfirmModal = (notification: Notification) => {
         setModalConfig({
             text: "Tem certeza que deseja confirmar este serviço?",
+            content: (
+                <DateTimeInput
+                    label="Horário Final"
+                    value={
+                    endTime
+                        ? endTime.toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        })
+                        : ""
+                    }
+                    placeholder="hh:mm"
+                    onPressIn={showTimePicker}
+                />
+            ),
             buttonProps: {
                 firstOnPress: () => confirmNotification(notification),
                 secondOnPress: () => setModalConfig(null),
@@ -125,7 +176,8 @@ export const NotificationCompany: React.FC = () => {
                 secondButtonColor: colors.light_gray,
                 firstTextColor: colors.white,
                 secondTextColor: colors.black
-            }
+            },
+            height: 330
         });
     };
 
@@ -141,13 +193,14 @@ export const NotificationCompany: React.FC = () => {
                 secondButtonColor: colors.light_gray,
                 firstTextColor: colors.white,
                 secondTextColor: colors.black
-            }
+            },
+            height: 220
         });
     };
 
     const openFinalizeModal = () => {
         setModalConfig({
-        text: "Tem certeza que deseja concluir este serviço?",
+            text: "Tem certeza que deseja concluir este serviço?",
             buttonProps: {
                 firstOnPress: () => setModalConfig(null),
                 secondOnPress: () => setModalConfig(null),
@@ -157,7 +210,8 @@ export const NotificationCompany: React.FC = () => {
                 secondButtonColor: colors.light_gray,
                 firstTextColor: colors.white,
                 secondTextColor: colors.black
-            }
+            },
+            height: 220
         });
     };
 
@@ -221,6 +275,14 @@ export const NotificationCompany: React.FC = () => {
 
   return (
     <View style={styles.container}>
+
+        <DateTimePickerModal
+            isVisible={isTimePickerVisible}
+            mode="time"
+            onConfirm={handleConfirmTime}
+            onCancel={hideTimePicker}
+        />
+
         {filteredNotifications.length > 0 ? (
             <FlatList
                 style={styles.list}
@@ -283,7 +345,9 @@ export const NotificationCompany: React.FC = () => {
             <ModalConfirm 
                 visible={!!modalConfig}
                 text={modalConfig.text}
+                content={modalConfig.content}
                 buttonProps={modalConfig.buttonProps}
+                height={modalConfig.height}
             />
         )}
 
