@@ -14,7 +14,6 @@ import { API_URL_NOTIFICATIONS, API_URL_SCHEDULING } from "@env";
 import { useUser } from "@/src/context/UserContext";
 import { getErrorMessage } from "@/src/utils/errorHandler";
 import { ApiError } from "@/src/types/ApiErrorType";
-import { DateTimeInput } from "@/src/components/inputs/DateTimeInput";
 
 export const NotificationCompany: React.FC = () => {
     const [modalConfig, setModalConfig] = useState<ModalConfirmProps | null>(null);
