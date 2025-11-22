@@ -3,7 +3,9 @@ import { ButtonProps } from "./ButtonType";
 export interface ModalConfirmProps {
     visible?: boolean;
     text: string;
-    content?: React.ReactNode;
+    showTimeInput?: boolean;
+    timeValue?: string;
+    onPressTime?: () => void;
     buttonProps: ButtonProps;
     height?: number;
 };

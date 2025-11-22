@@ -1,30 +1,45 @@
 import React from "react";
-import { View, Text, StyleSheet, Modal } from "react-native";
+import { View, Text, StyleSheet, Modal, TouchableWithoutFeedback } from "react-native";
 import { colors } from "@/src/styles/theme";
 import { ModalConfirmProps } from "@/src/types/ModalConfirmType";
 import { DuoButtons } from "../buttons/DuoButtons";
+import { DateTimeInput } from "../inputs/DateTimeInput";
 
-export const ModalConfirm: React.FC<ModalConfirmProps> = ({ visible, text, content, buttonProps, height }) => {
+export const ModalConfirm: React.FC<ModalConfirmProps> = ({ visible, text, showTimeInput, timeValue, onPressTime, buttonProps, height }) => {
 
     return (
-        <Modal visible={visible} transparent animationType="slide">
-            <View style={styles.overlay}>
-                <View style={[styles.modalContent, height ? { height } : {}]}>
-                    <View style={styles.content}>
-                        <Text style={styles.text}>{ text }</Text>
+        <Modal visible={visible} transparent animationType="slide" onRequestClose={buttonProps.secondOnPress}>
+            <TouchableWithoutFeedback>
+                <View style={styles.overlay}>
+                    <View style={[styles.modalContent, height ? { height } : {}]}>
+                        <View style={styles.content}>
+                            <Text style={styles.text}>{ text }</Text>
 
-                        {content && (
-                            <View style={styles.customContent}>
-                                {content}
+                            {showTimeInput && (
+                                <DateTimeInput
+                                    label="Horário Final"
+                                    placeholder="hh:mm"
+                                    value={timeValue || ""}
+                                    onPressIn={onPressTime}
+                                />
+                            )}
+
+                            <View style={styles.buttons}>
+                                <DuoButtons 
+                                    firstOnPress={buttonProps.firstOnPress}
+                                    secondOnPress={buttonProps.secondOnPress}
+                                    firstButtonText={buttonProps.firstButtonText}
+                                    secondButtonText={buttonProps.secondButtonText}
+                                    firstButtonColor={buttonProps.firstButtonColor}
+                                    secondButtonColor={buttonProps.secondButtonColor}
+                                    firstTextColor={buttonProps.firstTextColor}
+                                    secondTextColor={buttonProps.secondTextColor}
+                                />
                             </View>
-                        )}
-
-                        <View style={styles.buttons}>
-                            <DuoButtons {...buttonProps} />
                         </View>
                     </View>
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 };

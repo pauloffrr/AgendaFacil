@@ -22,9 +22,10 @@ export const NotificationCompany: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [endTime, setEndTime] = useState<Date | null>(null);
+    const { user } = useUser();
+
     const showTimePicker = () => setTimePickerVisibility(true);
     const hideTimePicker = () => setTimePickerVisibility(false);
-    const { user } = useUser();
 
     const getNotificationsCompany = async () => {
         try {
@@ -44,91 +45,20 @@ export const NotificationCompany: React.FC = () => {
             setErrorMessage(errorMsg);
         }
     }
+    
+    const formatDateNotification = (isoString: string) => {
+        const onlyDate = isoString.split("T")[0];
+        const [year, month, day] = onlyDate.split("-");
 
-    useEffect(() => {
-        getNotificationsCompany();
-    }, []);
-
-    const confirmNotification = async (notification: Notification) => {
-        try {
-            const customer = notification.customer;
-
-            const payloadNotification = {
-                type: 'Confirmado',
-                text: `Você confirmou o atendimento com ${customer?.name} no dia ${notification.schedulingDate} às ${notification.schedulingStartTime} até ${notification.schedulingEndTime}`,
-                street: customer?.street,
-                number: customer?.number,
-                schedulingDate: notification.schedulingDate,
-                schedulingStartTime: notification.schedulingStartTime,
-                schedulingEndTime: endTime,
-                date: new Date()
-            };
-
-            await apiNotifications.put(
-                `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
-                payloadNotification
-            );
-
-            const payloadScheduling = {
-                companyId: user?.idUser,
-                customerId: customer?.idCustomer,
-                title: `${customer?.name} - ${customer?.street}, N° ${customer?.number}`,
-                startDate: notification.schedulingDate,
-                endDate: notification.schedulingDate,
-                startHour: notification.schedulingStartTime,
-                endHour: endTime
-            }
-
-            await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-company`, payloadScheduling);
-            await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-customer`, payloadScheduling);
-
-            setModalConfig(null);
-            await getNotificationsCompany();
-
-        } catch (error) {
-            setErrorMessage("Erro ao confirmar agendamento!");
-            setModalConfig(null);
-        }
+        return `${day}/${month}/${year}`;
     };
 
-    const cancelNotification = async (notification: Notification) => {
-        try {
-            const customer = notification.customer;
-            const company = notification.company;
-
-            const payloadCompany = {
-                type: 'Cancelado',
-                text: `Você cancelou o atendimento com ${customer?.name} no dia ${notification.schedulingDate} às ${notification.schedulingStartTime}`,
-                street: customer?.street,
-                number: customer?.number,
-                schedulingDate: notification.schedulingDate,
-                schedulingStartTime: notification.schedulingStartTime,
-                date: new Date()
-            };
-
-            await apiNotifications.put(
-                `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
-                payloadCompany
-            );
-
-            const payloadCustomer = {
-                customerId: customer?.idCustomer,
-                companyId: user?.idUser,
-                type: 'Cancelado',
-                text: `${company?.name} cancelou seu agendamento para o dia ${notification.schedulingDate} às ${notification.schedulingStartTime}.`,
-                profession: company?.profession,
-                date: new Date()
-            }
-
-            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer/`, payloadCustomer);
-
-            setModalConfig(null);
-            await getNotificationsCompany();
-
-        } catch (error) {
-            setErrorMessage("Erro ao cancelar agendamento!");
-            setModalConfig(null);
-        }
+    const formatEndTime = (date: Date | null) => {
+        if (!date) return "";
+        return date.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
     };
 
     const handleConfirmTime = (selectedTime: Date) => {
@@ -147,28 +77,131 @@ export const NotificationCompany: React.FC = () => {
 
         setEndTime(selectedTime);
         hideTimePicker();
+
+        setModalConfig(prev => prev ? {
+            ...prev,
+            timeValue: selectedTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        } : prev);
+    };
+
+    const confirmNotification = async (notification: Notification) => {
+        try {
+            const customer = notification.customer;
+            const company = notification.company;
+            const textTime = formatEndTime(endTime);
+
+            const payloadNotification = {
+                type: 'Confirmado',
+                text: `Você confirmou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime} até ${textTime}`,
+                street: customer?.street,
+                number: customer?.number,
+                schedulingDate: notification.schedulingDate,
+                schedulingStartTime: notification.schedulingStartTime,
+                schedulingEndTime: textTime,
+                date: new Date()
+            };
+            await apiNotifications.put(
+                `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
+                payloadNotification
+            );
+
+            const payloadCustomer = {
+                customerId: customer?.idCustomer,
+                companyId: user?.idUser,
+                type: 'Confirmado',
+                text: `${company?.name} confirmou seu agendamento para o dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime} até ${textTime}.`,
+                profession: company?.profession,
+                schedulingDate: notification.schedulingDate,
+                schedulingStartTime: notification.schedulingStartTime,
+                schedulingEndTime: textTime,
+                date: new Date()
+            }
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer/`, payloadCustomer);
+
+            const payloadSchedulingCompany = {
+                companyId: user?.idUser,
+                customerId: customer?.idCustomer,
+                title: `${customer?.name} - ${customer?.street}, N° ${customer?.number}`,
+                startDate: notification.schedulingDate,
+                endDate: notification.schedulingDate,
+                startHour: notification.schedulingStartTime,
+                endHour: textTime
+            }
+            await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-company`, payloadSchedulingCompany);
+
+            const payloadSchedulingCustomer = {
+                companyId: user?.idUser,
+                customerId: customer?.idCustomer,
+                title: `${company?.name} - ${company?.street}, N° ${company?.number}`,
+                startDate: notification.schedulingDate,
+                endDate: notification.schedulingDate,
+                startHour: notification.schedulingStartTime,
+                endHour: textTime
+            }
+            await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-customer`, payloadSchedulingCustomer);
+
+            setModalConfig(null);
+            await getNotificationsCompany();
+
+        } catch (error) {
+            setErrorMessage("Erro ao confirmar agendamento!");
+            setModalConfig(null);
+        }
+    };
+
+    const cancelNotification = async (notification: Notification) => {
+        try {
+            const customer = notification.customer;
+            const company = notification.company;
+
+            const payloadCompany = {
+                type: 'Cancelado',
+                text: `Você cancelou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime}`,
+                street: customer?.street,
+                number: customer?.number,
+                schedulingDate: notification.schedulingDate,
+                schedulingStartTime: notification.schedulingStartTime,
+                date: new Date()
+            };
+            await apiNotifications.put(
+                `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
+                payloadCompany
+            );
+
+            const payloadCustomer = {
+                customerId: customer?.idCustomer,
+                companyId: user?.idUser,
+                type: 'Cancelado',
+                text: `${company?.name} cancelou seu agendamento para o dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime}.`,
+                profession: company?.profession,
+                date: new Date()
+            }
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadCustomer);
+
+            setModalConfig(null);
+            await getNotificationsCompany();
+
+        } catch (error) {
+            setErrorMessage("Erro ao cancelar agendamento!");
+            setModalConfig(null);
+        }
     };
 
     const openConfirmModal = (notification: Notification) => {
+        setEndTime(null);
         setModalConfig({
             text: "Tem certeza que deseja confirmar este serviço?",
-            content: (
-                <DateTimeInput
-                    label="Horário Final"
-                    value={
-                    endTime
-                        ? endTime.toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                        })
-                        : ""
-                    }
-                    placeholder="hh:mm"
-                    onPressIn={showTimePicker}
-                />
-            ),
+            showTimeInput: true,
+            timeValue: "",
+            onPressTime: showTimePicker,
             buttonProps: {
-                firstOnPress: () => confirmNotification(notification),
+                firstOnPress: () => {
+                    if (!endTime) {
+                        setErrorMessage("Selecione um horário final!");
+                        return;
+                    }
+                    confirmNotification(notification);
+                },
                 secondOnPress: () => setModalConfig(null),
                 firstButtonText: "Confirmar",
                 secondButtonText: "Voltar",
@@ -214,6 +247,10 @@ export const NotificationCompany: React.FC = () => {
             height: 220
         });
     };
+
+    useEffect(() => {
+        getNotificationsCompany();
+    }, []);
 
     const renderIcon = (type: Notification["type"]) => {
         switch (type) {
@@ -342,13 +379,7 @@ export const NotificationCompany: React.FC = () => {
         )}
 
         {modalConfig && (
-            <ModalConfirm 
-                visible={!!modalConfig}
-                text={modalConfig.text}
-                content={modalConfig.content}
-                buttonProps={modalConfig.buttonProps}
-                height={modalConfig.height}
-            />
+            <ModalConfirm {...modalConfig} visible={!!modalConfig} />
         )}
 
     </View>
