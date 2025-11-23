@@ -310,6 +310,289 @@ Utilizar PostgreSQL como banco principal para todo o sistema, incluindo microsse
   - Pode exigir _tuning_ avançado para _workloads_ massivos.
   - Operações distribuídas entre microsserviços exigem sincronização via eventos ou mensageria.
 
+### ADR 8.3 – Sistema de Mensageria e Comunicação Assíncrona
+
+O Agenda Fácil precisa de comunicação eficiente entre microsserviços e processamento de eventos assíncronos:
+
+- Notificações precisam ser enviadas sem bloquear a resposta da API
+- Agendamentos criados/cancelados devem disparar múltiplas ações
+- Garantir entrega de mensagens mesmo com falhas temporárias
+- Permitir processamento em fila com retry automático
+
+**Contexto**
+
+Com a arquitetura híbrida adotada, os microsserviços (Agendamento, Notificações, Cadastro) precisam se comunicar de forma desacoplada. Operações como criar um agendamento devem disparar eventos que outros serviços processam de forma independente.
+
+**Opções Consideradas**
+
+**Opção 1: Comunicação Síncrona Direta (REST)**
+- Microsserviços chamam APIs uns dos outros diretamente
+- Simples de implementar
+- **Problema**: Forte acoplamento, cascata de falhas, timeout em cadeia
+
+**Opção 2: Message Broker Externo (RabbitMQ, Kafka)**
+- Fila de mensagens robusta e escalável
+- Garantias de entrega
+- **Problema**: Maior complexidade de infraestrutura, custos operacionais elevados para MVP
+
+**Opção 3: Sistema de Eventos Interno com Fila em Memória (Event-Driven) – opção escolhida**
+- Event emitter interno gerencia eventos de domínio
+- Fila em memória com processamento assíncrono
+- Handlers registrados para cada tipo de evento
+- Retry automático para falhas temporárias
+
+**Decisão**
+
+Implementar sistema de mensageria interno baseado em eventos:
+
+- **Event Emitter**: publica eventos de domínio (AGENDAMENTO_CRIADO, USUARIO_REGISTRADO, etc.)
+- **Event Handlers**: processadores específicos para cada tipo de evento
+- **Fila de Processamento**: eventos processados de forma assíncrona com retry
+- **Dead Letter Queue**: eventos falhados após múltiplas tentativas são isolados para análise
+
+**Tipos de Eventos Principais**:
+- `AGENDAMENTO_CRIADO` → Notifica prestador e cliente
+- `AGENDAMENTO_CANCELADO` → Notifica ambas as partes
+- `LEMBRETE_AGENDAMENTO` → Envia notificação 1 hora antes
+- `USUARIO_REGISTRADO` → Envia email de boas-vindas
+- `AVALIACAO_CRIADA` → Notifica prestador sobre nova avaliação
+
+**Padrões Aplicados**:
+- **Event Sourcing Light**: eventos representam mudanças no estado do domínio
+- **Pub/Sub**: publishers emitem eventos, subscribers processam
+- **Retry Pattern**: tentativas com backoff exponencial
+- **Circuit Breaker**: isola handlers com falhas recorrentes
+
+**Consequências**
+
+- **Positivas**:
+  - Desacoplamento entre microsserviços
+  - Processamento assíncrono não bloqueia requisições
+  - Retry automático aumenta resiliência
+  - Fácil adicionar novos handlers sem modificar publishers
+  - Menor complexidade operacional que brokers externos
+  - Ideal para volume do MVP
+- **Negativas**:
+  - Eventos em memória são perdidos em caso de crash (aceito no MVP)
+  - Menor garantia de entrega que brokers dedicados
+  - Não distribuído entre múltiplas instâncias (escalar requer broker externo)
+  - Debugging mais complexo (fluxo assíncrono)
+
+**Evolução Futura**:
+Quando o volume crescer (>100k eventos/dia), migrar para RabbitMQ ou AWS SQS mantendo a mesma interface de eventos.
+
+### ADR 8.4 – Estratégia de Observabilidade e Monitoramento
+
+O Agenda Fácil, por ser um sistema distribuído com microsserviços, necessita de visibilidade completa sobre:
+
+- Comportamento da aplicação em produção
+- Detecção rápida de falhas e gargalos
+- Rastreamento de requisições entre serviços
+- Métricas de performance e saúde do sistema
+
+**Contexto**
+
+Sistemas distribuídos falham de formas complexas. Um erro no microsserviço de Notificações pode não ser percebido imediatamente se não houver monitoramento adequado. Precisamos de três pilares: **Logs**, **Métricas** e **Traces**.
+
+**Opções Consideradas**
+
+**Opção 1: Sem Observabilidade Estruturada**
+- console.log básico
+- **Problema**: Impossível diagnosticar problemas em produção, debugging reativo
+
+**Opção 2: Observabilidade Completa com Stack Externa (ELK, Prometheus, Jaeger)**
+- Elasticsearch, Logstash, Kibana para logs
+- Prometheus para métricas
+- Jaeger para distributed tracing
+- **Problema**: Infraestrutura complexa e custosa para MVP
+
+**Opção 3: Observabilidade Estruturada Interna com Escalabilidade Futura – opção escolhida**
+- Logger centralizado com níveis estruturados
+- Collector de métricas em memória
+- Health checks automatizados
+- Correlação de logs via correlation ID
+- Preparado para integração futura com stacks externas
+
+**Decisão**
+
+Implementar sistema de observabilidade interno com três componentes:
+
+**1. Sistema de Logs Estruturados**
+- **Níveis**: DEBUG, INFO, WARN, ERROR, CRITICAL
+- **Contexto rico**: service name, timestamp, correlation ID, user ID
+- **Centralização**: todos os logs em formato JSON estruturado
+- **Rotação**: limite de logs em memória com descarte de antigos
+
+**2. Coletor de Métricas**
+- **Request metrics**: contagem, latência, erros
+- **Performance**: tempo de resposta (P95, P99)
+- **Health metrics**: uptime, error rate
+- **Custom metrics**: tamanho de filas, eventos processados
+
+**3. Health Checks**
+- **Endpoints dedicados**: `/health`, `/ready`
+- **Componentes verificados**:
+  - Database connectivity
+  - Cache availability
+  - Message queue status
+  - External API health
+- **Status**: UP, DOWN, DEGRADED
+
+**4. Correlation ID**
+- UUID único por requisição
+- Propagado entre microsserviços
+- Permite rastrear jornada completa do usuário
+
+**Implementação**:
+
+```
+Logger → registra eventos com contexto
+MetricsCollector → coleta e agrega métricas
+HealthCheckService → monitora componentes críticos
+AlertManager → dispara alertas em condições críticas
+```
+
+**SLOs e SLIs Definidos**:
+- **SLO**: 95% das requisições com latência < 400ms
+- **SLI**: Tempo médio de resposta da API
+- **SLO**: 99.5% de disponibilidade mensal
+- **SLI**: Uptime do serviço de agendamento
+
+**Alertas Configurados**:
+- Taxa de erro > 5% em 5 minutos → alerta CRITICAL
+- Tempo de resposta P95 > 1s → alerta WARN
+- Serviço de agendamento DOWN → alerta CRITICAL
+- Fila de notificações > 1000 → alerta WARN
+
+**Consequências**
+
+- **Positivas**:
+  - Visibilidade completa do comportamento da aplicação
+  - Detecção proativa de problemas
+  - Debugging facilitado com correlation IDs
+  - Métricas para otimização de performance
+  - Base sólida para migração futura para stacks externas
+  - Baixo overhead operacional
+- **Negativas**:
+  - Logs em memória limitam histórico
+  - Sem persistência de métricas de longo prazo (sem Prometheus)
+  - Falta de dashboard visual nativo (sem Grafana)
+  - Alertas simples (sem integração Slack/PagerDuty no MVP)
+
+**Evolução Futura**:
+- Integrar com ELK Stack para logs persistentes
+- Adicionar Prometheus + Grafana para métricas visuais
+- Implementar Jaeger para distributed tracing
+- Integrar alertas com Slack, PagerDuty ou similar
+
+### ADR 8.5 – Estratégia de Cache e Otimização de Performance
+
+O Agenda Fácil precisa otimizar consultas frequentes e reduzir latência para:
+
+- Lista de profissionais por categoria (consulta pesada)
+- Perfil de prestadores (dados semi-estáticos)
+- Horários disponíveis (consulta frequente)
+- Lista de categorias e serviços (dados estáticos)
+
+**Contexto**
+
+Sem cache, cada busca de profissional ou consulta de disponibilidade gera queries pesadas no PostgreSQL. Com centenas de usuários simultâneos, isso gera carga desnecessária no banco e aumenta latência.
+
+**Opções Consideradas**
+
+**Opção 1: Sem Cache**
+- Todas as consultas vão direto ao banco
+- **Problema**: Alta latência, carga excessiva no BD, experiência ruim
+
+**Opção 2: Cache Distribuído Externo (Redis)**
+- Cache centralizado e compartilhado
+- Persistente e escalável
+- **Problema**: Infraestrutura adicional, complexidade para MVP
+
+**Opção 3: Cache Multi-Camadas (Memory + Application Level) – opção escolhida**
+- Cache em memória para dados ultra-frequentes
+- Cache de aplicação para dados semi-estáticos
+- TTL configurável por tipo de dado
+- Invalidação inteligente baseada em eventos
+
+**Decisão**
+
+Implementar sistema de cache em três camadas:
+
+**Camada 1: Cache de Aplicação (In-Memory)**
+- **Dados**: categorias, tipos de serviço, configurações globais
+- **TTL**: 30 minutos (dados raramente mudam)
+- **Tamanho**: Limitado a 100MB
+- **Estratégia**: LRU (Least Recently Used)
+
+**Camada 2: Cache de Sessão/Requisição**
+- **Dados**: perfil do usuário logado, preferências
+- **TTL**: Durante a sessão
+- **Invalidação**: No logout ou atualização de perfil
+
+**Camada 3: Cache de Consultas (Query Cache)**
+- **Dados**: busca de profissionais, horários disponíveis
+- **TTL**: 5 minutos (dados dinâmicos)
+- **Invalidação**: Ao criar/cancelar agendamento
+
+**Estratégias de Cache**:
+
+**Cache-Aside (Lazy Loading)**:
+```
+1. Verifica se dado está no cache
+2. Se SIM → retorna do cache
+3. Se NÃO → busca no BD, salva no cache, retorna
+```
+
+**Write-Through (para dados críticos)**:
+```
+1. Atualiza dado no banco
+2. Atualiza/invalida cache simultaneamente
+3. Garante consistência
+```
+
+**Invalidação Baseada em Eventos**:
+- `AGENDAMENTO_CRIADO` → invalida cache de horários disponíveis
+- `PRESTADOR_ATUALIZADO` → invalida cache do perfil específico
+- `AVALIACAO_CRIADA` → invalida cache de média de avaliações
+
+**Políticas de TTL por Tipo**:
+- Categorias de serviço: **30 minutos** (raramente mudam)
+- Perfil de prestador: **10 minutos** (informações semi-estáticas)
+- Horários disponíveis: **5 minutos** (alta volatilidade)
+- Lista de profissionais: **5 minutos** (atualizada com novos cadastros)
+- Configurações do sistema: **1 hora** (muito estáticas)
+
+**Monitoramento de Cache**:
+- **Hit Rate**: % de requisições atendidas pelo cache
+- **Miss Rate**: % que precisaram buscar no BD
+- **Evictions**: quantos itens foram removidos por limite de tamanho
+- **Target**: Hit Rate > 70%
+
+**Consequências**
+
+- **Positivas**:
+  - Redução de 60-80% na carga do banco de dados
+  - Latência reduzida de ~300ms para ~50ms em hits
+  - Melhor experiência do usuário
+  - Escalabilidade aumentada sem upgrade de BD
+  - Baixa complexidade operacional (sem infraestrutura adicional)
+  - Cache aquecido automaticamente por uso real
+- **Negativas**:
+  - Risco de dados desatualizados (mitigado com TTL curto)
+  - Possível inconsistência temporária entre cache e BD
+  - Cache não compartilhado entre instâncias (problema ao escalar)
+  - Perda de cache em restart da aplicação
+  - Consumo de memória RAM aumentado
+
+**Limites e Proteções**:
+- Limite de 500MB de cache total
+- Eviction automática quando atinge 90% do limite
+- Circuit breaker: se BD cair, cache serve dados stale por até 30 min
+
+**Evolução Futura**:
+Quando escalar horizontalmente (múltiplas instâncias), migrar para Redis mantendo as mesmas chaves e políticas de TTL definidas.
+
 ---
 
 ## Cenários de qualidade:
