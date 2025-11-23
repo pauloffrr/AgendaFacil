@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell, faCircleQuestion, faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -21,6 +21,7 @@ export const NotificationCompany: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [endTime, setEndTime] = useState<Date | null>(null);
+    const [currentNotification, setCurrentNotification] = useState<Notification | null>(null);
     const { user } = useUser();
 
     const showTimePicker = () => setTimePickerVisibility(true);
@@ -83,7 +84,20 @@ export const NotificationCompany: React.FC = () => {
         } : prev);
     };
 
-    const confirmNotification = async (notification: Notification) => {
+    const confirmNotification = useCallback(async () => {
+        if (!currentNotification) {
+            alert("Falha ao processar a notificação. Tente novamente.");
+            setModalConfig(null);
+            return;
+        }
+        
+        if (!endTime) {
+            alert("Por favor, selecione o Horário Final antes de confirmar.");
+            return;
+        }
+        
+        const notification = currentNotification;
+
         try {
             const customer = notification.customer;
             const company = notification.company;
@@ -140,13 +154,14 @@ export const NotificationCompany: React.FC = () => {
             await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-customer`, payloadSchedulingCustomer);
 
             setModalConfig(null);
+            setCurrentNotification(null);
             await getNotificationsCompany();
 
         } catch (error) {
             setErrorMessage("Erro ao confirmar agendamento!");
             setModalConfig(null);
         }
-    };
+    }, [currentNotification, endTime, user]);
 
     const cancelNotification = async (notification: Notification) => {
         try {
@@ -188,20 +203,19 @@ export const NotificationCompany: React.FC = () => {
 
     const openConfirmModal = (notification: Notification) => {
         setEndTime(null);
+        setCurrentNotification(notification);
+
         setModalConfig({
             text: "Tem certeza que deseja confirmar este serviço?",
             showTimeInput: true,
             timeValue: "",
             onPressTime: showTimePicker,
             buttonProps: {
-                firstOnPress: () => {
-                    if (!endTime) {
-                        setErrorMessage("Selecione um horário final!");
-                        return;
-                    }
-                    confirmNotification(notification);
+                firstOnPress: () => confirmNotification(),
+                secondOnPress: () => {
+                    setModalConfig(null);
+                    setCurrentNotification(null);
                 },
-                secondOnPress: () => setModalConfig(null),
                 firstButtonText: "Confirmar",
                 secondButtonText: "Voltar",
                 firstButtonColor: colors.green,
