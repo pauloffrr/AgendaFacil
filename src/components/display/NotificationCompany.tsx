@@ -86,20 +86,19 @@ export const NotificationCompany: React.FC = () => {
         } : prev);
     };
 
-    const confirmNotification = async () => {
-        if (!currentNotification) {
+    const confirmNotification = async (notification: Notification) => {
+        if (!notification) {
             alert("Falha ao processar a notificação. Tente novamente.");
             setModalConfig(null);
             return;
         }
-        
+
         const finalEndTime = endTime || endTimeRef.current;
         if (!finalEndTime) {
             alert("Por favor, selecione o Horário Final antes de confirmar.");
             return;
         }
         
-        const notification = currentNotification;
         const customer = notification.customer;
         const company = notification.company;
         const textTime = formatEndTime(finalEndTime);
@@ -272,8 +271,8 @@ export const NotificationCompany: React.FC = () => {
         }
     }
 
-    const extendScheduling = async () => {
-        if (!currentNotification) {
+    const extendScheduling = async (notification: Notification) => {
+        if (!notification) {
             alert("Falha ao processar a notificação. Tente novamente.");
             setModalConfig(null);
             return;
@@ -285,7 +284,6 @@ export const NotificationCompany: React.FC = () => {
             return;
         }
         
-        const notification = currentNotification;
         const customer = notification.customer;
         const company = notification.company;
         const scheduling = notification.scheduling;
@@ -313,7 +311,7 @@ export const NotificationCompany: React.FC = () => {
             
             const payloadNotificationCompany = {
                 type: 'Lembrete',
-                text: `Você estendeu o horário do agendamento com ${customer?.name} até ás ${textTime}.`,
+                text: `Você estendeu o horário do agendamento com ${customer?.name} até ás ${textTime}`,
                 schedulingCompanyId: notification.schedulingCompanyId,
                 schedulingEndTime: textTime,
                 date: new Date()
@@ -341,15 +339,15 @@ export const NotificationCompany: React.FC = () => {
 
     const openConfirmModal = (notification: Notification) => {
         setEndTime(null);
-        setCurrentNotification(notification);
 
         setModalConfig({
             text: "Tem certeza que deseja confirmar este serviço?",
             showTimeInput: true,
             timeValue: "",
             onPressTime: showTimePicker,
+            notificationContext: notification,
             buttonProps: {
-                firstOnPress: () => confirmNotification(),
+                firstOnPress: () => confirmNotification(notification),
                 secondOnPress: () => {
                     setModalConfig(null);
                     setCurrentNotification(null);
@@ -401,15 +399,15 @@ export const NotificationCompany: React.FC = () => {
 
     const openExtendModal = (notification: Notification) => {
         setEndTime(null);
-        setCurrentNotification(notification);
 
         setModalConfig({
             text: "Para qual horário deseja estender o horário deste serviço?",
             showTimeInput: true,
             timeValue: "",
             onPressTime: showTimePicker,
+            notificationContext: notification,
             buttonProps: {
-                firstOnPress: () => extendScheduling(),
+                firstOnPress: () => extendScheduling(notification),
                 secondOnPress: () => {
                     setModalConfig(null);
                     setCurrentNotification(null);
