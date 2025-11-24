@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCircleQuestion, faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion, faCalendarCheck, faCalendarXmark, faBell, faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { CustomerReviewModal } from "@/src/components/modals/CustomerReviewModal";
 import { Notification } from "@/src/types/NotificationType";
 import { colors } from "@/src/styles/theme";
-import { apiNotifications } from "@/src/services/Api";
+import { apiNotifications, apiUsers } from "@/src/services/Api";
 import { useUser } from "@/src/context/UserContext";
-import { API_URL_NOTIFICATIONS } from "@env";
+import { API_URL_NOTIFICATIONS, API_URL_USERS } from "@env";
 import { getErrorMessage } from "@/src/utils/errorHandler";
 import { ApiError } from "@/src/types/ApiErrorType";
 
@@ -16,6 +16,7 @@ export const NotificationCustomer: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [currentNotification, setCurrentNotification] = useState<Notification | null>(null);
   const { user } = useUser();
 
   const getNotificationsCustomer = async () => {
@@ -42,21 +43,63 @@ export const NotificationCustomer: React.FC = () => {
     getNotificationsCustomer();
   }, []);
 
-  const handleReview = (id: number) => {
+  const handleReview = (item: Notification) => {
+    setCurrentNotification(item);
     setModalVisible(true);
+  };
 
-    setNotifications((prev) =>
-      prev.map((item) => {
-        if (item.idNotificationCustomer === id && item.type === "Avaliação") {
-          return {
-            ...item,
-            type: "Concluído",
-            message: "Serviço concluído com sucesso.",
-          };
-        }
-        return item;
-      })
-    );
+  const evaluateService = async (comment: string, rating: number) => {
+    if (!currentNotification) {
+      alert("Falha ao processar a notificação. Tente novamente.");
+      return;
+    }
+
+    const notification = currentNotification;
+    const customer = notification.customer;
+    const company = notification.company;
+    
+    try {
+      const payloadCompany = {
+        companyId: company?.idCompany,
+        customerId: customer?.idCustomer,
+        type: 'Avaliação',
+        text: `${customer?.name} avaliou o seu atendimento com ${rating} estrelas.`,
+        street: user?.street,
+        number: user?.number,
+        date: new Date()
+      }
+      await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-company`, payloadCompany);
+
+      const payloadCustomer = {
+        type: 'Concluído',
+        text: `Você avaliou o atendimento de ${company?.name} com ${rating} estrelas. Serviço finalizado!`,
+        date: new Date()
+      }
+      await apiNotifications.put(`${API_URL_NOTIFICATIONS}/notifications-customer/${notification.idNotificationCustomer}`, payloadCustomer)
+
+      const payloadReview = {
+        customerId: user?.idUser,
+        companyId: company?.idCompany,
+        date: new Date(),
+        rating: rating,
+        comment: comment
+      }
+      await apiUsers.post(`${API_URL_USERS}/reviews`, payloadReview);
+
+      setCurrentNotification(null);
+      await getNotificationsCustomer();
+
+    } catch (error) {
+      let errorMsg = "Erro ao avaliar o serviço. Tente novamente!";
+      
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+    }
   };
 
   const renderIcon = (type: Notification["type"]) => {
@@ -86,6 +129,13 @@ export const NotificationCustomer: React.FC = () => {
           />
         );
       case "Avaliação":
+        return (
+          <FontAwesomeIcon 
+            icon={faStar as IconProp}
+            size={22}
+            color={colors.yellow}
+          />
+        )
       case "Concluído":
         return (
           <FontAwesomeIcon
@@ -132,11 +182,12 @@ export const NotificationCustomer: React.FC = () => {
               {item.type === "Avaliação" && (
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => handleReview(item.idNotificationCustomer)}
+                  onPress={() => handleReview(item)}
                 >
                   <Text style={styles.buttonText}>Avaliar</Text>
                 </TouchableOpacity>
               )}
+
               <View style={styles.date}>
                 <Text style={styles.textDate}>{formatDate(item.date)}</Text>
               </View>
@@ -155,6 +206,7 @@ export const NotificationCustomer: React.FC = () => {
       <CustomerReviewModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
+        onSubmitReview={evaluateService}
       />
     </View>
   );

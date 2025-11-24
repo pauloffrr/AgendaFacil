@@ -21,7 +21,7 @@ export const CompanyReviews: React.FC<ReviewsCompany> = ({ companyId }) => {
       setReviews(response.data);
       setErrorMessage("");
 
-    } catch (error: unknown) {
+    } catch (error) {
       let errorMsg = "Erro ao exibir avaliações. Tente novamente!";
       
       if (typeof error === 'object' && error !== null) {
@@ -45,6 +45,13 @@ export const CompanyReviews: React.FC<ReviewsCompany> = ({ companyId }) => {
       return dateB - dateA;
     })
     .slice(0, 3);
+  
+  const formatDateReview = (isoString: string) => {
+    const onlyDate = isoString.split("T")[0];
+    const [year, month, day] = onlyDate.split("-");
+
+    return `${day}/${month}/${year}`;
+  };
 
   return (
     <View>
@@ -82,7 +89,7 @@ export const CompanyReviews: React.FC<ReviewsCompany> = ({ companyId }) => {
             </View>
 
             <View style={styles.date}>
-              <Text style={styles.textDate}>{item.date.split("-").reverse().join("/")}</Text>
+              <Text style={styles.textDate}>{formatDateReview(item.date)}</Text>
             </View>
           </View>
         )}

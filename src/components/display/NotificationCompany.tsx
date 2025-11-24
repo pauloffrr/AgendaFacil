@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCalendarCheck, faCalendarXmark, faBell, faCircleQuestion, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarCheck, faCalendarXmark, faBell, faCircleQuestion, faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ModalConfirm } from "@/src/components/modals/ModalConfirm";
@@ -142,7 +142,7 @@ export const NotificationCompany: React.FC = () => {
 
             const payloadNotificationCompany = {
                 type: 'Confirmado',
-                text: `Você confirmou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime} até ${textTime}`,
+                text: `Você confirmou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime} até ${textTime}.`,
                 street: customer?.street,
                 number: customer?.number,
                 schedulingCompanyId: idSchedulingCompany,
@@ -193,7 +193,7 @@ export const NotificationCompany: React.FC = () => {
 
             const payloadCompany = {
                 type: 'Cancelado',
-                text: `Você cancelou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime}`,
+                text: `Você cancelou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime}.`,
                 street: customer?.street,
                 number: customer?.number,
                 schedulingDate: notification.schedulingDate,
@@ -313,7 +313,7 @@ export const NotificationCompany: React.FC = () => {
             
             const payloadNotificationCompany = {
                 type: 'Lembrete',
-                text: `Você estendeu o horário do agendamento com ${customer?.name} até ás ${textTime}`,
+                text: `Você estendeu o horário do agendamento com ${customer?.name} até ás ${textTime}.`,
                 schedulingCompanyId: notification.schedulingCompanyId,
                 schedulingEndTime: textTime,
                 date: new Date()
@@ -473,6 +473,14 @@ export const NotificationCompany: React.FC = () => {
                     icon={faBell as IconProp}
                     size={22}
                     color={colors.blue}
+                />
+            );
+        case "Avaliação":
+            return (
+                <FontAwesomeIcon 
+                icon={faStar as IconProp}
+                size={22}
+                color={colors.yellow}
                 />
             );
         default:
