@@ -219,10 +219,58 @@ export const NotificationCompany: React.FC = () => {
             await getNotificationsCompany();
 
         } catch (error) {
-            setErrorMessage("Erro ao cancelar agendamento!");
-            setModalConfig(null);
+            let errorMsg = "Erro ao cancelar o agendamento. Tente novamente!";
+                            
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+
+            setErrorMessage(errorMsg);
         }
     };
+
+    const finalizeScheduling = async (notification: Notification) => {
+        const customer = notification.customer;
+        const company = notification.company;
+
+        try {
+            const payloadCompany = {
+                type: 'Concluído',
+                text: `Você finzalizou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} das ${notification.schedulingStartTime} até ${notification.schedulingEndTime}.`,
+                date: new Date()
+            };
+            await apiNotifications.put(
+                `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
+                payloadCompany
+            );
+
+            const payloadCustomer = {
+                customerId: customer?.idCustomer,
+                companyId: user?.idUser,
+                type: 'Avaliação',
+                text: `${company?.name} finzalizou o seu agendamento para o dia ${formatDateNotification(notification.schedulingDate)} das ${notification.schedulingStartTime} até ${notification.schedulingEndTime}. Deseja Avaliar?`,
+                profession: company?.profession,
+                date: new Date()
+            }
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadCustomer);
+            
+            setModalConfig(null);
+            await getNotificationsCompany();
+
+        } catch (error) {
+            let errorMsg = "Erro ao concluir o agendamento. Tente novamente!";
+            
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError); 
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+
+            setErrorMessage(errorMsg);
+        }
+    }
 
     const extendScheduling = async () => {
         if (!currentNotification) {
@@ -335,12 +383,10 @@ export const NotificationCompany: React.FC = () => {
     };
 
     const openFinalizeModal = (notification: Notification) => {
-        setCurrentNotification(notification);
-
         setModalConfig({
             text: "Tem certeza que deseja concluir este serviço?",
             buttonProps: {
-                firstOnPress: () => setModalConfig(null),
+                firstOnPress: () => finalizeScheduling(notification),
                 secondOnPress: () => setModalConfig(null),
                 firstButtonText: "Concluir",
                 secondButtonText: "Voltar",
