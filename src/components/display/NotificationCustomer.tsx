@@ -1,37 +1,118 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { NotificationsCustomerMock } from "../../data/NotificationCustomerMock";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCalendarCheck, faCalendarXmark, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion, faCalendarCheck, faCalendarXmark, faBell, faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { CustomerReviewModal } from "@/src/components/modals/CustomerReviewModal";
 import { Notification } from "@/src/types/NotificationType";
 import { colors } from "@/src/styles/theme";
+import { apiNotifications, apiUsers } from "@/src/services/Api";
+import { useUser } from "@/src/context/UserContext";
+import { API_URL_NOTIFICATIONS, API_URL_USERS } from "@env";
+import { getErrorMessage } from "@/src/utils/errorHandler";
+import { ApiError } from "@/src/types/ApiErrorType";
 
 export const NotificationCustomer: React.FC = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(NotificationsCustomerMock);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [currentNotification, setCurrentNotification] = useState<Notification | null>(null);
+  const { user } = useUser();
 
-  const handleReview = (id: number) => {
+  const getNotificationsCustomer = async () => {
+    try {
+      const response = await apiNotifications.get(`${API_URL_NOTIFICATIONS}/notifications-customer/customer/${user?.idUser}`);
+
+      setNotifications(response.data);
+      setErrorMessage("");
+      
+    } catch (error) {
+      let errorMsg = "Erro ao buscar notificações. Tente novamente!";
+      
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+    }
+  }
+
+  useEffect(() => {
+    getNotificationsCustomer();
+  }, []);
+
+  const handleReview = (item: Notification) => {
+    setCurrentNotification(item);
     setModalVisible(true);
-
-    setNotifications((prev) =>
-      prev.map((item) => {
-        if (item.id === id && item.typeCustomer === "Avaliação") {
-          return {
-            ...item,
-            type: "Concluído",
-            message: "Serviço concluído com sucesso.",
-          };
-        }
-        return item;
-      })
-    );
   };
 
-  const renderIcon = (type: Notification["typeCustomer"]) => {
+  const evaluateService = async (comment: string, rating: number) => {
+    if (!currentNotification) {
+      alert("Falha ao processar a notificação. Tente novamente.");
+      return;
+    }
+
+    const notification = currentNotification;
+    const customer = notification.customer;
+    const company = notification.company;
+    
+    try {
+      const payloadCompany = {
+        companyId: company?.idCompany,
+        customerId: customer?.idCustomer,
+        type: 'Avaliação',
+        text: `${customer?.name} avaliou o seu atendimento com ${rating} estrelas.`,
+        street: user?.street,
+        number: user?.number,
+        date: new Date()
+      }
+      await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-company`, payloadCompany);
+
+      const payloadCustomer = {
+        type: 'Concluído',
+        text: `Você avaliou o atendimento de ${company?.name} com ${rating} estrelas. Serviço finalizado!`,
+        date: new Date()
+      }
+      await apiNotifications.put(`${API_URL_NOTIFICATIONS}/notifications-customer/${notification.idNotificationCustomer}`, payloadCustomer)
+
+      const payloadReview = {
+        customerId: user?.idUser,
+        companyId: company?.idCompany,
+        date: new Date(),
+        rating: rating,
+        comment: comment
+      }
+      await apiUsers.post(`${API_URL_USERS}/reviews`, payloadReview);
+
+      setCurrentNotification(null);
+      await getNotificationsCustomer();
+
+    } catch (error) {
+      let errorMsg = "Erro ao avaliar o serviço. Tente novamente!";
+      
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+    }
+  };
+
+  const renderIcon = (type: Notification["type"]) => {
     switch (type) {
-      case "Cancelamento":
+      case "Pendente":
+        return (
+            <FontAwesomeIcon
+                icon={faCircleQuestion as IconProp}
+                size={22}
+                color={colors.blue}
+            />
+        );
+      case "Cancelado":
         return (
           <FontAwesomeIcon
             icon={faCalendarXmark as IconProp}
@@ -39,7 +120,7 @@ export const NotificationCustomer: React.FC = () => {
             color={colors.red}
           />
         );
-      case "Confirmação":
+      case "Confirmado":
         return (
           <FontAwesomeIcon
             icon={faCalendarCheck as IconProp}
@@ -48,6 +129,13 @@ export const NotificationCustomer: React.FC = () => {
           />
         );
       case "Avaliação":
+        return (
+          <FontAwesomeIcon 
+            icon={faStar as IconProp}
+            size={22}
+            color={colors.yellow}
+          />
+        )
       case "Concluído":
         return (
           <FontAwesomeIcon
@@ -69,38 +157,56 @@ export const NotificationCustomer: React.FC = () => {
     }
   };
 
+  const filteredNotifications = notifications;
+
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("pt-BR");
+  };
+
   return (
     <View style={styles.container}>
-      <FlatList
-        style={styles.list}
-        data={notifications}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.header}>
-              <Text style={styles.professionName}>{item.professionName}</Text>
-              {renderIcon(item.typeCustomer)}
-            </View>
-            <Text style={styles.message}>{item.message}</Text>
+      {filteredNotifications.length > 0 ? (
+        <FlatList
+          style={styles.list}
+          data={notifications}
+          keyExtractor={(item) => item.idNotificationCustomer.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <View style={styles.header}>
+                <Text style={styles.professionName}>{item.profession ?? item.company?.profession}</Text>
+                {renderIcon(item.type)}
+              </View>
+              <Text style={styles.message}>{item.text}</Text>
 
-            {item.typeCustomer === "Avaliação" && (
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleReview(item.id)}
-              >
-                <Text style={styles.buttonText}>Avaliar</Text>
-              </TouchableOpacity>
-            )}
-            <View style={styles.date}>
-              <Text style={styles.textDate}>{item.date}</Text>
+              {item.type === "Avaliação" && (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => handleReview(item)}
+                >
+                  <Text style={styles.buttonText}>Avaliar</Text>
+                </TouchableOpacity>
+              )}
+
+              <View style={styles.date}>
+                <Text style={styles.textDate}>{formatDate(item.date)}</Text>
+              </View>
             </View>
-          </View>
-        )}
-      />
+          )}
+        />
+      ) : (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>
+            <Text style={styles.emptyMessage}>Nenhuma notificação disponível!</Text>
+            { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
+          </Text>
+        </View>
+      )}
 
       <CustomerReviewModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
+        onSubmitReview={evaluateService}
       />
     </View>
   );
@@ -153,4 +259,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyText: {
+    fontSize: 18,
+    color: colors.gray,
+    textAlign: "center",
+  },
+  emptyMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.gray,
+    fontWeight: "bold"
+  },
+  errorMessage: {
+    fontSize: 18,
+    marginTop: "3%",
+    color: colors.red,
+    fontWeight: "bold"
+  }
 });

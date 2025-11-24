@@ -1,4 +1,5 @@
 import { GestureResponderEvent } from "react-native";
+import { Notification } from "./NotificationType";
 
 export interface ButtonProps {
     onPress?: (event: GestureResponderEvent) => void;
@@ -10,6 +11,6 @@ export interface ButtonProps {
     secondButtonColor?: string;
     firstTextColor?: string;
     secondTextColor?: string;
-    firstOnPress?: (event: GestureResponderEvent) => void;
-    secondOnPress?: (event: GestureResponderEvent) => void;
+    firstOnPress?: (notification?: Notification) => void;
+    secondOnPress?: () => void;
 };

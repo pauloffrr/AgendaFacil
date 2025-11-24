@@ -2,27 +2,16 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { colors } from "@/src/styles/theme";
+import { TimeInputProps } from "@/src/types/TimeInputType";
 
-export const TimeInput: React.FC = () => {
+export const TimeInput: React.FC<TimeInputProps> = ({
+    startTime,
+    endTime,
+    onChangeStartTime,
+    onChangeEndTime
+}) => {
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
     const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
-    const [startTime, setStartTime] = useState<Date | null>(null);
-    const [endTime, setEndTime] = useState<Date | null>(null);
-    
-    const showStartTimePicker = () => setStartTimePickerVisibility(true);
-    const hideStartTimePicker = () => setStartTimePickerVisibility(false);
-    const showEndTimePicker = () => setEndTimePickerVisibility(true);
-    const hideEndTimePicker = () => setEndTimePickerVisibility(false);
-    
-    const handleConfirmStartTime = (selectedStartTime: Date) => {
-        setStartTime(selectedStartTime);
-        hideStartTimePicker();
-    };
-
-    const handleConfirmEndTime = (selectedEndTime: Date) => {
-        setEndTime(selectedEndTime);
-        hideEndTimePicker();
-    };
 
     return (
         <View style={styles.container}>
@@ -32,20 +21,25 @@ export const TimeInput: React.FC = () => {
                     style={styles.input}
                     showSoftInputOnFocus={false}
                     value={
-                        startTime ? startTime.toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            }) : ""
-                        }
+                        startTime
+                            ? startTime.toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                              })
+                            : ""
+                    }
                     placeholder="hh:mm"
-                    onPressIn={showStartTimePicker}
+                    onPressIn={() => setStartTimePickerVisibility(true)}
                 />
 
                 <DateTimePickerModal
                     isVisible={isStartTimePickerVisible}
                     mode="time"
-                    onConfirm={handleConfirmStartTime}
-                    onCancel={hideStartTimePicker}
+                    onConfirm={(date) => {
+                        onChangeStartTime(date);
+                        setStartTimePickerVisibility(false);
+                    }}
+                    onCancel={() => setStartTimePickerVisibility(false)}
                 />
             </View>
 
@@ -55,20 +49,25 @@ export const TimeInput: React.FC = () => {
                     style={styles.input}
                     showSoftInputOnFocus={false}
                     value={
-                        endTime ? endTime.toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            }) : ""
-                        }
+                        endTime
+                            ? endTime.toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                              })
+                            : ""
+                    }
                     placeholder="hh:mm"
-                    onPressIn={showEndTimePicker}
+                    onPressIn={() => setEndTimePickerVisibility(true)}
                 />
 
                 <DateTimePickerModal
                     isVisible={isEndTimePickerVisible}
                     mode="time"
-                    onConfirm={handleConfirmEndTime}
-                    onCancel={hideEndTimePicker}
+                    onConfirm={(date) => {
+                        onChangeEndTime(date);
+                        setEndTimePickerVisibility(false);
+                    }}
+                    onCancel={() => setEndTimePickerVisibility(false)}
                 />
             </View>
         </View>

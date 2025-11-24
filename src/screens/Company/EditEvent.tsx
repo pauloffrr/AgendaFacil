@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -14,6 +14,11 @@ import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigation
 import { CompanyEditEventProps, CompanyEditEventRouteProp } from "@/src/types/CompanyStackType";
 import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
 import { colors } from "@/src/styles/theme";
+import { SchedulingEventsProps } from "@/src/types/SchedulingEventsType";
+import { apiScheduling } from "@/src/services/Api";
+import { API_URL_SCHEDULING } from "@env";
+import { getErrorMessage } from "@/src/utils/errorHandler";
+import { ApiError } from "@/src/types/ApiErrorType";
 
 export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
     const route = useRoute<CompanyEditEventRouteProp>();
@@ -22,12 +27,53 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
     const [date, setDate] = useState<Date | null>(null);
     const [title, setTitle] = useState("");
     const [budget, setBudget] = useState("");
+    const [scheduling, setScheduling] = useState<SchedulingEventsProps | null>(null);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [startHourDate, setStartHourDate] = useState<Date | null>(null);
+    const [endHourDate, setEndHourDate] = useState<Date | null>(null);
 
-    const event = CompanySchedulingMock.find((event) => event.id === id);
+    const getScheduling = async () => {
+        try {
+            const response = await apiScheduling.get(`${API_URL_SCHEDULING}/scheduling-company/${id}`);
 
-    const dayWeek = event?.start.toLocaleDateString("pt-BR", { weekday: "long" });
-    const fullDate = event?.start.toLocaleDateString("pt-BR");
-    const hour = event?.start.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+            const data = response.data;
+
+            const start = new Date(`${data.startDate}T${data.startHour}:00`);
+            const end = new Date(`${data.endDate}T${data.endHour}:00`);
+
+            setScheduling({
+                ...data,
+                start,
+                end
+            });
+
+            setStartHourDate(start);
+            setEndHourDate(end);
+            setDate(start);
+            setTitle(data.title);
+            setBudget(String(data.budget ?? ""));
+
+            setErrorMessage("");
+        } catch (error) {
+            let errorMsg = "Erro ao buscar o agendamento. Tente novamente!";
+                                          
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+    
+            setErrorMessage(errorMsg);
+        }
+    }
+
+    useEffect(() => {
+        getScheduling();
+    }, []);
+
+    const dayWeek = scheduling?.start?.toLocaleDateString("pt-BR", { weekday: "long" });
+    const fullDate = scheduling?.start.toLocaleDateString("pt-BR");
+    const hour = scheduling?.start.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
     
     const showDatePicker = () => setDatePickerVisibility(true);
     const hideDatePicker = () => setDatePickerVisibility(false);
@@ -36,6 +82,31 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
         setDate(selectedDate);
         hideDatePicker();
     };
+
+    const updateScheduling = async () => {
+        try {
+            const payloadSchedulingCompany = {
+                title: title,
+                startDate: date,
+                endDate: date,
+                startHour: startHourDate,
+                endHour: endHourDate
+            }
+            apiScheduling.put(`${API_URL_SCHEDULING}/scheduling-company/${id}`, payloadSchedulingCompany)
+
+            await getScheduling();
+        } catch (error) {
+            let errorMsg = "Erro ao atualizar o agendamento. Tente novamente!";
+                                          
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+    
+            setErrorMessage(errorMsg);
+        }
+    }
 
     return (
         <View style={styles.screen}>
@@ -68,7 +139,12 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                         onCancel={hideDatePicker}
                     />
 
-                    <TimeInput />
+                    <TimeInput 
+                        startTime={startHourDate}
+                        endTime={endHourDate}
+                        onChangeStartTime={setStartHourDate}
+                        onChangeEndTime={setEndHourDate}
+                    />
 
                     <Input 
                         label="Título"
@@ -86,10 +162,12 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                         keyboardType="numeric"
                     />
         
-                    <Button buttonText="Enviar" onPress={() => navigation.navigate("Company Scheduling", { id })} />
+                    <Button buttonText="Salvar" onPress={() => {navigation.navigate("Company Scheduling", { id }), updateScheduling()}} />
                 </View>
 
             </KeyboardAwareScrollView>
+
+            { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
 
             <CompanyNavigationBar />
         </View>
@@ -120,5 +198,11 @@ const styles = StyleSheet.create({
     },
     inputs: {
         marginBottom: "15%"
+    },
+    errorMessage: {
+        fontSize: 18,
+        marginTop: "3%",
+        color: colors.red,
+        fontWeight: "bold"
     }
 });

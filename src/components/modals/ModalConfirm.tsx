@@ -1,24 +1,45 @@
 import React from "react";
-import { View, Text, StyleSheet, Modal } from "react-native";
+import { View, Text, StyleSheet, Modal, TouchableWithoutFeedback } from "react-native";
 import { colors } from "@/src/styles/theme";
 import { ModalConfirmProps } from "@/src/types/ModalConfirmType";
 import { DuoButtons } from "../buttons/DuoButtons";
+import { DateTimeInput } from "../inputs/DateTimeInput";
 
-export const ModalConfirm: React.FC<ModalConfirmProps> = ({ visible, text, buttonProps }) => {
+export const ModalConfirm: React.FC<ModalConfirmProps> = ({ visible, text, showTimeInput, timeValue, onPressTime, buttonProps, height }) => {
 
     return (
-        <Modal visible={visible} transparent animationType="slide">
-            <View style={styles.overlay}>
-                <View style={styles.modalContent}>
-                    <View style={styles.content}>
-                        <Text style={styles.text}>{ text }</Text>
+        <Modal visible={visible} transparent animationType="slide" onRequestClose={buttonProps.secondOnPress}>
+            <TouchableWithoutFeedback>
+                <View style={styles.overlay}>
+                    <View style={[styles.modalContent, height ? { height } : {}]}>
+                        <View style={styles.content}>
+                            <Text style={styles.text}>{ text }</Text>
 
-                        <View style={styles.buttons}>
-                            <DuoButtons {...buttonProps} />
+                            {showTimeInput && (
+                                <DateTimeInput
+                                    label="Horário Final"
+                                    placeholder="hh:mm"
+                                    value={timeValue || ""}
+                                    onPressIn={onPressTime}
+                                />
+                            )}
+
+                            <View style={styles.buttons}>
+                                <DuoButtons 
+                                    firstOnPress={buttonProps.firstOnPress}
+                                    secondOnPress={buttonProps.secondOnPress}
+                                    firstButtonText={buttonProps.firstButtonText}
+                                    secondButtonText={buttonProps.secondButtonText}
+                                    firstButtonColor={buttonProps.firstButtonColor}
+                                    secondButtonColor={buttonProps.secondButtonColor}
+                                    firstTextColor={buttonProps.firstTextColor}
+                                    secondTextColor={buttonProps.secondTextColor}
+                                />
+                            </View>
                         </View>
                     </View>
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 };
@@ -28,23 +49,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.dark_background,
         justifyContent: "center",
+        alignItems: "center"
     },
     modalContent: {
         backgroundColor: colors.white,
         padding: "5%",
         borderRadius: 10,
-        width: "100%",
-        height: 230,
+        width: "100%"
     },
     content: {
-        gap: "30%"
+        gap: "5%"
     },
     text: {
         fontSize: 20,
         marginTop: "10%",
         fontWeight: 600
     },
+    customContent: {
+        margin: 0
+    },
     buttons: {
-        alignItems: "flex-end"
+        alignItems: "flex-end",
+        marginTop: "10%" 
     }
 });

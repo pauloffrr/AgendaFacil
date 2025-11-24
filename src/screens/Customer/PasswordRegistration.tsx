@@ -9,7 +9,7 @@ import { Button } from "@/src/components/buttons/Button";
 import * as Progress from "react-native-progress";
 import { CustomerRegistrationPasswordProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
-import api from "@/src/services/Api";
+import { apiUsers } from "@/src/services/Api";
 import { ApiError } from "@/src/types/ApiErrorType";
 import { getErrorMessage } from "@/src/utils/errorHandler";
 
@@ -48,7 +48,7 @@ export const CustomerRegistrationPassword: React.FC<CustomerRegistrationPassword
         password
       }
 
-      const response = await api.post("/customer", payload);
+      const response = await apiUsers.post("/customer", payload);
       setSuccessMessage(response.data.message || "Cadastro realizado com sucesso!");
 
       setTimeout(() => {

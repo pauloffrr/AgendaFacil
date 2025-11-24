@@ -1,50 +1,69 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
-import axios from "axios";
-import { Logo } from "@/src/components/display/Logo";
-import { UserIcon } from "@/src/components/buttons/UserIcon";
 import { SelectDate } from "@/src/components/buttons/SelectDate";
+import { UserIcon } from "@/src/components/buttons/UserIcon";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
-import { colors } from "@/src/styles/theme";
-import { Calendar } from "react-native-big-calendar";
-import { SchedulingEventsProps } from "@/src/types/SchedulingEventsType";
+import { Logo } from "@/src/components/display/Logo";
 import { CancelAppoimentModal } from "@/src/components/modals/CancelAppoimentModal";
-import { SchedulingProps } from "@/src/types/Scheduling";
-import { API_URL } from '@env';
+import { useUser } from "@/src/context/UserContext";
+import { apiNotifications, apiScheduling } from "@/src/services/Api";
+import { colors } from "@/src/styles/theme";
+import { ApiError } from "@/src/types/ApiErrorType";
+import { SchedulingEventsProps } from "@/src/types/SchedulingEventsType";
+import { SchedulingProps } from "@/src/types/SchedulingType";
+import { getErrorMessage } from "@/src/utils/errorHandler";
+import { API_URL_NOTIFICATIONS, API_URL_SCHEDULING } from '@env';
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
+import { Calendar } from "react-native-big-calendar";
 
 export const CustomerScheduling: React.FC = () => {
     const [scheduling, setScheduling] = useState<SchedulingEventsProps[]>([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<SchedulingEventsProps | null>(null);
+    const [errorMessage, setErrorMessage] = useState("");
+    const { user } = useUser();
 
-    const getScheduling = async () => {
+    const getSchedulingCustomer = async () => {
         try {
-            const response = await axios.get(`${API_URL}/scheduling`);
-            const events = response.data.map((item: SchedulingProps) => {
-                const [year, month, day] = item.date.split("-").map(Number);
-                const [startHour, startMinute] = item.startTime.split(":").map(Number);
-                const [endHour, endMinute] = item.endTime.split(":").map(Number);
+            const response = await apiScheduling.get(`${API_URL_SCHEDULING}/scheduling-customer/customer/${user?.idUser}`);
+
+            const mapped = response.data.map((item: SchedulingProps) => {
+                const start = new Date(`${item.startDate}T${item.startHour}`);
+                const end = new Date(`${item.endDate}T${item.endHour}`);
 
                 return {
                     id: item.idScheduling,
-                    title: `${item.profession}`,
-                    start: new Date(year, month - 1, day, startHour, startMinute),
-                    end: new Date(year, month - 1, day, endHour, endMinute),
+                    companyId: item.company.idCompany,
+                    name: item.company.name,
+                    customerId: item.customer.idCustomer,
+                    profession: item.company.profession,
+                    title: item.title,
+                    start,
+                    end,
                     status: item.status
                 };
-        });
-            setScheduling(events);
+            });
+
+            setScheduling(mapped);
+            setErrorMessage("");
         } catch (error) {
-            console.error("Erro ao buscar Agendamentos", error);
+            let errorMsg = "Erro ao buscar agendamentos. Tente novamente!";
+                                          
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+    
+            setErrorMessage(errorMsg);
         }
     };
 
     useEffect(() => {
-        getScheduling();
+        getSchedulingCustomer();
     }, []);
 
-    const filteredEvents = scheduling.filter(event =>
+    const filteredEvents = scheduling.filter((event) =>
         event.start.getDate() === selectedDate.getDate() &&
         event.start.getMonth() === selectedDate.getMonth() &&
         event.start.getFullYear() === selectedDate.getFullYear()
@@ -55,13 +74,51 @@ export const CustomerScheduling: React.FC = () => {
         setModalVisible(true);
     }
 
-    const cancelScheduling = async (eventId: number) => {
+    const cancelScheduling = async (id: number) => {
         try {
-            await axios.put(`${API_URL}/scheduling/${eventId}`, { status: "CANCELLED" });
+            const event = scheduling.find(item => item.id === id);
+
+            if (!event) {
+                setErrorMessage("Agendamento não encontrado");
+                return;
+            }
+
+            const day = event.start.toLocaleDateString('pt-BR');
+            const startHour = event.start.toLocaleTimeString('pt-BR', { hour: "2-digit", minute: "2-digit" });
+            const endHour = event.end.toLocaleTimeString('pt-BR', { hour: "2-digit", minute: "2-digit" });
+
+            const payloadNotificationCompany = {
+                companyId: event.companyId,
+                customerId: user?.idUser,
+                type: 'Cancelado',
+                text: `${user?.name} cancelou o agendamento com você no dia ${day} das ${startHour} às ${endHour}`,
+                street: user?.street,
+                number: user?.number,
+                schedulingDate: event.start.toISOString(),
+                schedulingStartTime: startHour,
+                schedulingEndTime: endHour,
+                date: new Date()
+            };
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-company`, payloadNotificationCompany);
+
+            const payloadNotificationCustomer = {
+                companyId: event.companyId,
+                customerId: user?.idUser,
+                type: 'Cancelado',
+                text: `Você cancelou o agendamento com ${event.name} no dia ${day} das ${startHour} às ${endHour}`,
+                profession: event.profession,
+                schedulingDate: event.start.toISOString(),
+                schedulingStartTime: startHour,
+                schedulingEndTime: endHour,
+                date: new Date()
+            };
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadNotificationCustomer);
+
+            await apiScheduling.put(`${API_URL_SCHEDULING}/scheduling-customer/${id}`, { status: "CANCELLED" });
 
             setScheduling(prev =>
                 prev.map(event =>
-                    event.id === eventId ? { ...event, status: "CANCELLED", color: colors.red } : event
+                    event.id === id ? { ...event, status: "CANCELLED", color: colors.red } : event
                 )
             );
         } catch (error) {
@@ -85,7 +142,11 @@ export const CustomerScheduling: React.FC = () => {
                     mode="day"
                     date={selectedDate}
                     renderHeader={() => null}
-                    onPressEvent={handleEventPress}
+                    onPressEvent={(event) => {
+                        if(event.status === "CONFIRMED") {
+                            handleEventPress(event)
+                        }
+                    }}
                     eventCellStyle={(event) => {
                         if (event.status === "CANCELLED") {
                             return { backgroundColor: colors.red };
@@ -105,6 +166,8 @@ export const CustomerScheduling: React.FC = () => {
                     setModalVisible(false);
                 }}
             />
+
+            { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
 
             <CustomerNavigationBar />
         </View>
@@ -126,5 +189,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginTop: "20%"
+    },
+    errorMessage: {
+        fontSize: 18,
+        marginTop: "3%",
+        color: colors.red,
+        fontWeight: "bold"
     }
 });
