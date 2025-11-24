@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarCheck, faCalendarXmark, faBell, faCircleQuestion, faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +23,7 @@ export const NotificationCompany: React.FC = () => {
     const [endTime, setEndTime] = useState<Date | null>(null);
     const [currentNotification, setCurrentNotification] = useState<Notification | null>(null);
     const { user } = useUser();
+    const endTimeRef = useRef<Date | null>(null);
 
     const showTimePicker = () => setTimePickerVisibility(true);
     const hideTimePicker = () => setTimePickerVisibility(false);
@@ -76,22 +77,24 @@ export const NotificationCompany: React.FC = () => {
         }
 
         setEndTime(selectedTime);
+        endTimeRef.current = selectedTime;
         hideTimePicker();
 
         setModalConfig(prev => prev ? {
             ...prev,
-            timeValue: selectedTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+            timeValue: selectedTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         } : prev);
     };
 
-    const confirmNotification = useCallback(async () => {
+    const confirmNotification = async () => {
         if (!currentNotification) {
             alert("Falha ao processar a notificação. Tente novamente.");
             setModalConfig(null);
             return;
         }
         
-        if (!endTime) {
+        const finalEndTime = endTime || endTimeRef.current;
+        if (!finalEndTime) {
             alert("Por favor, selecione o Horário Final antes de confirmar.");
             return;
         }
@@ -99,7 +102,7 @@ export const NotificationCompany: React.FC = () => {
         const notification = currentNotification;
         const customer = notification.customer;
         const company = notification.company;
-        const textTime = formatEndTime(endTime);
+        const textTime = formatEndTime(finalEndTime);
     
         if (!customer?.idCustomer || !user?.idUser) {
             alert("Dados de usuário ou cliente incompletos.");
@@ -181,7 +184,7 @@ export const NotificationCompany: React.FC = () => {
 
             setErrorMessage(errorMsg);
         }
-    }, [currentNotification, endTime, user]);
+    }
 
     const cancelNotification = async (notification: Notification) => {
         try {
@@ -221,14 +224,15 @@ export const NotificationCompany: React.FC = () => {
         }
     };
 
-    const extendScheduling = useCallback(async () => {
+    const extendScheduling = async () => {
         if (!currentNotification) {
             alert("Falha ao processar a notificação. Tente novamente.");
             setModalConfig(null);
             return;
         }
         
-        if (!endTime) {
+        const finalEndTime = endTime || endTimeRef.current;
+        if (!finalEndTime) {
             alert("Por favor, selecione o Horário Final antes de confirmar.");
             return;
         }
@@ -237,7 +241,7 @@ export const NotificationCompany: React.FC = () => {
         const customer = notification.customer;
         const company = notification.company;
         const scheduling = notification.scheduling;
-        const textTime = formatEndTime(endTime);
+        const textTime = formatEndTime(finalEndTime);
 
         try {
             await apiScheduling.put(
@@ -285,7 +289,7 @@ export const NotificationCompany: React.FC = () => {
 
             setErrorMessage(errorMsg);
         }
-    }, [currentNotification, endTime, user]);
+    }
 
     const openConfirmModal = (notification: Notification) => {
         setEndTime(null);
