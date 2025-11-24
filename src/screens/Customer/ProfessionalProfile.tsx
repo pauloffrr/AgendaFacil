@@ -117,7 +117,6 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
         schedulingStartTime: startTime,
         date: new Date()
       }
-
       await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-company`, payloadCompany);
 
       const payloadCustomer = {
@@ -130,7 +129,6 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
         schedulingStartTime: startTime,
         date: new Date()
       };
-
       await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadCustomer);
 
       setSucessMessage("Solicitação de agendamento enviada! Acompanhe no menu de notificações.")
@@ -143,10 +141,15 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
       }, 2000)
       
     } catch (error) {
-      setErrorMessage("Erro ao realizar o cadastro do Horário " + error)
-      setTimeout(() => {
-        setErrorMessage("")
-      }, 1500)
+      let errorMsg = "Erro ao buscar notificações. Tente novamente!";
+                        
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
     }
   }
 

@@ -37,9 +37,9 @@ export const NotificationCompany: React.FC = () => {
             let errorMsg = "Erro ao buscar notificações. Tente novamente!";
                   
             if (typeof error === 'object' && error !== null) {
-            errorMsg = getErrorMessage(error as ApiError);
+                errorMsg = getErrorMessage(error as ApiError);
             } else if (typeof error === 'string') {
-            errorMsg = error;
+                errorMsg = error;
             }
     
             setErrorMessage(errorMsg);
@@ -97,17 +97,52 @@ export const NotificationCompany: React.FC = () => {
         }
         
         const notification = currentNotification;
+        const customer = notification.customer;
+        const company = notification.company;
+        const textTime = formatEndTime(endTime);
+    
+        if (!customer?.idCustomer || !user?.idUser) {
+            alert("Dados de usuário ou cliente incompletos.");
+            setModalConfig(null);
+            return;
+        }
 
         try {
-            const customer = notification.customer;
-            const company = notification.company;
-            const textTime = formatEndTime(endTime);
+            const payloadSchedulingCustomer = {
+                companyId: user?.idUser,
+                customerId: customer?.idCustomer,
+                title: `${company?.name} - ${company?.street}, N° ${company?.number}`,
+                startDate: notification.schedulingDate,
+                endDate: notification.schedulingDate,
+                startHour: notification.schedulingStartTime,
+                endHour: textTime
+            }
+            const schedulingCustomerResponse = await apiScheduling.post(
+                `${API_URL_SCHEDULING}/scheduling-customer`, payloadSchedulingCustomer
+            );
+            const idSchedulingCustomer = schedulingCustomerResponse.data.idSchedulingCustomer;
 
-            const payloadNotification = {
+            const payloadSchedulingCompany = {
+                companyId: user?.idUser,
+                customerId: customer?.idCustomer,
+                schedulingCustomerId: idSchedulingCustomer,
+                title: `${customer?.name} - ${customer?.street}, N° ${customer?.number}`,
+                startDate: notification.schedulingDate,
+                endDate: notification.schedulingDate,
+                startHour: notification.schedulingStartTime,
+                endHour: textTime
+            }
+            const schedulingCompanyResponse = await apiScheduling.post(
+                `${API_URL_SCHEDULING}/scheduling-company`, payloadSchedulingCompany
+            );
+            const idSchedulingCompany = schedulingCompanyResponse.data.idSchedulingCompany;
+
+            const payloadNotificationCompany = {
                 type: 'Confirmado',
                 text: `Você confirmou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} às ${notification.schedulingStartTime} até ${textTime}`,
                 street: customer?.street,
                 number: customer?.number,
+                schedulingCompanyId: idSchedulingCompany,
                 schedulingDate: notification.schedulingDate,
                 schedulingStartTime: notification.schedulingStartTime,
                 schedulingEndTime: textTime,
@@ -115,10 +150,10 @@ export const NotificationCompany: React.FC = () => {
             };
             await apiNotifications.put(
                 `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
-                payloadNotification
+                payloadNotificationCompany
             );
 
-            const payloadCustomer = {
+            const payloadNotificationCustomer = {
                 customerId: customer?.idCustomer,
                 companyId: user?.idUser,
                 type: 'Confirmado',
@@ -129,37 +164,22 @@ export const NotificationCompany: React.FC = () => {
                 schedulingEndTime: textTime,
                 date: new Date()
             }
-            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer/`, payloadCustomer);
-
-            const payloadSchedulingCompany = {
-                companyId: user?.idUser,
-                customerId: customer?.idCustomer,
-                title: `${customer?.name} - ${customer?.street}, N° ${customer?.number}`,
-                startDate: notification.schedulingDate,
-                endDate: notification.schedulingDate,
-                startHour: notification.schedulingStartTime,
-                endHour: textTime
-            }
-            await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-company`, payloadSchedulingCompany);
-
-            const payloadSchedulingCustomer = {
-                companyId: user?.idUser,
-                customerId: customer?.idCustomer,
-                title: `${company?.name} - ${company?.street}, N° ${company?.number}`,
-                startDate: notification.schedulingDate,
-                endDate: notification.schedulingDate,
-                startHour: notification.schedulingStartTime,
-                endHour: textTime
-            }
-            await apiScheduling.post(`${API_URL_SCHEDULING}/scheduling-customer`, payloadSchedulingCustomer);
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer/`, payloadNotificationCustomer);
 
             setModalConfig(null);
             setCurrentNotification(null);
             await getNotificationsCompany();
 
         } catch (error) {
-            setErrorMessage("Erro ao confirmar agendamento!");
-            setModalConfig(null);
+            let errorMsg = "Erro ao buscar notificações. Tente novamente!";
+                    
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+
+            setErrorMessage(errorMsg);
         }
     }, [currentNotification, endTime, user]);
 
@@ -200,6 +220,72 @@ export const NotificationCompany: React.FC = () => {
             setModalConfig(null);
         }
     };
+
+    const extendScheduling = useCallback(async () => {
+        if (!currentNotification) {
+            alert("Falha ao processar a notificação. Tente novamente.");
+            setModalConfig(null);
+            return;
+        }
+        
+        if (!endTime) {
+            alert("Por favor, selecione o Horário Final antes de confirmar.");
+            return;
+        }
+        
+        const notification = currentNotification;
+        const customer = notification.customer;
+        const company = notification.company;
+        const scheduling = notification.scheduling;
+        const textTime = formatEndTime(endTime);
+
+        try {
+            await apiScheduling.put(
+                `${API_URL_SCHEDULING}/scheduling-company/${notification.schedulingCompanyId}`,
+                { endHour: textTime, notificationSent: false }
+            );
+            await apiScheduling.put(
+                `${API_URL_SCHEDULING}/scheduling-customer/${scheduling?.schedulingCustomerId}`,
+                { endHour: textTime }
+            );
+            
+            const payloadNotificationCustomer = {
+                customerId: customer?.idCustomer,
+                companyId: user?.idUser,
+                type: 'Lembrete',
+                text: `${company?.name} estendeu o horário do seu agendamento até ás ${textTime}.`,
+                profession: company?.profession,
+                date: new Date()
+            }
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadNotificationCustomer);
+            
+            const payloadNotificationCompany = {
+                type: 'Lembrete',
+                text: `Você estendeu o horário do agendamento com ${customer?.name} até ás ${textTime}`,
+                schedulingCompanyId: notification.schedulingCompanyId,
+                schedulingEndTime: textTime,
+                date: new Date()
+            }
+            await apiNotifications.put(
+                `${API_URL_NOTIFICATIONS}/notifications-company/${notification.idNotificationCompany}`,
+                payloadNotificationCompany
+            );
+
+            setModalConfig(null);
+            await getNotificationsCompany();
+
+        } catch (error) {
+            let errorMsg = "Erro ao buscar notificações. Tente novamente!";
+                            
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+
+            setErrorMessage(errorMsg);
+        }
+    }, [currentNotification, endTime, user]);
 
     const openConfirmModal = (notification: Notification) => {
         setEndTime(null);
@@ -244,7 +330,9 @@ export const NotificationCompany: React.FC = () => {
         });
     };
 
-    const openFinalizeModal = () => {
+    const openFinalizeModal = (notification: Notification) => {
+        setCurrentNotification(notification);
+
         setModalConfig({
             text: "Tem certeza que deseja concluir este serviço?",
             buttonProps: {
@@ -258,6 +346,32 @@ export const NotificationCompany: React.FC = () => {
                 secondTextColor: colors.black
             },
             height: 220
+        });
+    };
+
+    const openExtendModal = (notification: Notification) => {
+        setEndTime(null);
+        setCurrentNotification(notification);
+
+        setModalConfig({
+            text: "Para qual horário deseja estender o horário deste serviço?",
+            showTimeInput: true,
+            timeValue: "",
+            onPressTime: showTimePicker,
+            buttonProps: {
+                firstOnPress: () => extendScheduling(),
+                secondOnPress: () => {
+                    setModalConfig(null);
+                    setCurrentNotification(null);
+                },
+                firstButtonText: "Confirmar",
+                secondButtonText: "Voltar",
+                firstButtonColor: colors.green,
+                secondButtonColor: colors.light_gray,
+                firstTextColor: colors.white,
+                secondTextColor: colors.black
+            },
+            height: 330
         });
     };
 
@@ -367,7 +481,8 @@ export const NotificationCompany: React.FC = () => {
 
                         {item.type === "Serviço Finalizado?" && (
                             <DuoButtons 
-                                firstOnPress={openFinalizeModal}
+                                firstOnPress={() => openFinalizeModal(item)}
+                                secondOnPress={() => openExtendModal(item)}
                                 firstButtonText="Concluir" 
                                 secondButtonText="Estender"
                                 firstButtonColor={colors.blue}

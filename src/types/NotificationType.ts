@@ -14,6 +14,7 @@ export interface Notification {
   companyId: number;
   type: NotificationType;
   text: string;
+  schedulingCompanyId: number;
   schedulingDate: string;
   schedulingStartTime: string;
   schedulingEndTime: string;
@@ -33,5 +34,18 @@ export interface Notification {
     street: string;
     number: number;
     phone: string;
+  };
+  scheduling?: {
+    idSchedulingCompany: number;
+    companyId: number;
+    customerId: number;
+    schedulingCustomerId: number;
+    title: string;
+    startDate: string;
+    endDate: string;
+    startHour: string;
+    endHour: string;
+    status: string;
+    notificationSent: boolean;
   }
 };
