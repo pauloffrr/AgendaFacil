@@ -46,6 +46,7 @@ export interface Notification {
     startHour: string;
     endHour: string;
     status: string;
+    budget: number;
     notificationSent: boolean;
   }
 };

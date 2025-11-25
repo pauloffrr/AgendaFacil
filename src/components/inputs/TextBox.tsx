@@ -27,7 +27,7 @@ export const TextBox: React.FC<InputProps> = ({
 const styles = StyleSheet.create({ 
   container: { 
     width: "100%", 
-    marginTop: "5%" 
+    marginTop: "10%" 
   }, 
   label: { 
     alignSelf: "flex-start", 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   }, 
   input: { 
     width: "100%", 
-    height: "70%", 
+    height: "40%", 
     borderWidth: 1, 
     borderColor: colors.light_gray, 
     borderRadius: 8, 

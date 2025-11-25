@@ -4,8 +4,46 @@ import { colors } from "@/src/styles/theme";
 import { ModalConfirmProps } from "@/src/types/ModalConfirmType";
 import { DuoButtons } from "../buttons/DuoButtons";
 import { DateTimeInput } from "../inputs/DateTimeInput";
+import { Input } from "../inputs/Input";
 
-export const ModalConfirm: React.FC<ModalConfirmProps> = ({ visible, text, showTimeInput, timeValue, onPressTime, buttonProps, height }) => {
+export const ModalConfirm: React.FC<ModalConfirmProps> = ({ 
+    visible, 
+    text, 
+    inputType = 'none', 
+    timeValue, 
+    onPressTime,
+    budget,
+    onChangeBudget,
+    buttonProps, 
+    height 
+}) => {
+
+    const renderInput = () => {
+        switch (inputType) {
+            case 'time':
+                return (
+                    <DateTimeInput
+                        label="Horário Final"
+                        placeholder="hh:mm"
+                        value={timeValue || ""}
+                        onPressIn={onPressTime}
+                    />
+                );
+            case 'budget':
+                return (
+                    <Input 
+                        label="Orçamento"
+                        placeholder="Digite o orçamento do serviço"
+                        value={budget || ""}
+                        onChangeText={onChangeBudget}
+                        keyboardType="numeric"
+                    />
+                );
+            case 'none':
+            default:
+                return null;
+        }
+    };
 
     return (
         <Modal visible={visible} transparent animationType="slide" onRequestClose={buttonProps.secondOnPress}>
@@ -15,14 +53,7 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = ({ visible, text, showT
                         <View style={styles.content}>
                             <Text style={styles.text}>{ text }</Text>
 
-                            {showTimeInput && (
-                                <DateTimeInput
-                                    label="Horário Final"
-                                    placeholder="hh:mm"
-                                    value={timeValue || ""}
-                                    onPressIn={onPressTime}
-                                />
-                            )}
+                            {renderInput()}
 
                             <View style={styles.buttons}>
                                 <DuoButtons 

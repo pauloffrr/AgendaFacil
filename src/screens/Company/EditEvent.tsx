@@ -12,7 +12,6 @@ import { Input } from "@/src/components/inputs/Input";
 import { Button } from "@/src/components/buttons/Button";
 import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
 import { CompanyEditEventProps, CompanyEditEventRouteProp } from "@/src/types/CompanyStackType";
-import { CompanySchedulingMock } from "@/src/data/CompanySchedulingMock";
 import { colors } from "@/src/styles/theme";
 import { SchedulingEventsProps } from "@/src/types/SchedulingEventsType";
 import { apiScheduling } from "@/src/services/Api";
