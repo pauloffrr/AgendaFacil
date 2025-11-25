@@ -49,16 +49,6 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
     }
   }
 
-  useEffect(() => {
-    getProfessionalProfile();
-  }, []);
-
-  useEffect(() => {
-    if (professional && professional.idCompany) {
-      getReviews();
-    }
-  }, [professional]);
-
   const getReviews = async () => {
     try {
       const response = await apiUsers.get(`${API_URL_USERS}/reviews/company/${professional?.idCompany}`);
@@ -152,6 +142,16 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
       setErrorMessage(errorMsg);
     }
   }
+
+  useEffect(() => {
+    getProfessionalProfile();
+  }, []);
+
+  useEffect(() => {
+    if (professional && professional.idCompany) {
+      getReviews();
+    }
+  }, [professional]);
 
   return (
     <View style={styles.screen}>

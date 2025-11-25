@@ -39,10 +39,6 @@ export const NotificationCustomer: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    getNotificationsCustomer();
-  }, []);
-
   const handleReview = (item: Notification) => {
     setCurrentNotification(item);
     setModalVisible(true);
@@ -163,6 +159,10 @@ export const NotificationCustomer: React.FC = () => {
     const date = new Date(isoString);
     return date.toLocaleDateString("pt-BR");
   };
+
+  useEffect(() => {
+    getNotificationsCustomer();
+  }, []);
 
   return (
     <View style={styles.container}>

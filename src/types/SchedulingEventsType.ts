@@ -1,11 +1,17 @@
 export interface SchedulingEventsProps {
     id: number;
+    idSchedulingCompany: number;
+    name: string
     companyId: number;
-    name: string;
     customerId: number;
-    profession: string;
+    schedulingCustomerId: number;
     title: string;
-    start: Date
+    start: Date;
     end: Date;
+    startDate: string;
+    endDate: string;
+    startHour: string;
+    endHour: string;
+    profession: string;
     status: string;
 }

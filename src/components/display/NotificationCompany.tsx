@@ -405,7 +405,7 @@ export const NotificationCompany: React.FC = () => {
         });
     };
 
-     const openCancelModal = (notification: Notification) => {
+    const openCancelModal = (notification: Notification) => {
         setModalConfig({
             text: "Tem certeza que deseja cancelar este serviço?",
             buttonProps: {
