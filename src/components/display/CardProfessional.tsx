@@ -20,7 +20,7 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional
               size={13}
               style={styles.icon}
             />
-            <Text style={styles.assessment}>{professional.averageRating}</Text>
+            <Text style={styles.assessment}>{professional.averageRating.toFixed(1)}</Text>
           </View>
 
           <View style={styles.spacing}>

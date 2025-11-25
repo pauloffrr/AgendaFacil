@@ -14,6 +14,7 @@ import { API_URL_NOTIFICATIONS, API_URL_SCHEDULING } from "@env";
 import { useUser } from "@/src/context/UserContext";
 import { getErrorMessage } from "@/src/utils/errorHandler";
 import { ApiError } from "@/src/types/ApiErrorType";
+import { formatCurrency, cleanCurrency } from "@/src/utils/currencyFormatter";
 
 export const NotificationCompany: React.FC = () => {
     const [modalConfig, setModalConfig] = useState<ModalConfirmProps | null>(null);
@@ -21,9 +22,11 @@ export const NotificationCompany: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [endTime, setEndTime] = useState<Date | null>(null);
+    const [budget, setBudget] = useState<string | null>(null);
     const [currentNotification, setCurrentNotification] = useState<Notification | null>(null);
     const { user } = useUser();
     const endTimeRef = useRef<Date | null>(null);
+    const budgetRef = useRef<string | null>(null);
 
     const showTimePicker = () => setTimePickerVisibility(true);
     const hideTimePicker = () => setTimePickerVisibility(false);
@@ -83,6 +86,18 @@ export const NotificationCompany: React.FC = () => {
         setModalConfig(prev => prev ? {
             ...prev,
             timeValue: selectedTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        } : prev);
+    };
+
+    const handleBudgetChange = (text: string) => {
+        const formattedText = formatCurrency(text);
+
+        setBudget(formattedText);
+        budgetRef.current = formattedText;
+
+        setModalConfig(prev => prev ? {
+            ...prev,
+            budget: formattedText,
         } : prev);
     };
 
@@ -231,13 +246,39 @@ export const NotificationCompany: React.FC = () => {
     };
 
     const finalizeScheduling = async (notification: Notification) => {
+        if (!notification) {
+            alert("Falha ao processar a notificação. Tente novamente.");
+            setModalConfig(null);
+            return;
+        }
+
         const customer = notification.customer;
         const company = notification.company;
+        const scheduling = notification.scheduling;
+
+        const rawBudget = budget || budgetRef.current;
+        if (!rawBudget) {
+            alert("Por favor, informe um orçamento antes de confirmar.");
+            return;
+        }
+
+        const cleanedBudget: string = cleanCurrency(rawBudget);
+        const budgetAsFloat = parseFloat(cleanedBudget);
+
+        if (isNaN(budgetAsFloat) || budgetAsFloat <= 0) {
+            alert("Por favor, informe um orçamento válido (maior que zero) antes de confirmar.");
+            return;
+        }
 
         try {
+            await apiScheduling.put(
+                `${API_URL_SCHEDULING}/scheduling-company/${scheduling?.idSchedulingCompany}`,
+                { budget: budgetAsFloat }
+            );
+
             const payloadCompany = {
                 type: 'Concluído',
-                text: `Você finzalizou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} das ${notification.schedulingStartTime} até ${notification.schedulingEndTime}.`,
+                text: `Você finalizou o atendimento com ${customer?.name} no dia ${formatDateNotification(notification.schedulingDate)} das ${notification.schedulingStartTime} até ${notification.schedulingEndTime}.`,
                 date: new Date()
             };
             await apiNotifications.put(
@@ -249,13 +290,14 @@ export const NotificationCompany: React.FC = () => {
                 customerId: customer?.idCustomer,
                 companyId: user?.idUser,
                 type: 'Avaliação',
-                text: `${company?.name} finzalizou o seu agendamento para o dia ${formatDateNotification(notification.schedulingDate)} das ${notification.schedulingStartTime} até ${notification.schedulingEndTime}. Deseja Avaliar?`,
+                text: `${company?.name} finalizou o seu agendamento para o dia ${formatDateNotification(notification.schedulingDate)} das ${notification.schedulingStartTime} até ${notification.schedulingEndTime}. Deseja Avaliar?`,
                 profession: company?.profession,
                 date: new Date()
             }
             await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadCustomer);
             
             setModalConfig(null);
+            setCurrentNotification(null);
             await getNotificationsCompany();
 
         } catch (error) {
@@ -342,7 +384,7 @@ export const NotificationCompany: React.FC = () => {
 
         setModalConfig({
             text: "Tem certeza que deseja confirmar este serviço?",
-            showTimeInput: true,
+            inputType: 'time',
             timeValue: "",
             onPressTime: showTimePicker,
             notificationContext: notification,
@@ -381,11 +423,26 @@ export const NotificationCompany: React.FC = () => {
     };
 
     const openFinalizeModal = (notification: Notification) => {
+        const initialBudget = notification.scheduling?.budget 
+            ? formatCurrency(String(notification.scheduling.budget))
+            : "";
+
+        setBudget(initialBudget);
+        budgetRef.current = initialBudget;
+
         setModalConfig({
             text: "Tem certeza que deseja concluir este serviço?",
+            inputType: 'budget',
+            budget: initialBudget,
+            onChangeBudget: handleBudgetChange,
+            notificationContext: notification,
             buttonProps: {
                 firstOnPress: () => finalizeScheduling(notification),
-                secondOnPress: () => setModalConfig(null),
+                secondOnPress: () => {
+                    setModalConfig(null);
+                    setCurrentNotification(null);
+                    setBudget(null);
+                },
                 firstButtonText: "Concluir",
                 secondButtonText: "Voltar",
                 firstButtonColor: colors.blue,
@@ -393,7 +450,7 @@ export const NotificationCompany: React.FC = () => {
                 firstTextColor: colors.white,
                 secondTextColor: colors.black
             },
-            height: 220
+            height: 330
         });
     };
 
@@ -402,7 +459,7 @@ export const NotificationCompany: React.FC = () => {
 
         setModalConfig({
             text: "Para qual horário deseja estender o horário deste serviço?",
-            showTimeInput: true,
+            inputType: 'time',
             timeValue: "",
             onPressTime: showTimePicker,
             notificationContext: notification,
@@ -563,7 +620,10 @@ export const NotificationCompany: React.FC = () => {
         )}
 
         {modalConfig && (
-            <ModalConfirm {...modalConfig} visible={!!modalConfig} />
+            <ModalConfirm 
+                {...modalConfig} 
+                visible={!!modalConfig}
+            />
         )}
 
     </View>

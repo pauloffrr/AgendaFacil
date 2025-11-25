@@ -11,8 +11,20 @@ export const CustomerReviewModal: React.FC<CustomerReviewModalProps> = ({ visibl
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
 
+  const resetForm = () => {
+    setDescription("");
+    setRating(0);
+  };
+
+  const handleClose = () => {
+    onClose();
+    resetForm();
+  };
+
   const handleSend = () => {
     if (onSubmitReview) onSubmitReview(description, rating);
+
+    resetForm();
     onClose();
   };
 
@@ -40,7 +52,7 @@ export const CustomerReviewModal: React.FC<CustomerReviewModalProps> = ({ visibl
           />
 
           <View style={styles.buttons}>
-            <TouchableOpacity style={styles.buttonClose} onPress={onClose}>
+            <TouchableOpacity style={styles.buttonClose} onPress={handleClose}>
               <Text style={styles.buttonTextClose}>Voltar</Text>
             </TouchableOpacity>
 
@@ -65,7 +77,7 @@ const styles = StyleSheet.create({
     padding: "5%",
     borderRadius: 10,
     width: "100%",
-    height: 450,
+    height: 330,
   },
   stars: {
     flexDirection: "row",
