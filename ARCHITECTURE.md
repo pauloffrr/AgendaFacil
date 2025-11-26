@@ -196,16 +196,66 @@ Contexto dedicado ao perfil principal:
 - Notificar clientes sobre cancelamentos e atrasos.
 - Enviar avisos por canais integrados (Push, E-mail, SMS, WhatsApp).
 
+
+### Contexto de Usuário e Autenticação
+
+Responsável por:
+
+- cadastro,
+- login,
+- recuperação de senha,
+- perfis (cliente, profissional).
+
+### Contexto de Agendamentos (Microsserviço)
+
+Contém:
+
+- lógica de horários,
+- disponibilidade,
+- criação, edição e cancelamento.
+
+### Contexto de Notificações (Microssserviço)
+
+Trata:
+
+- push notifications,
+- aviso de agendamento confirmado/cancelado,
+- lembretes.
+
+### Contexto Administrativo
+
+Inclui:
+
+- gerenciamento de profissionais,
+- regras de negócio internas,
+- configurações do sistema.
+
+### Contexto de Dados Operacionais
+
+Abrange:
+
+- logs de operação,
+- dados de acesso,
+- registros de erros.
+
 ---
+
+
 
 ## Entities, Values e Aggregates:
 
 ### Entities (Entidades)
 
-- Usuário
-- Prestador
-- Serviço
-- Agendamento
+- Admin
+- Empresa
+- Cliente
+- Agendamento da Empresa
+- Agendamento do Cliente
+- Avaliações
+- Notificações da Empresa
+- Notificações do Cliente
+- Favoritos
+- Relatórios
 
 ### Value Objects (Objetos de Valor)
 
@@ -351,11 +401,9 @@ Implementar sistema de mensageria interno baseado em eventos:
 - **Dead Letter Queue**: eventos falhados após múltiplas tentativas são isolados para análise
 
 **Tipos de Eventos Principais**:
-- `AGENDAMENTO_CRIADO` → Notifica prestador e cliente
-- `AGENDAMENTO_CANCELADO` → Notifica ambas as partes
-- `LEMBRETE_AGENDAMENTO` → Envia notificação 1 hora antes
-- `USUARIO_REGISTRADO` → Envia email de boas-vindas
-- `AVALIACAO_CRIADA` → Notifica prestador sobre nova avaliação
+AGENDAMENTO_CRIADO → invalida cache de horários disponíveis
+PRESTADOR_ATUALIZADO → invalida cache do perfil específico
+AVALIACAO_CRIADA → invalida cache de média de avaliações
 
 **Padrões Aplicados**:
 - **Event Sourcing Light**: eventos representam mudanças no estado do domínio
@@ -731,53 +779,6 @@ O restante permanece no monólito por simplicidade e redução de complexidade.
   - consultas otimizadas,
   - indexação no PostgreSQL,
   - redução de carga no monolito com processamento assíncrono.
-
----
-
-## Bounded Contexts:
-
-A aplicação Agenda Fácil é dividida nos seguintes BCs:
-
-### 1. Contexto de Usuário e Autenticação
-
-Responsável por:
-
-- cadastro,
-- login,
-- recuperação de senha,
-- perfis (cliente, profissional).
-
-### 2. Contexto de Agendamentos (Microsserviço)
-
-Contém:
-
-- lógica de horários,
-- disponibilidade,
-- criação, edição e cancelamento.
-
-### 3. Contexto de Notificações (Microssserviço)
-
-Trata:
-
-- push notifications,
-- aviso de agendamento confirmado/cancelado,
-- lembretes.
-
-### 4. Contexto Administrativo
-
-Inclui:
-
-- gerenciamento de profissionais,
-- regras de negócio internas,
-- configurações do sistema.
-
-### 5. Contexto de Dados Operacionais
-
-Abrange:
-
-- logs de operação,
-- dados de acesso,
-- registros de erros.
 
 ---
 
