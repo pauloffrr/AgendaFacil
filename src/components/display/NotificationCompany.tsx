@@ -147,7 +147,8 @@ export const NotificationCompany: React.FC = () => {
                 startDate: notification.schedulingDate,
                 endDate: notification.schedulingDate,
                 startHour: notification.schedulingStartTime,
-                endHour: textTime
+                endHour: textTime,
+                status: 'CONFIRMED'
             }
             const schedulingCompanyResponse = await apiScheduling.post(
                 `${API_URL_SCHEDULING}/scheduling-company`, payloadSchedulingCompany
@@ -262,10 +263,10 @@ export const NotificationCompany: React.FC = () => {
             return;
         }
 
-        const cleanedBudget: string = cleanCurrency(rawBudget);
-        const budgetAsFloat = parseFloat(cleanedBudget);
+        const cleanedBudget = cleanCurrency(rawBudget);
+        const budgetString = cleanedBudget ? String(cleanedBudget) : null;
 
-        if (isNaN(budgetAsFloat) || budgetAsFloat <= 0) {
+        if (!budgetString || isNaN(Number(budgetString))) {
             alert("Por favor, informe um orçamento válido (maior que zero) antes de confirmar.");
             return;
         }
@@ -273,7 +274,12 @@ export const NotificationCompany: React.FC = () => {
         try {
             await apiScheduling.put(
                 `${API_URL_SCHEDULING}/scheduling-company/${scheduling?.idSchedulingCompany}`,
-                { budget: budgetAsFloat }
+                { status: "COMPLETED", budget: Number(budgetString) }
+            );
+
+            await apiScheduling.put(
+                `${API_URL_SCHEDULING}/scheduling-customer/${scheduling?.schedulingCustomerId}`,
+                { status: "COMPLETED" }
             );
 
             const payloadCompany = {
@@ -405,7 +411,7 @@ export const NotificationCompany: React.FC = () => {
         });
     };
 
-     const openCancelModal = (notification: Notification) => {
+    const openCancelModal = (notification: Notification) => {
         setModalConfig({
             text: "Tem certeza que deseja cancelar este serviço?",
             buttonProps: {

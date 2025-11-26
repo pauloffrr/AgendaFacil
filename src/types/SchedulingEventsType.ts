@@ -1,11 +1,31 @@
+export type StatusType = 
+    | "CONFIRMED"
+    | "COMPLETED"
+    | "CANCELLED"
+    | "BLOCKED";
+
+export type RepeatSchedulingType =
+    | "NO"
+    | "DAYS"
+    | "WEEKS"
+    | "MONTHS"
+    | "YEARS";
+
 export interface SchedulingEventsProps {
     id: number;
+    idSchedulingCompany: number;
+    name: string
     companyId: number;
-    name: string;
     customerId: number;
-    profession: string;
+    schedulingCustomerId: number;
     title: string;
-    start: Date
+    start: Date;
     end: Date;
-    status: string;
+    startDate: string;
+    endDate: string;
+    startHour: string;
+    endHour: string;
+    profession: string;
+    status: StatusType;
+    repeatScheduling: RepeatSchedulingType;
 }

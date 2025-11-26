@@ -59,10 +59,6 @@ export const CustomerScheduling: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        getSchedulingCustomer();
-    }, []);
-
     const filteredEvents = scheduling.filter((event) =>
         event.start.getDate() === selectedDate.getDate() &&
         event.start.getMonth() === selectedDate.getMonth() &&
@@ -125,6 +121,10 @@ export const CustomerScheduling: React.FC = () => {
             console.error("Erro ao cancelar agendamento", error);
         }
     };
+
+    useEffect(() => {
+        getSchedulingCustomer();
+    }, []);
 
     return (
         <View style={styles.screen}>

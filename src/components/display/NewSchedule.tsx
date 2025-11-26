@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 import { RadioButton } from "@/src/components/buttons/RadioButton";
+import { ValueProps } from "@/src/types/RadioButtonType";
 
-export const NewSchedule: React.FC = () => {
-    const [selectedOption, setSelectedOption] = useState("");
+export const NewSchedule: React.FC<ValueProps> = ({ value, onChangeValue }) => {
 
     return (
         <View>
             <RadioButton
                 label="Bloquear Horário"
-                value="BLOCK"
-                selectedValue={selectedOption} 
-                onSelect={setSelectedOption}
+                value="BLOCKED"
+                selectedValue={value}
+                onSelect={onChangeValue}
             />
 
             <RadioButton
                 label="Adicionar novo horário"
-                value="NEW"
-                selectedValue={selectedOption}
-                onSelect={setSelectedOption}
+                value="CONFIRMED"
+                selectedValue={value}
+                onSelect={onChangeValue}
             />
         </View>
     );

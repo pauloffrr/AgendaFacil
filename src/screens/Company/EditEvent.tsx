@@ -14,10 +14,13 @@ import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigation
 import { CompanyEditEventProps, CompanyEditEventRouteProp } from "@/src/types/CompanyStackType";
 import { colors } from "@/src/styles/theme";
 import { SchedulingEventsProps } from "@/src/types/SchedulingEventsType";
-import { apiScheduling } from "@/src/services/Api";
-import { API_URL_SCHEDULING } from "@env";
+import { apiNotifications, apiScheduling, apiUsers } from "@/src/services/Api";
+import { API_URL_NOTIFICATIONS, API_URL_SCHEDULING, API_URL_USERS } from "@env";
 import { getErrorMessage } from "@/src/utils/errorHandler";
 import { ApiError } from "@/src/types/ApiErrorType";
+import { useUser } from "@/src/context/UserContext";
+import { Professional } from "@/src/types/ProfessionalType";
+import { formatCurrency, cleanCurrency } from "@/src/utils/currencyFormatter";
 
 export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
     const route = useRoute<CompanyEditEventRouteProp>();
@@ -27,9 +30,11 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
     const [title, setTitle] = useState("");
     const [budget, setBudget] = useState("");
     const [scheduling, setScheduling] = useState<SchedulingEventsProps | null>(null);
+    const [company, setCompany] = useState<Professional | null>(null);
     const [errorMessage, setErrorMessage] = useState("");
     const [startHourDate, setStartHourDate] = useState<Date | null>(null);
     const [endHourDate, setEndHourDate] = useState<Date | null>(null);
+    const { user } = useUser();
 
     const getScheduling = async () => {
         try {
@@ -66,9 +71,25 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
         }
     }
 
-    useEffect(() => {
-        getScheduling();
-    }, []);
+    const getProfessionCompany = async () => {
+        try {
+            const response = await apiUsers.get(`${API_URL_USERS}/company/${user?.idUser}`);
+
+            setCompany(response.data);
+            setErrorMessage("");
+
+        } catch (error) {
+            let errorMsg = "Erro ao buscar o agendamento. Tente novamente!";
+                                          
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+    
+            setErrorMessage(errorMsg);
+        }
+    }
 
     const dayWeek = scheduling?.start?.toLocaleDateString("pt-BR", { weekday: "long" });
     const fullDate = scheduling?.start.toLocaleDateString("pt-BR");
@@ -82,18 +103,57 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
         hideDatePicker();
     };
 
+    const handleBudgetChange = (text: string) => {
+        const formattedText = formatCurrency(text);
+        setBudget(formattedText);
+    };
+
     const updateScheduling = async () => {
+        const formatDate = (date: Date | null): string | null => {
+            if (!date) return null;
+            return date.toISOString().split('T')[0]; 
+        };
+
+        const formatTime = (hour: Date | null): string | null => {
+            if (!hour) return null;
+            return hour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', hour12: false });
+        };
+
+        const cleanedBudget: string = cleanCurrency(budget);
+        const budgetAsFloat = parseFloat(cleanedBudget);
+
         try {
             const payloadSchedulingCompany = {
                 title: title,
-                startDate: date,
-                endDate: date,
-                startHour: startHourDate,
-                endHour: endHourDate
+                startDate: formatDate(date),
+                endDate: formatDate(date),
+                startHour: formatTime(startHourDate),
+                endHour: formatTime(endHourDate),
+                budget: budgetAsFloat
             }
-            apiScheduling.put(`${API_URL_SCHEDULING}/scheduling-company/${id}`, payloadSchedulingCompany)
+            await apiScheduling.put(`${API_URL_SCHEDULING}/scheduling-company/${id}`, payloadSchedulingCompany);
+
+            const payloadSchedulingCustomer = {
+                title: title,
+                startDate: formatDate(date),
+                endDate: formatDate(date),
+                startHour: formatTime(startHourDate),
+                endHour: formatTime(endHourDate)
+            }
+            await apiScheduling.put(`${API_URL_SCHEDULING}/scheduling-customer/${scheduling?.schedulingCustomerId}`, payloadSchedulingCustomer);
+
+            const payloadNotificationCustomer = {
+                customerId: scheduling?.customerId,
+                companyId: user?.idUser,
+                type: 'Lembrete',
+                text: `${user?.name} atualizou o seu agendamento de ${scheduling?.startDate} das ${scheduling?.startHour} até ${scheduling?.endHour}.`,
+                profession: company?.profession,
+                date: new Date()
+            }
+            await apiNotifications.post(`${API_URL_NOTIFICATIONS}/notifications-customer`, payloadNotificationCustomer);
 
             await getScheduling();
+
         } catch (error) {
             let errorMsg = "Erro ao atualizar o agendamento. Tente novamente!";
                                           
@@ -106,6 +166,11 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
             setErrorMessage(errorMsg);
         }
     }
+
+    useEffect(() => {
+        getScheduling();
+        getProfessionCompany();
+    }, []);
 
     return (
         <View style={styles.screen}>
@@ -157,7 +222,7 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                         label="Orçamento"
                         placeholder="Digite o orçamento do serviço"
                         value={budget}
-                        onChangeText={setBudget}
+                        onChangeText={handleBudgetChange}
                         keyboardType="numeric"
                     />
         
