@@ -4,7 +4,11 @@ import { Picker } from "@react-native-picker/picker";
 import { MonthsMock } from "@/src/data/MonthsMock";
 import { colors } from "@/src/styles/theme";
 
-export const MonthYearInput: React.FC = () => {
+export const MonthYearInput: React.FC <{
+    onChangeMonth: (value: number) => void;
+    onChangeYear: (value: number) => void;
+}> = ({ onChangeMonth, onChangeYear }) => {
+
     const today = new Date();
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
@@ -26,7 +30,14 @@ export const MonthYearInput: React.FC = () => {
             <View style={styles.date}>
                 <Text style={styles.label}>Ano</Text>
 
-                <Picker selectedValue={year} onValueChange={(value) => setYear(value)} style={styles.input}>
+                <Picker 
+                    selectedValue={year} 
+                    onValueChange={(value) => {
+                        setYear(value);
+                        onChangeYear(value);
+                    }} 
+                    style={styles.input}
+                >
                     {years.map((year) => (
                         <Picker.Item key={year} label={String(year)} value={year} />
                     ))}
@@ -36,7 +47,14 @@ export const MonthYearInput: React.FC = () => {
             <View style={styles.date}>
                 <Text style={styles.label}>Mês</Text>
                 
-                <Picker selectedValue={month} onValueChange={(value) => setMonth(value)} style={styles.input}>
+                <Picker 
+                    selectedValue={month} 
+                    onValueChange={(value) => {
+                        setMonth(value);
+                        onChangeMonth(value);
+                    }} 
+                    style={styles.input}
+                >
                     {getSelectableMonths().map((month, increment) => (
                         <Picker.Item key={increment} label={month.month} value={increment + 1} />
                     ))}

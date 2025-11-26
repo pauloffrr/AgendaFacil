@@ -2,12 +2,15 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { colors } from "@/src/styles/theme";
 import { CompanyReportsProps } from "@/src/types/CompanyReportsType";
+import { MonthsMock } from "@/src/data/MonthsMock";
 
 export const EarningsServiceReports: React.FC<CompanyReportsProps> = ({ number, month, year }) => {
+    const monthName = MonthsMock.find(m => m.id === month)?.month || month;
+
     return (
         <View style={styles.container}>
-            <Text style={styles.number}>{ number.toFixed(2) }</Text>
-            <Text style={styles.text}>De ganhos total no mês de {month} de {year}</Text>
+            <Text style={styles.number}>{ number?.toFixed(2) }</Text>
+            <Text style={styles.text}>De ganhos total no mês de {monthName} de {year}</Text>
         </View>
     );
 };

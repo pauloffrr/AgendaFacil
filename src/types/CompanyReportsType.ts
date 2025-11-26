@@ -1,6 +1,6 @@
 export interface CompanyReportsProps {
-    number: number;
-    month: string;
-    year: number;
+    number?: number;
+    month?: number;
+    year?: number;
     status?: string;
 }
