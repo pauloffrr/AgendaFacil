@@ -107,13 +107,24 @@ export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation
         }
     }
 
-    useEffect(() => {
-        getSchedulingCompany();
-    }, []);
-
     const displayedEvents = useMemo(() => {
         return generateRecurringEventsForDay(scheduling, selectedDate);
     }, [scheduling, selectedDate]);
+
+    useEffect(() => {
+        if (displayedEvents.length === 0) return;
+
+        const firstEvent = displayedEvents[0];
+        if (!firstEvent.start) return;
+
+        const minutes = firstEvent.start.getHours() * 60 + firstEvent.start.getMinutes();
+        setScrollOffsetMinutes(minutes);
+
+    }, [selectedDate, displayedEvents]);
+
+    useEffect(() => {
+        getSchedulingCompany();
+    }, []);
 
     return (
         <View style={styles.screen}>

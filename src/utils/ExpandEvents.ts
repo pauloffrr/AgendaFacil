@@ -24,10 +24,6 @@ export const generateRecurringEventsForDay = (
             continue;
         }
 
-        if (event.start > targetDate) {
-            continue;
-        }
-
         let shouldInclude = false;
 
         switch (event.repeatScheduling) {
@@ -56,15 +52,12 @@ export const generateRecurringEventsForDay = (
 
         if (shouldInclude) {
             const newStart = new Date(targetYear, targetMonth, targetDay, event.start.getHours(), event.start.getMinutes());
-            const newEnd = new Date(targetYear, targetMonth, targetDay, event.end.getHours(), event.end.getMinutes());
-            
+        
             const duration = event.end.getTime() - event.start.getTime();
-
-            newEnd.setTime(newStart.getTime() + duration);
+            const newEnd = new Date(newStart.getTime() + duration);
 
             generatedEvents.push({
                 ...event,
-                id: event.id,
                 start: newStart,
                 end: newEnd,
                 title: `${event.title} (Recorrente)` 

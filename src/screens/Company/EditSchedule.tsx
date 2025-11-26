@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -156,7 +156,14 @@ export const EditSchedule: React.FC<CompanyEditScheduleProps> = ({ navigation })
                         keyboardType="numeric"
                     />
         
-                    <Button buttonText="Enviar" onPress={() => {navigation.navigate("Company Scheduling", {}), createScheduling()}} />
+                    <Button 
+                        buttonText="Enviar" 
+                        onPress={async () => {
+                            await createScheduling();
+                            navigation.navigate("Company Scheduling", {});
+                        }} 
+                    />
+
                 </View>
 
             </KeyboardAwareScrollView>
