@@ -9,6 +9,7 @@ import { ApiError } from "@/src/types/ApiErrorType";
 import { apiUsers } from "@/src/services/Api";
 import { API_URL_USERS } from "@env";
 import { ReviewsCompany } from "@/src/types/ReviewsCompanyType";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 export const CompanyReviews: React.FC<ReviewsCompany> = ({ companyId }) => {
   const [reviews, setReviews] = useState<Reviews[]>([]);
@@ -57,7 +58,7 @@ export const CompanyReviews: React.FC<ReviewsCompany> = ({ companyId }) => {
     <View>
       <View style={styles.reviews}>
         <FontAwesomeIcon
-          icon={faStar as any}
+          icon={faStar as IconProp}
           size={35}
           style={styles.iconStar}
         />
@@ -75,7 +76,7 @@ export const CompanyReviews: React.FC<ReviewsCompany> = ({ companyId }) => {
               <View style={styles.reviewsNote}>
                 <Text style={styles.textReview}>{item.rating}</Text>
                 <FontAwesomeIcon
-                  icon={faStar as any}
+                  icon={faStar as IconProp}
                   size={15}
                   style={styles.icon}
                 />
