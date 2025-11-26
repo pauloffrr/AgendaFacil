@@ -146,20 +146,20 @@ export const Reports: React.FC = () => {
                 />
 
                 <ServiceReports
-                    number={serviceCompleted?.totalScheduling}
+                    number={serviceCompleted?.totalScheduling || 0}
                     month={selectedMonth}
                     year={selectedYear}
                     status="CONFIRMED"
                 />
 
                 <EarningsServiceReports
-                    number={totalBudget?.totalBudget}
+                    number={totalBudget?.totalBudget || 0}
                     month={selectedMonth}
                     year={selectedYear}
                 />
 
                 <ServiceReports
-                    number={serviceCancelled?.totalCancelled}
+                    number={serviceCancelled?.totalCancelled || 0}
                     month={selectedMonth}
                     year={selectedYear}
                     status="CANCELED"
