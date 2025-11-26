@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRoute } from "@react-navigation/native";
 import { View, Text, StyleSheet } from "react-native";
 import { Logo } from "@/src/components/display/Logo";
@@ -15,11 +15,15 @@ import { SchedulingProps } from "@/src/types/SchedulingType";
 import { apiScheduling } from "@/src/services/Api";
 import { API_URL_SCHEDULING } from "@env";
 import { useUser } from "@/src/context/UserContext";
+import { DeleteSchedulingBlocked } from "@/src/components/modals/DeleteSchedulingBlocked";
+import { generateRecurringEventsForDay } from "@/src/utils/ExpandEvents";
 
 export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation }) => {
     const route = useRoute<CompanySchedulingRouteProp>();
     const [scheduling, setScheduling] = useState<SchedulingEventsProps[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState<SchedulingEventsProps | null>(null);
     const { user } = useUser();
     const { id } = route.params || {};
 
@@ -36,7 +40,7 @@ export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation
                 setScrollOffsetMinutes(minutes);
             }
         }
-    }, [id]);
+    }, [id, scheduling]);
 
     const getSchedulingCompany = async () => {
         try {
@@ -51,7 +55,8 @@ export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation
                     title: item.title,
                     start,
                     end,
-                    status: item.status
+                    status: item.status,
+                    repeatScheduling: item.repeatScheduling as SchedulingEventsProps['repeatScheduling'] || 'NO', 
                 };
             });
 
@@ -70,15 +75,45 @@ export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation
         }
     }
 
+    const handleEventPress = (event: SchedulingEventsProps) => {
+        setSelectedEvent(event);
+        setModalVisible(true);
+    }
+
+    const deleteSchedulingBlocked = async (id: number) => {
+        const event = scheduling.find(item => item.id === id);
+
+        if (!event) {
+            setErrorMessage("Agendamento não encontrado");
+            return;
+        }
+
+        try {
+            await apiScheduling.delete(`${API_URL_SCHEDULING}/scheduling-company/${id}`);
+
+            setErrorMessage("");
+            await getSchedulingCompany();
+
+        } catch (error) {
+            let errorMsg = "Erro ao excluir agendamento bloqueado. Tente novamente!";
+                              
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+    
+            setErrorMessage(errorMsg);
+        }
+    }
+
     useEffect(() => {
         getSchedulingCompany();
     }, []);
 
-    const filteredEvents = scheduling.filter((event) =>
-        event.start.getDate() === selectedDate.getDate() &&
-        event.start.getMonth() === selectedDate.getMonth() &&
-        event.start.getFullYear() === selectedDate.getFullYear()
-    );
+    const displayedEvents = useMemo(() => {
+        return generateRecurringEventsForDay(scheduling, selectedDate);
+    }, [scheduling, selectedDate]);
 
     return (
         <View style={styles.screen}>
@@ -91,7 +126,7 @@ export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation
                 <SelectDate selectedDate={selectedDate} onDateChange={setSelectedDate} />
 
                 <Calendar
-                    events={filteredEvents}
+                    events={displayedEvents}
                     height={700}
                     mode="day"
                     date={selectedDate}
@@ -99,17 +134,32 @@ export const CompanyScheduling: React.FC<CompanySchedulingProps> = ({ navigation
                     scrollOffsetMinutes={scrollOffsetMinutes}
                     onPressEvent={(event) => {
                         if(event.status === "CONFIRMED") {
-                            navigation.navigate("Edit Event", { id: event.id })}
+                            navigation.navigate("Edit Event", { id: event.id });
+                        } else if (event.status === "BLOCKED") {
+                            handleEventPress(event)
                         }
-                    }
+                    }}
                     eventCellStyle={(event) => {
                         if (event.status === "CANCELLED") {
                             return { backgroundColor: colors.red };
+                        } else if (event.status === "BLOCKED") {
+                            return { backgroundColor: colors.gray };
                         }
                         return { backgroundColor: colors.blue };
                     }}
                 />
             </View>
+
+            <DeleteSchedulingBlocked
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onSubmit={() => {
+                    if (selectedEvent?.id) {
+                        deleteSchedulingBlocked(selectedEvent.id);
+                    }
+                    setModalVisible(false);
+                }}
+            />
 
             { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
 

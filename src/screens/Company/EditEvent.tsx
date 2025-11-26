@@ -20,6 +20,7 @@ import { getErrorMessage } from "@/src/utils/errorHandler";
 import { ApiError } from "@/src/types/ApiErrorType";
 import { useUser } from "@/src/context/UserContext";
 import { Professional } from "@/src/types/ProfessionalType";
+import { formatCurrency, cleanCurrency } from "@/src/utils/currencyFormatter";
 
 export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
     const route = useRoute<CompanyEditEventRouteProp>();
@@ -102,6 +103,11 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
         hideDatePicker();
     };
 
+    const handleBudgetChange = (text: string) => {
+        const formattedText = formatCurrency(text);
+        setBudget(formattedText);
+    };
+
     const updateScheduling = async () => {
         const formatDate = (date: Date | null): string | null => {
             if (!date) return null;
@@ -113,6 +119,9 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
             return hour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', hour12: false });
         };
 
+        const cleanedBudget: string = cleanCurrency(budget);
+        const budgetAsFloat = parseFloat(cleanedBudget);
+
         try {
             const payloadSchedulingCompany = {
                 title: title,
@@ -120,7 +129,7 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                 endDate: formatDate(date),
                 startHour: formatTime(startHourDate),
                 endHour: formatTime(endHourDate),
-                budget: parseFloat(budget)
+                budget: budgetAsFloat
             }
             await apiScheduling.put(`${API_URL_SCHEDULING}/scheduling-company/${id}`, payloadSchedulingCompany);
 
@@ -213,7 +222,7 @@ export const EditEvent: React.FC<CompanyEditEventProps> = ({ navigation }) => {
                         label="Orçamento"
                         placeholder="Digite o orçamento do serviço"
                         value={budget}
-                        onChangeText={setBudget}
+                        onChangeText={handleBudgetChange}
                         keyboardType="numeric"
                     />
         

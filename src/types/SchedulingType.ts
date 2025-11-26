@@ -6,6 +6,7 @@ export interface SchedulingProps {
     endDate: string;
     endHour: string;
     status: string;
+    repeatScheduling: string;
     color?: string;
 
     company: {

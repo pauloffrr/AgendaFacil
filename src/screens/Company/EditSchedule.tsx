@@ -14,12 +14,24 @@ import { Button } from "@/src/components/buttons/Button";
 import { CompanyNavigationBar } from "@/src/components/display/CompanyNavigationBar";
 import { CompanyEditScheduleProps } from "@/src/types/CompanyStackType";
 import { colors } from "@/src/styles/theme";
+import { getErrorMessage } from "@/src/utils/errorHandler";
+import { ApiError } from "@/src/types/ApiErrorType";
+import { useUser } from "@/src/context/UserContext";
+import { apiScheduling } from "@/src/services/Api";
+import { API_URL_SCHEDULING } from "@env";
+import { formatCurrency, cleanCurrency } from "@/src/utils/currencyFormatter";
 
 export const EditSchedule: React.FC<CompanyEditScheduleProps> = ({ navigation }) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [date, setDate] = useState<Date | null>(null);
     const [title, setTitle] = useState("");
     const [budget, setBudget] = useState("");
+    const [startHourDate, setStartHourDate] = useState<Date | null>(null);
+    const [endHourDate, setEndHourDate] = useState<Date | null>(null);
+    const [newSchedule, setNewSchedule] = useState("");
+    const [repeatScheduling, setRepeatScheduling] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const { user } = useUser();
     
     const showDatePicker = () => setDatePickerVisibility(true);
     const hideDatePicker = () => setDatePickerVisibility(false);
@@ -28,6 +40,57 @@ export const EditSchedule: React.FC<CompanyEditScheduleProps> = ({ navigation })
         setDate(selectedDate);
         hideDatePicker();
     };
+
+    const formatDate = (date: Date | null): string | null => {
+        if (!date) return null;
+        return date.toISOString().split('T')[0]; 
+    };
+
+    const formatTime = (hour: Date | null): string | null => {
+        if (!hour) return null;
+        return hour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', hour12: false });
+    };
+
+    const handleBudgetChange = (text: string) => {
+        const formattedText = formatCurrency(text);
+        setBudget(formattedText);
+    };
+
+    const createScheduling = async () => {
+        const cleanedBudget = cleanCurrency(budget);
+        const budgetString = cleanedBudget ? String(cleanedBudget) : null;
+        
+        try {
+            const payloadSchedulingCompany = {
+                companyId: user?.idUser,
+                title: title,
+                startDate: formatDate(date),
+                endDate: formatDate(date),
+                startHour: formatTime(startHourDate),
+                endHour: formatTime(endHourDate),
+                repeatScheduling: repeatScheduling,
+                status: newSchedule,
+                budget: budgetString ? Number(budgetString) : null
+            }
+            await apiScheduling.post(
+                `${API_URL_SCHEDULING}/scheduling-company`,
+                payloadSchedulingCompany
+            );
+
+            setErrorMessage("");
+
+        } catch (error) {
+            let errorMsg = "Erro ao atualizar o agendamento. Tente novamente!";
+
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+
+            setErrorMessage(errorMsg);
+        }
+    }
 
     return (
         <View style={styles.screen}>
@@ -46,7 +109,10 @@ export const EditSchedule: React.FC<CompanyEditScheduleProps> = ({ navigation })
                 <Text style={styles.title}>O que deseja fazer?</Text>
 
                 <View style={styles.inputs}>
-                    <NewSchedule />
+                    <NewSchedule 
+                        value={newSchedule}
+                        onChangeValue={setNewSchedule}
+                    />
 
                     <DateTimeInput
                         label="Data"
@@ -62,7 +128,12 @@ export const EditSchedule: React.FC<CompanyEditScheduleProps> = ({ navigation })
                         onCancel={hideDatePicker}
                     />
 
-                    <TimeInput />
+                    <TimeInput 
+                        startTime={startHourDate}
+                        endTime={endHourDate}
+                        onChangeStartTime={setStartHourDate}
+                        onChangeEndTime={setEndHourDate}
+                    />
 
                     <Input 
                         label="Título"
@@ -72,20 +143,25 @@ export const EditSchedule: React.FC<CompanyEditScheduleProps> = ({ navigation })
                         keyboardType="default"
                     />
 
-                    <RepeatScheduling />
+                    <RepeatScheduling 
+                        value={repeatScheduling}
+                        onChangeValue={setRepeatScheduling}
+                    />
 
                     <Input 
                         label="Orçamento"
                         placeholder="Digite o orçamento do serviço"
                         value={budget}
-                        onChangeText={setBudget}
+                        onChangeText={handleBudgetChange}
                         keyboardType="numeric"
                     />
         
-                    <Button buttonText="Enviar" onPress={() => navigation.navigate("Company Scheduling", {})} />
+                    <Button buttonText="Enviar" onPress={() => {navigation.navigate("Company Scheduling", {}), createScheduling()}} />
                 </View>
 
             </KeyboardAwareScrollView>
+
+            { errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null }
 
             <CompanyNavigationBar />
         </View>
@@ -116,5 +192,11 @@ const styles = StyleSheet.create({
     },
     inputs: {
         marginBottom: "15%"
+    },
+    errorMessage: {
+        fontSize: 18,
+        marginTop: "3%",
+        color: colors.red,
+        fontWeight: "bold"
     }
 });

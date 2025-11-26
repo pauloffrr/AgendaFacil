@@ -4,3 +4,8 @@ export interface RadioButtonProps {
     selectedValue: string;
     onSelect: (event: string) => void;
 }
+
+export interface ValueProps {
+    value: string;
+    onChangeValue: (string: string) => void;
+}
