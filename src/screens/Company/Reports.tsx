@@ -23,6 +23,7 @@ export const Reports: React.FC = () => {
     const [reviews, setReviews] = useState<Reviews[]>([]);
     const [serviceCompleted, setServiceCompleted] = useState<TotalReports | null>(null);
     const [totalBudget, setTotalBudget] = useState<TotalReports | null>(null);
+    const [serviceCancelled, setServiceCancelled] = useState<TotalReports | null>(null);
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [errorMessage, setErrorMessage] = useState("");
@@ -71,6 +72,28 @@ export const Reports: React.FC = () => {
         }
     }
 
+    const getServiceCancelled = async () => {
+        try {
+            const response = await apiScheduling.get(
+                `${API_URL_SCHEDULING}/scheduling-company/reports/cancelled/${user?.idUser}/${selectedMonth}/${selectedYear}`
+            )
+
+            setServiceCancelled(response.data);
+            setErrorMessage("");
+
+        } catch (error) {
+            let errorMsg = "Erro ao buscar orçamento total. Tente novamente!";
+            
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+
+            setErrorMessage(errorMsg);
+        }
+    }
+
     const getReviews = async () => {
         try {
             const response = await apiUsers.get(`${API_URL_USERS}/reviews/company/${user?.idUser}`);
@@ -95,12 +118,14 @@ export const Reports: React.FC = () => {
         getReviews();
         getServiceCompleted();
         getTotalBudget();
+        getServiceCancelled();
     }, []);
 
     useEffect(() => {
         if (user?.idUser) {
             getServiceCompleted();
             getTotalBudget();
+            getServiceCancelled();
         }
     }, [selectedMonth, selectedYear]);
 
@@ -134,7 +159,7 @@ export const Reports: React.FC = () => {
                 />
 
                 <ServiceReports
-                    number={23}
+                    number={serviceCancelled?.totalCancelled}
                     month={selectedMonth}
                     year={selectedYear}
                     status="CANCELED"
