@@ -1,3 +1,4 @@
-export interface ServiceCompleted {
-    total: number;
+export interface TotalReports {
+    totalScheduling: number;
+    totalBudget: number;
 }

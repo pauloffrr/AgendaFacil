@@ -16,12 +16,13 @@ import { apiScheduling, apiUsers } from "@/src/services/Api";
 import { API_URL_SCHEDULING, API_URL_USERS } from "@env";
 import { getErrorMessage } from "@/src/utils/errorHandler";
 import { ApiError } from "@/src/types/ApiErrorType";
-import { ServiceCompleted } from "@/src/types/Reports";
+import { TotalReports } from "@/src/types/Reports";
 
 export const Reports: React.FC = () => {
     const { user } = useUser();
     const [reviews, setReviews] = useState<Reviews[]>([]);
-    const [serviceCompleted, setServiceCompleted] = useState<ServiceCompleted | null>(null);
+    const [serviceCompleted, setServiceCompleted] = useState<TotalReports | null>(null);
+    const [totalBudget, setTotalBudget] = useState<TotalReports | null>(null);
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [errorMessage, setErrorMessage] = useState("");
@@ -37,6 +38,28 @@ export const Reports: React.FC = () => {
 
         } catch (error) {
             let errorMsg = "Erro ao buscar serviços realizados. Tente novamente!";
+            
+            if (typeof error === 'object' && error !== null) {
+                errorMsg = getErrorMessage(error as ApiError);
+            } else if (typeof error === 'string') {
+                errorMsg = error;
+            }
+
+            setErrorMessage(errorMsg);
+        }
+    }
+
+    const getTotalBudget = async () => {
+        try {
+            const response = await apiScheduling.get(
+                `${API_URL_SCHEDULING}/scheduling-company/reports/budget/${user?.idUser}/${selectedMonth}/${selectedYear}`
+            )
+
+            setTotalBudget(response.data);
+            setErrorMessage("");
+
+        } catch (error) {
+            let errorMsg = "Erro ao buscar orçamento total. Tente novamente!";
             
             if (typeof error === 'object' && error !== null) {
                 errorMsg = getErrorMessage(error as ApiError);
@@ -71,7 +94,15 @@ export const Reports: React.FC = () => {
     useEffect(() => {
         getReviews();
         getServiceCompleted();
+        getTotalBudget();
     }, []);
+
+    useEffect(() => {
+        if (user?.idUser) {
+            getServiceCompleted();
+            getTotalBudget();
+        }
+    }, [selectedMonth, selectedYear]);
 
     return (
         <View style={styles.screen}>
@@ -90,22 +121,22 @@ export const Reports: React.FC = () => {
                 />
 
                 <ServiceReports
-                    number={serviceCompleted?.total}
+                    number={serviceCompleted?.totalScheduling}
                     month={selectedMonth}
-                    year={2025}
+                    year={selectedYear}
                     status="CONFIRMED"
                 />
 
                 <EarningsServiceReports
-                    number={3600}
+                    number={totalBudget?.totalBudget}
                     month={selectedMonth}
-                    year={2025}
+                    year={selectedYear}
                 />
 
                 <ServiceReports
                     number={23}
                     month={selectedMonth}
-                    year={2025}
+                    year={selectedYear}
                     status="CANCELED"
                 />
 
