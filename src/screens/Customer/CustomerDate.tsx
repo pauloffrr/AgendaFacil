@@ -11,7 +11,7 @@ import { CustomerDateProps } from "@/src/types/CustomerStackType";
 import { colors } from "@/src/styles/theme";
 
 export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route }) => {
-  const { nameCategory, idProfession, nameProfession } = route.params;
+  const { nameCategory, nameProfession } = route.params;
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
@@ -80,7 +80,6 @@ export const CustomerDate: React.FC<CustomerDateProps> = ({ navigation, route })
 
     navigation.navigate("Professionals Available", { 
       nameCategory,
-      idProfession,
       nameProfession, 
       date: formatDate(date), 
       startTime: startTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) 

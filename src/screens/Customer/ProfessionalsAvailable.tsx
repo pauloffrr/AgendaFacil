@@ -16,7 +16,7 @@ import { getErrorMessage } from "@/src/utils/errorHandler";
 
 export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ navigation, route }) => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
-  const { nameCategory, idProfession, nameProfession, date, startTime } = route.params;
+  const { nameCategory, nameProfession, date, startTime } = route.params;
   const [errorMessage, setErrorMessage] = useState("");
   const { user } = useUser();
 
@@ -74,7 +74,6 @@ export const ProfessionalsAvailable: React.FC<ProfessionalsAvailableProps> = ({ 
                     navigation.navigate("Professional Profile", {
                       professionalId: item.idCompany,
                       professionalName: item.name,
-                      professionId: idProfession,
                       professionName: nameProfession,
                       date: date,
                       startTime: startTime

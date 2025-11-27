@@ -25,13 +25,11 @@ export type CustomerStackParamList = {
   "Customer Scheduling": undefined;
   "Favorites": { professionalId: number; };
   "Customer Date": { 
-    nameCategory: string;
-    idProfession: number; 
+    nameCategory: string; 
     nameProfession: string;
   };
   "Professionals Available": { 
     nameCategory: string;
-    idProfession: number; 
     nameProfession: string; 
     date: string; 
     startTime: string 
@@ -39,7 +37,6 @@ export type CustomerStackParamList = {
   "Professional Profile": {
     professionalId: number;
     professionalName: string;
-    professionId: number;
     professionName: string;
     date?: string;
     startTime?: string;
