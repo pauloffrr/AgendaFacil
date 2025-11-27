@@ -1,6 +1,6 @@
-import axios from "axios";
-import { API_URL_USERS, API_URL_SCHEDULING, API_URL_NOTIFICATIONS } from "@env";
+import { API_URL_NOTIFICATIONS, API_URL_SCHEDULING, API_URL_USERS } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const createAPI = (baseURL: string) => {
   const instance = axios.create({ baseURL });
@@ -14,7 +14,9 @@ const createAPI = (baseURL: string) => {
       delete config.headers.Authorization;
     }
 
-    config.headers["Content-Type"] = "application/json";
+    if (!(config.data instanceof FormData)) {
+      config.headers["Content-Type"] = "application/json";
+    }
 
     return config;
   });
