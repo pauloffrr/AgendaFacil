@@ -7,6 +7,9 @@ import { CardProfessionalProps } from "@/src/types/CardProfessionalType";
 import { colors } from "@/src/styles/theme";
 
 export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional, onPress }) => {
+  const price = professional.averagePrice ?? 0;
+  const averagePrice = price.toFixed(2);
+
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} key={professional.idCompany} >
       <Image style={styles.img} source={require("../../assets/profissional.webp")} />
@@ -20,13 +23,13 @@ export const CardProfessional: React.FC<CardProfessionalProps> = ({ professional
               size={13}
               style={styles.icon}
             />
-            <Text style={styles.assessment}>{professional.averageRating.toFixed(1)}</Text>
+            <Text style={styles.assessment}>{professional.averageRating}</Text>
           </View>
 
           <View style={styles.spacing}>
             <Text style={styles.priceText}>Preço médio</Text>
             <Text style={styles.averagePrice}>
-              R$ {professional.averagePrice.toFixed(2)}
+              R$ {averagePrice}
             </Text>
           </View>
         </View>

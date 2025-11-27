@@ -4,7 +4,6 @@ import { AverageRating } from "@/src/components/display/AverageRating";
 import { CustomerNavigationBar } from "@/src/components/display/CustomerNavigationBar";
 import { Logo } from "@/src/components/display/Logo";
 import { CompanyReviews } from "@/src/components/display/Reviews";
-import { useFavorites } from "@/src/context/FavoritesContext";
 import { apiNotifications, apiUsers } from "@/src/services/Api";
 import { colors } from "@/src/styles/theme";
 import { ApiError } from "@/src/types/ApiErrorType";
@@ -19,15 +18,89 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useUser } from "@/src/context/UserContext";
+import { FavoritesType } from "@/src/types/FavoritesType";
 
 export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ navigation, route }) => {
   const { professionalId, professionalName, professionName, date, startTime } = route.params;
-  const { toggleFavorite, isFavorite } = useFavorites();
   const [professional, setProfessional] = useState<Professional | null>(null);
   const [reviews, setReviews] = useState<Reviews[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
-  const { user } = useUser()
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favorite, setFavorite] = useState<FavoritesType | null>(null);
+  const { user } = useUser();
+
+  const checkIfFavoriteStatus = async (companyId: number) => {
+    try {
+      const response = await apiUsers.get(`${API_URL_USERS}/favorites/customer/${user?.idUser}`);
+      const customerFavorites: FavoritesType[] = response.data;
+
+      const currentFavorite = customerFavorites.find((fav: FavoritesType) =>
+        fav.company.idCompany === companyId
+      );
+
+      if (currentFavorite) {
+        setIsFavorite(true);
+        setFavorite(currentFavorite);
+      } else {
+        setIsFavorite(false);
+        setFavorite(null);
+      }
+
+      setErrorMessage("");
+    } catch (error) {
+      let errorMsg = "Erro ao exibir favoritos. Tente novamente!";
+        
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+    }
+  }
+
+  const handleToggleFavorite = async () => {
+    if (!professional || !user?.idUser || !professional.idCompany) {
+      setErrorMessage("Dados de usuário ou empresa incompletos.");
+      setTimeout(() => setErrorMessage(""), 1500);
+      return;
+    }
+
+    try {
+      if (isFavorite && favorite) {
+        await apiUsers.delete(`${API_URL_USERS}/favorites/${favorite.idFavorites}`);
+
+        setIsFavorite(false);
+        setFavorite(null);
+        setSucessMessage("Removido dos favoritos!");
+      } else {
+        const payloadFavorite = {
+          customerId: user.idUser,
+          companyId: professional.idCompany,
+        };
+        const response = await apiUsers.post(`${API_URL_USERS}/favorites/`, payloadFavorite);
+
+        setIsFavorite(true);
+        setFavorite(response.data as FavoritesType);
+        setSucessMessage("Adicionado aos favoritos!");
+      }
+
+      setTimeout(() => setSucessMessage(""), 1500);
+    } catch (error) {
+      let errorMsg = "Erro ao remover dos favoritos. Tente novamente!";
+        
+      if (typeof error === 'object' && error !== null) {
+        errorMsg = getErrorMessage(error as ApiError);
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+
+      setErrorMessage(errorMsg);
+      setTimeout(() => setErrorMessage(""), 1500);
+    }
+  }
 
   const getProfessionalProfile = async () => {
     try {
@@ -36,7 +109,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
       setProfessional(response.data);
       setErrorMessage("");
 
-    } catch (error: unknown) {
+    } catch (error) {
       let errorMsg = "Erro ao abrir perfil do profissional. Tente novamente!";
 
       if (typeof error === 'object' && error !== null) {
@@ -56,6 +129,7 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
   useEffect(() => {
     if (professional && professional.idCompany) {
       getReviews();
+      checkIfFavoriteStatus(professional?.idCompany);
     }
   }, [professional]);
 
@@ -86,8 +160,6 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
       </View>
     );
   };
-
-  const favorite = isFavorite(professional.idCompany);
 
   const formatDate = (isoString: string) => {
     const onlyDate = isoString.split("T")[0];
@@ -188,15 +260,18 @@ export const ProfessionalProfile: React.FC<ProfessionalProfileProps> = ({ naviga
           <Text style={styles.rayKm}>
             • Atende em até {professional.rayKm}km
           </Text>
+
           <View style={styles.favorites}>
-            <TouchableOpacity onPress={() => toggleFavorite(professional)}>
+            <TouchableOpacity onPress={handleToggleFavorite}>
               <FontAwesomeIcon
                 icon={faStar as IconProp}
                 size={28}
-                color={favorite ? colors.yellow : colors.light_gray}
+                color={isFavorite ? colors.yellow : colors.light_gray}
               />
             </TouchableOpacity>
-            <Text style={styles.textFavorites}>Adicionar aos Favoritos</Text>
+            <Text style={styles.textFavorites}>
+              {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
+            </Text>
           </View>
 
           <TouchableOpacity style={styles.buttonSchedule} onPress={submitForm}>
